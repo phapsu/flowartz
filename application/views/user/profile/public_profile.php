@@ -304,7 +304,7 @@ $user->blurb = (strlen($user->blurb) > 0 ? $user->blurb : 'Artist Description');
                                 <td><?php echo date("m/d/Y", strtotime($row->from_date)).' -> '.date("m/d/Y", strtotime($row->to_date)); ?></td>
                                 <td><?php echo $row->name; ?></td>
                                 <td><?php echo $row->fee.' ('.$row->fee_currency.')'; ?></td>
-                                <td><a href="<?php echo base_url().'user/'.$user->uid.'/'.$slug.'/'.$row->cid; ?>" target="_blank">view</a></td>
+                                <td><a style="text-decoration: none;" href="<?php echo base_url().'user/'.$user->uid.'/'.$slug.'/'.$row->cid; ?>" target="_blank">view</a></td>
                             </tr>
                         <?php endforeach; ?>
                 </table>                

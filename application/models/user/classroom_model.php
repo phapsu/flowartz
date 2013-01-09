@@ -124,26 +124,31 @@ class Classroom_model extends User_model {
         }
         return false;
     }
-    
-    public function view_class($class_id=null){
-        if(!empty ($class_id)){
+
+    public function view_class($class_id=null) {
+        if (!empty($class_id)) {
             $query = $this->db->query('SELECT * FROM fa_users_classes WHERE fa_users_classes.cid = ' . $class_id);
 
             return $query->result();
         }
         return false;
     }
-    
-    public function user_can_view(){
-        
+
+    public function user_can_view() {
+
         $user_id = $this->uri->segment(2, 0);
-        
-        if($user_id='profile') return true; //can see
-        else{
-            if($user_id==$this->uid) return true; //can see
-            else return false; //can't see
+
+        if ($user_id == 'profile')
+            return true; //can see
+        else {
+            if ($this->uid) {
+                if ($user_id == $this->uid)
+                    return true; //can see
+                else
+                    return false; //can't see
+            }
         }
-        
+
         return false;
     }
 
