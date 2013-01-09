@@ -1,0 +1,426 @@
+/* CSS Reset */
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video{
+margin: 0;
+padding: 0;
+border: 0;
+font-size: 100%;
+font: inherit;
+vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+display: block;
+}
+
+ol, ul {
+list-style: none;
+}
+
+blockquote, q {
+quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+content: '';
+content: none;
+}
+
+table {
+border-collapse: collapse;
+border-spacing: 0;
+}
+
+body {
+line-height: 1;
+}
+
+
+a{
+text-decoration: none;
+}
+
+/* Styles */
+
+body{
+font-size: 1em;
+font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+font-weight: 300;
+color: #808080;
+}
+
+.wrapper{
+margin: 0 auto;
+width: 960px;
+/* background:red; */
+}
+
+.clearfix:after{  
+content: ".";  
+visibility: hidden;  
+display: block;  
+clear: both;  
+height: 0;  
+font-size: 0; /* Just a precaution for Firefox. The browser sometimes adds a bit of space after our parent element. Setting the font-size to zero fixes this. */
+}
+
+/* input::-moz-focus-inner Remove button padding in FF
+{ 
+    border: 0;
+    padding: 0;
+}
+*/
+
+
+/* Admin Bar */
+
+#admin-bar{
+position: relative;
+height: 36px;
+background: #000000;
+}
+
+ul.admin{
+float: left;
+border-left: 1px solid #333333;
+}
+
+ul.admin li{
+float: left;
+}
+
+ul.admin a{
+display: block;
+padding: 9px 12px;
+font-size: 0.875em;
+text-align: center;
+color: #ffffff;
+border-right: 1px solid #333333;
+}
+
+.search-site{
+float: right;
+margin: 6px 0 0;
+}
+
+.search-form input{
+font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+font-size: 0.75em;
+border: none;
+}
+
+.search-form input[type=text]{
+float: left;
+width: 184px;
+height: 14px;
+padding: 5px;
+}
+
+.search-form input[type=submit]{
+height: 24px;
+text-align: center;
+background: #cccccc;
+}
+
+/* Header */
+
+#header{
+position: relative;
+width: 100%;
+padding: 24px 0;
+background: #ffffff;
+}
+
+a.logo{
+float: left;
+display: block;
+width: 220px;
+height: 54px;
+}
+
+ul.nav{
+float: right;
+margin: 6px 0 0;
+border-right: 1px solid #cccccc;
+}
+
+ul.nav li{
+float: left;
+}
+
+ul.nav a{
+display: block;
+width: 80px;
+padding: 12px 0;
+text-align: center;
+color: #000000;
+border-left: 1px solid #cccccc;
+}
+
+/* Sections */
+
+#content{
+position: relative;
+width: 100%;
+padding: 24px 0;
+background: #222222;
+}
+
+/* Forms */
+
+.sign-up{
+position: relative;
+float: right;
+width: 380px;
+padding: 24px 20px;
+border-radius: 10px;
+border: 1px solid #666666;
+background: #ffffff;
+}
+
+.log-in, .activate{
+position: relative;
+float: left;
+width: 380px;
+margin: 0 0 0 256px;
+padding: 24px 20px;
+border-radius: 10px;
+border: 1px solid #666666;
+background: #ffffff;
+}
+
+.fa-form{
+width: 260px;
+margin: 24px auto 0;
+}
+
+.fa-form input, .fa-form select{
+font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+font-size: 0.875em;
+font-weight: 300;
+}
+
+.fa-form input[type=text]{
+width: 246px;
+margin: 0 0 2px;
+padding: 6px;
+border: 1px solid #cccccc;
+background: #ffffff;
+}
+
+.fa-form select{
+width: 100%;
+margin: 0 0 2px;
+padding: 6px;
+border: 1px solid #cccccc;
+background: #ffffff;
+}
+
+.fa-form input[type=submit]{
+width: 100%;
+margin: 12px auto;
+padding: 9px 0;
+cursor: pointer;
+color: #666666;
+border-radius: 24px;
+border: 1px solid #cccccc;
+background: #e6e6e6;
+}
+
+/* Profile */
+
+.profile-left{
+position: relative;
+float: left;
+width: 220px;
+padding: 0 20px;
+background: #222222;
+}
+
+.profile-picture{
+position: relative;
+width: 220px;
+height: 220px;
+margin: 18px 0;
+box-shadow: 0 0 5px #000000;
+background: #333333;
+}
+
+a.hire-btn{
+display: block;
+width: 196px;
+padding: 12px;
+text-align: center;
+border-radius: 18px;
+color: #ffffff;
+background: #f1592a; 
+}
+
+.user-media{
+width: 220px;
+margin: 36px 0 0;
+}
+
+#user-images ul{
+height: 150px;
+margin: 13px 0 0;
+}
+
+#user-images li{
+float:left;
+margin: 5px 5px 0 0;
+}
+
+#user-images li.last-thumb{
+margin: 5px 0 0;
+}
+
+#user-images a{
+display: block;
+width: 70px;
+height: 70px;
+background: #333333;
+}
+
+.profile-right{
+position: relative;
+float: right;
+width: 640px;
+padding: 15px 30px;
+border-radius: 10px;
+background: #ffffff;
+}
+
+.profile-right-section{
+position: relative;
+float:left;
+width: 640px;
+margin: 15px 0;
+}
+
+#user-info h1{
+color: #f1592a;
+}
+
+#user-info ul, #user-links ul{
+margin: 18px 0 0;
+}
+
+#user-info ul li{
+font-size: 0.875em;
+margin:0 0 6px 0;
+}
+
+#user-info ul li.pro-title{
+font-size: 1em;
+color: #222222;
+}
+
+#user-info ul li.user-desc{
+margin:9px 0 0;
+line-height: 1.25em;
+}
+
+#user-links ul li{
+float:left;
+}
+
+.user-experience-item{
+width: 640px;
+float: left;
+margin: 18px 0 0;
+}
+
+.user-experience-summary{
+width: 420px;
+float: left;
+margin:0 20px 0 0;
+}
+
+.user-experience-summary li{
+font-size: 0.875em;
+color: #222222;
+margin:0 0 3px 0;
+}
+
+.user-experience-summary li.exp-desc{
+color: #808080;
+margin: 9px 0 0;
+line-height: 1.25em;
+}
+
+.user-experience-info{
+width: 200px;
+float: right;
+}
+
+/* Headers */
+
+h1, h2, h3, h4, h5, h6{
+color: #333333;
+font-weight: 300;
+letter-spacing: -0.25px;
+}
+
+h1{
+font-size: 1.875em;
+}
+
+h2{
+font-size: 1.5em;
+}
+
+h3{
+font-size: 1.125em;
+}
+
+.phase h3{
+padding: 12px 0;
+}
+
+h4{
+font-size: 1em;
+font-weight: normal;
+}
+
+.user-media h4{
+color: #ffffff;
+padding: 0 0 9px 0; 
+border-bottom: 1px solid #555555;
+}
+
+.profile-right-section h4{
+color: #f1592a;
+padding: 0 0 9px 0; 
+border-bottom: 1px solid #e5e5e5;
+}
+
+.center{
+text-align: center;
+}
+
+/* Footer */
+
+#footer{
+position: relative;
+width: 100%;
+height: 90px;
+border-top: 1px solid #cccccc;
+background: #e5e5e5;
+}

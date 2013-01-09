@@ -1,0 +1,84 @@
+/* 
+* Copyright Flowartz 2011
+* Author: Ryan Priebe
+* Version: 1.0.0
+* Created on: September 25, 2011
+* Last Modified: September 27, 2011
+*/
+
+/* Reset */
+	@import url('flowartz-core-reset.css');
+	
+/* Phase 2.1 styles */
+
+	@import url('flowartz-styles.css');
+
+/* Global styles */
+	body {background-color: #fff; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important; color: #fff;}
+	input {color: #f1592a;}
+	a {text-decoration: none;}
+	a:hover {text-decoration: underline;}
+	* {outline: none;}
+	
+	.wrapper {width: 940px; margin: 0 auto;}
+	.clear {clear: both;}
+	
+	::-webkit-input-placeholder {color: #f1592a;}
+	:-moz-placeholder {color: #f1592a;}
+	
+	/* Error messages */
+	.error {color: red; font-weight: bold;}
+	
+/* Section styles */
+
+	/* Header styles */
+	#header {background-color: #fff; height: 126px;}
+	
+	/* Header logo styles */
+	#header h1#logo {float: left; padding: 36px 0px 0px;}
+	#header h1#logo a {display: block; width: 215px; height: 54px; background-image: url('../images/logo.png'); text-indent: -9999px;}
+	
+	/* Header social media icons */
+	#header #social-media-icons {float: right; padding: 36px 0px 0px}
+	#header #social-media-icons li {display: inline;}
+	#header #social-media-icons li a {width: 54px; height: 54px; float: left; margin-left: 20px; display: block; background-image: url('../images/social-media-icons.png');}
+	#header #social-media-icons li a:hover {text-decoration: none;}
+	#header #social-media-icons .facebook a {background-position: 0 0;}
+	#header #social-media-icons .facebook a:hover {background-position: 0 -54px;}
+	#header #social-media-icons .twitter a {background-position: -54px 0;}
+	#header #social-media-icons .twitter a:hover {background-position: -54px -54px;}
+	#header #social-media-icons .youtube a {background-position: -108px 0;}
+	#header #social-media-icons .youtube a:hover {background-position: -108px -54px;}
+	
+	/* Promo content styles */
+	#content #promo {background-color: #662e91; height: 228px;}
+	#content #promo .left {width: 585px; float: left; font-weight: bold; font-size: 30px; line-height: 36px; margin: 60px 0px 0px; text-shadow: 2px 2px 1px #45196f;}
+	#content #promo .right {width: 300px; float: right; margin: 60px 0px 0px;}
+	#content #promo .right h2 {font-size: 24px; font-weight: bold; text-shadow: 2px 2px 1px #45196f;}
+	#content #promo .right p {font-size: 12px; line-height: 18px; color: #ccc; margin: 15px 0px;}
+	#content #promo .right form input[type=submit],
+	#content #promo .right form input[type=text] {border-radius: 8px; background: #813ab8; padding: 8px; border: none; cursor: pointer; color: #fff; font-size: 16px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;}
+	#content #promo .right form input[type=text] {background: #000 url('../images/grid-pattern.png'); cursor: default; border: 2px solid #813ab8; padding: 8px 15px; width:200px; color: #f1592a; font-size: 14px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;}
+	
+	/* Main content styles */
+	#content #maincontent {background: #000 url('../images/grid-pattern.png'); height: 450px;}
+	#content #maincontent .wrapper>p {padding: 36px 0px; font-size: 30px; font-weight: 100;} /* get an image for this */
+	#content #maincontent .grid .item {float: left; width: 300px; margin-right: 20px;}
+	#content #maincontent .grid .item:last-child {margin-right: 0px;}
+	#content #maincontent .grid .item img {width: 300px; height: 168px; margin-bottom: 16px;}
+	#content #maincontent .grid .item h3 {color: #f1592a; font-size: 18px; margin-bottom: 10px;}
+	#content #maincontent .grid .item p {color: #ccc; font-size: 12px; line-height: 18px;}
+	
+	#content #maincontent #helping {background: url('../images/were-helping.png') no-repeat center left; text-indent: -9999px; font-weight: 300;}
+	
+	/* Footer styles */
+	#footer {background-color: #fff; height: 216px; color: #662e91;}
+	#footer p#help {margin-top: 36px; width: 496px; line-height: 20px; font-size: 18px; background: url('../images/footer-copy.png') no-repeat bottom left; text-indent: -9999px; height: 41px; float: left; font-weight: 300;}
+	#footer #donations {float: right; margin-top: 36px;}
+	#footer #donations ul {width: 353px;}
+	#footer #donations ul li {float: left;}
+	#footer #donations ul li a {background: url('../images/donations.png') no-repeat top left; width: 167px; height: 54px; display: block; text-indent: -9999px; float: right;}
+	#footer #donations ul li.donate {margin-right: 10px;}
+	#footer #donations ul li.donate a:hover {background-position: 0 -54px;}
+	#footer #donations ul li.contact a {background-position: -167px 0; width: 176px;}
+	#footer #donations ul li.contact a:hover {background-position: -167px -54px;}

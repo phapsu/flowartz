@@ -1,0 +1,21 @@
+/* 
+* Copyright Flowartz 2011
+* Author: Ryan Priebe
+* Version: 1.0.0
+* Created on: September 25, 2011
+* Last Modified: September 27, 2011
+*/
+	
+/* IE7 styles */
+
+/* Global styles */
+	.wrapper {width: 960px;}
+
+/* Section styles */
+	
+	/* Promo content styles */
+	#content #promo .right form input[type=submit] {padding: 6px 3px;}
+	
+	/* Footer styles */
+	#footer #donations ul li.donate a {float: left;}
+	#footer #donations ul li.contact a {margin: 0px -10px 0px 0px;}

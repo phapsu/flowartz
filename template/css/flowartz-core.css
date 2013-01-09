@@ -1,0 +1,16 @@
+/* 
+* Copyright Flowartz 2011
+* Author: Ryan Priebe
+* Version: 1.0.0
+* Created on: September 25, 2011
+* Last Modified: November 18, 2011
+*/
+
+/* Reset */
+	@import url('flowartz-core-reset.css');
+	
+/* System styles */
+	@import url('flowartz-system.css');
+
+/* Phase 2.1 styles */
+	@import url('flowartz-styles.css');

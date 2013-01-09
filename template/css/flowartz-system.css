@@ -1,0 +1,52 @@
+/* 
+* Copyright Flowartz 2011
+* Author: Ryan Priebe
+* Version: 1.0.0
+* Created on: November 18, 2011
+* Last Modified: November 18, 2011
+*/
+
+/* Flow Artz Feedback Messages */
+#fa-feedback{
+position: relative;
+width: 100%;
+padding: 18px 0;
+background: #662d91;
+}
+
+#fa-feedback h4{
+color: #ffffff;
+}
+
+#fa-feedback h4.success-message{
+background: url("http://sidestory.ca/labs/flowartz/template/images/fa-icons-16.png") no-repeat scroll 0 -350px;
+padding: 0 0 0 24px;
+}
+
+#fa-feedback h4.error-message, #fa-feedback h4.general-message{
+text-align: center;
+line-height: 150%;
+}
+
+#fa-feedback h4.error-message ul{
+text-align: left;
+}
+
+#fa-feedback h4.error-message ul li{
+font-weight: bold;
+list-style: circle;
+margin-left: 50px;
+}
+
+#fa-feedback h4.error-message ul p{
+font-weight: normal;
+}
+
+ul#fa_gallery li{
+    float: left;
+    margin-left: 20px;
+}
+
+ul#fa_gallery li p{
+    text-align: center;
+}

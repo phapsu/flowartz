@@ -1,0 +1,1 @@
+ALTER TABLE  `fa_users` ADD  `type_id` TINYINT( 1 ) NOT NULL DEFAULT  '2' AFTER  `city`
