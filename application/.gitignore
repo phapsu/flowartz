@@ -1,3 +1,5 @@
 cache
 files
 logs
+config/database.php
+config/config.php
