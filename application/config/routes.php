@@ -56,6 +56,7 @@ $route['user/profile/edit/links'] = $route['user/profile/edit/links/(:num)'] = "
 //user classes router
 $route['user/classroom/add'] = "user/classroom_add";
 $route['success'] = "user/success";
+$route['paypal_ipn'] = "user/paypal_ipn";
 
 //misc. user routes
 $route['user/(:num)/(:any)/(:num)'] = "user/view_class/$1/$2/$3";
