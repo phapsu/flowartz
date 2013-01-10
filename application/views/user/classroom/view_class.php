@@ -131,15 +131,22 @@ $user->blurb = (strlen($user->blurb) > 0 ? $user->blurb : 'Artist Description');
                     <div class="class_description"><?php echo $class[0]->description; ?></div>
                 </div>
 
-                <div class="class_paypal">                    
+                <div class="class_paypal">                        
+                    
                     <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
-                        <input type="hidden" name="cmd" value="_s-xclick">
-                        <input type="hidden" name="hosted_button_id" value="9AR8TUL8JKKJQ">
-                        <input type="hidden" name="custom" value="<?php echo $this->session->userdata('user_id'); ?>" />
-                        <input type="hidden" name="currency_code" value="<?php echo $class[0]->fee_currency; ?>">
-                        <input type="hidden" name=AMT value=<?php echo $class[0]->fee;?> >
-                        <input type="image" src="https://www.sandbox.paypal.com/en_US/i/btn/btn_subscribeCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-                        <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
+                    <input type="hidden" name="cmd" value="_s-xclick">
+                    <input type="hidden" name="hosted_button_id" value="JPRL96AFPGAKW">
+                    <input type="hidden" name="custom" value="<?php echo $this->session->userdata('user_id'); ?>" />
+                                        <input type="hidden" name="currency_code" value="<?php echo $class[0]->fee_currency; ?>" />
+                    <table style="display: none;">
+                    <tr><td><input type="hidden" name="on0" value=""></td></tr><tr><td>
+                            <select name="os0" style="background-color: white">
+                                                <option value="fee">fee <?php echo $class[0]->fee;?></option>        
+                    </select> </td></tr>
+                    </table>
+
+                    <input type="image" src="https://www.sandbox.paypal.com/en_US/i/btn/btn_subscribeCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                    <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
                     </form>
                 </div>
             </div>

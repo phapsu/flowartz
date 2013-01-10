@@ -179,6 +179,10 @@ class User extends CI_Controller {
         }
     }
 
+    public function success(){
+        echo 'ok men';
+    }
+    
     public function save() {
 
         $session_uid = $this->session->userdata('user_id');
