@@ -137,6 +137,7 @@ $user->blurb = (strlen($user->blurb) > 0 ? $user->blurb : 'Artist Description');
 <input type="hidden" name="cmd" value="_s-xclick">
 <input type="hidden" name="hosted_button_id" value="PXPDB9687JPKQ">
 <input type="hidden" name="custom" value="<?php echo $this->session->userdata('user_id'); ?>" />
+<input type="hidden" name="class_id" value="<?php echo $class[0]->cid; ?>" />
                     <input type="hidden" name="currency_code" value="<?php echo $class[0]->fee_currency; ?>" />
                     <table style="display: none;">
                     <tr><td><input type="hidden" name="on0" value=""></td></tr><tr><td>

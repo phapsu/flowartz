@@ -14,3 +14,5 @@ CREATE TABLE IF NOT EXISTS `fa_users_classes` (
   PRIMARY KEY (`cid`),
   KEY `uid` (`uid`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+
+ALTER TABLE  `ipn_orders` ADD  `class_id` INT NOT NULL AFTER  `custom`
