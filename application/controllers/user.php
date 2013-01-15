@@ -13,21 +13,19 @@ class User extends CI_Controller {
     //methods
 
     public function index($var = null) {
-
+ 
         if (is_null($var)) {
             $this->app->redirect('/user/profile/');
         } else {
             $this->load->model('artists/artists_model');
             $this->load->model('user/user_model');
             $this->load->model('user/profile_model');
-            $this->load->model('user/classroom_model');
+            
             $user = $this->uri->segment(2, 0);
 
             if ($this->profile_model->ip_can_hit($user)) {
                 $this->profile_model->update_views($user);
-            }
-
-            $data['classes'] = $this->classroom_model->show_classroom($user);
+            }               
 
             $data['userinfo'] = $this->artists_model->userdata($var);
             $data['job_history'] = $this->profile_model->user_job_history();
@@ -54,10 +52,8 @@ class User extends CI_Controller {
         } else {
             $this->load->model('user/user_model');
             $this->load->model('user/profile_model');
-            $this->load->model('user/classroom_model');
+            
             $user = $this->uri->segment(2, 0);
-
-            $data['classes'] = $this->classroom_model->my_classroom();
 
             $data['userinfo'] = $this->profile_model->userinfo();
             $data['job_history'] = $this->profile_model->user_job_history();

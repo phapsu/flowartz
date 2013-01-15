@@ -83,22 +83,34 @@ $user->blurb = (strlen($user->blurb) > 0 ? $user->blurb : 'Artist Description');
                 </div>
                 <!-- end of user-video div -->
             <?php endif; ?>
-                
+
             <!-- begin div classroom -->                
-            
-            <div class="user-media" id="user-video">
-                <h4>Classroom</h4>
-                <ul>
-                    <?php $can_see_class = $this->classroom_model->user_can_view(); ?>
-                    <li>
-                        <?php echo count($classes); ?> classes created. <?php if($can_see_class){ ?> <a href="<?php echo base_url(); ?>user/classroom/add">Add class.</a> <?php } ?>
-                    </li>
-                </ul>
-            </div>       
-            
+            <?php
+            if ($this->workshop_model->user_can_view()) {
+                ?>
+                <div class="user-media" id="user-video">
+                    <h4>Workshop</h4>
+                    <ul>
+                        <?php
+                        $my_workshop = $this->workshop_model->my_workshop();
+                        if ($my_workshop) {
+                            foreach ($my_workshop as $id => $row) {
+                                ?>
+                                <li style="float:none">
+                                    <a href="<?php echo base_url(); ?>workshop/edit/<?php echo $row->wid; ?>"><?php echo $row->name; ?></a>
+                                </li>
+                            <?php }
+                        } ?>
+                                
+                        <li style="float:none">
+                            <a href="<?php echo base_url(); ?>workshop/add">Add woskshop</a>
+                        </li>
+                    </ul>
+                </div>       
+<?php } ?>
             <!-- end div classroom -->    
-                
-                
+
+
             <div class="user-media" id="user-share">
                 <h4>Share</h4>
                 <ul>
@@ -122,7 +134,7 @@ $user->blurb = (strlen($user->blurb) > 0 ? $user->blurb : 'Artist Description');
                 </ul>
             </div>
             <!-- end of user-info div -->
-            <?php if ($this->profile_model->user_can_view('links')): ?>
+<?php if ($this->profile_model->user_can_view('links')): ?>
                 <div class="profile-right-section" id="user-links">
                     <h4>Online Presence</h4>
 
@@ -133,7 +145,7 @@ $user->blurb = (strlen($user->blurb) > 0 ? $user->blurb : 'Artist Description');
                         if (count($linkinfo) > 0) :
                             //foreach($links as $linkinfo):
                             ?>
-                            <!--<li><a href="<?php //echo $this->profile_model->append_html(html_entity_decode($link->link));  ?>" class="<?php //echo $this->profile_model->profile_link_class($link->link);  ?>" target="_blank"><?php //echo $link->name;  ?></a></li>-->
+                                <!--<li><a href="<?php //echo $this->profile_model->append_html(html_entity_decode($link->link));  ?>" class="<?php //echo $this->profile_model->profile_link_class($link->link);  ?>" target="_blank"><?php //echo $link->name;  ?></a></li>-->
                             <?php if (isset($linkinfo->facebook) && !empty($linkinfo->facebook)) : $hasLink++; ?>
                                 <li><a href="<?php echo $this->profile_model->append_html(html_entity_decode($linkinfo->facebook)); ?>" target="_blank"><img src="<?php echo base_url(); ?>template/images/social/facebook.png" height="34" width="34" alt="Facebook" title="Facebook"></a></li>
                             <?php endif; ?>
@@ -187,18 +199,18 @@ $user->blurb = (strlen($user->blurb) > 0 ? $user->blurb : 'Artist Description');
                             <?php endif; ?>
 
                             <?php
-                            //endforeach;
+                        //endforeach;
                         endif;
 
                         if ($hasLink == 0):
                             ?>
                             <li class="no-posts">No links posted yet. <a href="<?php echo base_url(); ?>user/profile/edit/links">Add some.</a></li>
-                        <?php endif; ?>
+    <?php endif; ?>
                     </ul>
                 </div>
                 <!-- end of user-links div -->
             <?php endif; ?>
-            <?php if ($this->profile_model->user_can_view('skills')): ?>
+<?php if ($this->profile_model->user_can_view('skills')): ?>
                 <div class="profile-right-section" id="user-skills">
                     <h4>Skills &amp; Talents</h4>
 
@@ -217,7 +229,8 @@ $user->blurb = (strlen($user->blurb) > 0 ? $user->blurb : 'Artist Description');
                                     echo '<div class="skill-divider"></div>';
                                 }
                                 echo '<ul>';
-                                if(isset($artistLevel[$skill->artist_level])) echo '<li class="nav-header"><h3>' . $artistLevel[$skill->artist_level] . '</h3></li>';
+                                if (isset($artistLevel[$skill->artist_level]))
+                                    echo '<li class="nav-header"><h3>' . $artistLevel[$skill->artist_level] . '</h3></li>';
                             }
 
 
@@ -230,51 +243,53 @@ $user->blurb = (strlen($user->blurb) > 0 ? $user->blurb : 'Artist Description');
                         ?>
                     <?php else : ?>
                         <ul><li class="no-posts">No skills posted yet. <a href="<?php echo base_url(); ?>user/profile/edit/skills">Add some.</a></li></ul>                                
-                    <?php endif; ?>
+    <?php endif; ?>
 
                     <!--<div class="skill-divider"></div>-->
                 </div>
                 <!-- end of user-skills div -->
-            <?php endif; ?>
-            <?php if ($this->profile_model->user_can_view('experience')): ?>
+<?php endif; ?>
+<?php if ($this->profile_model->user_can_view('experience')): ?>
                 <div class="profile-right-section" id="user-exp">
                     <h4>Experience</h4>
 
-                    <?php if (count($expinfo) > 0) : ?>
-                        <?php foreach ($expinfo as $exp) : ?>
-                            <div class="user-exp-item experience-box <?php echo $exp->artist_level;?>">
+    <?php if (count($expinfo) > 0) : ?>
+        <?php foreach ($expinfo as $exp) : ?>
+                            <div class="user-exp-item experience-box <?php echo $exp->artist_level; ?>">
                                 <div class="user-exp-info">
                                     <ul>
                                         <li class="date">
-                                            <?php if ($exp->job_date != '0000-00-00'): //echo date('F jS, Y', strtotime($exp->job_date)); ?>
+            <?php if ($exp->job_date != '0000-00-00'): //echo date('F jS, Y', strtotime($exp->job_date));  ?>
                                                 <div class='dateblock'>
-                                                    <span class='dateblock_mon'><?php echo date('M', strtotime($exp->job_date));?></span>
-                                                    <span class='dateblock_day'><?php echo date('d', strtotime($exp->job_date));?></span>
-                                                    <span class='dateblock_year'><?php echo date('Y', strtotime($exp->job_date));?></span>
+                                                    <span class='dateblock_mon'><?php echo date('M', strtotime($exp->job_date)); ?></span>
+                                                    <span class='dateblock_day'><?php echo date('d', strtotime($exp->job_date)); ?></span>
+                                                    <span class='dateblock_year'><?php echo date('Y', strtotime($exp->job_date)); ?></span>
                                                 </div>
-                                            <?php endif; ?>
+            <?php endif; ?>
                                         </li>                                        
                                     </ul>
                                 </div>
                                 <div class="user-exp-summary">
                                     <h3><?php echo $exp->job_title; ?></h3>
                                     <p><?php echo $exp->job_description; ?></p>
-                                    <?php if($exp->job_location):?>
-                                    <div class="location"><p><?php echo $exp->job_location; ?></p></div>
-                                    <?php endif;?>
-                                    <?php if($exp->job_link):?>
-                                    <div class="url">
-                                        <p>
-                                            <a href="<?php echo html_entity_decode($exp->job_link); ?>">
-                                            <?php if($exp->job_link_title) echo $exp->job_link_title; else html_entity_decode($exp->job_link);?>
-                                            </a>
-                                        </p>
-                                    </div>
-                                    <?php endif;?>
+                                    <?php if ($exp->job_location): ?>
+                                        <div class="location"><p><?php echo $exp->job_location; ?></p></div>
+            <?php endif; ?>
+            <?php if ($exp->job_link): ?>
+                                        <div class="url">
+                                            <p>
+                                                <a href="<?php echo html_entity_decode($exp->job_link); ?>">
+                <?php if ($exp->job_link_title)
+                    echo $exp->job_link_title; else
+                    html_entity_decode($exp->job_link); ?>
+                                                </a>
+                                            </p>
+                                        </div>
+                            <?php endif; ?>
                                 </div>                                
                             </div>
-                        <?php endforeach; ?>
-                    <?php else : ?>
+        <?php endforeach; ?>
+    <?php else : ?>
                         <div class="user-exp-item">
                             <div class="user-exp-summary">
                                 <ul>
@@ -282,36 +297,11 @@ $user->blurb = (strlen($user->blurb) > 0 ? $user->blurb : 'Artist Description');
                                 </ul>
                             </div>
                         </div>
-                    <?php endif; ?>
+    <?php endif; ?>
                 </div>
                 <!-- end of user-exp div -->
-            <?php endif; ?>
-                
-            <!-- begin of classroom -->    
-            <?php if (count($classes) > 0) : ?>
-            <div class="profile-right-section" id="user-class">
-                <h4>Classroom</h4>
-                <table cellspacing="0" cellpadding="0" border="0" class="listTable highlight">
-                    <tbody><tr class="tableRowHeader">
-                            <th width="30%">Date</th>                        
-                            <th width="45%">Class Name</th>                        
-                            <th width="20%" >Fee</th>
-                            <th width="5%" >&nbsp; </th>
-                        </tr>   
-                        
-                        <?php foreach ($classes as $id=> $row) : ?>
-                            <tr align="center">
-                                <td><?php echo date("m/d/Y", strtotime($row->from_date)).' -> '.date("m/d/Y", strtotime($row->to_date)); ?></td>
-                                <td><?php echo $row->name; ?></td>
-                                <td><?php echo $row->fee.' ('.$row->fee_currency.')'; ?></td>
-                                <td><a style="text-decoration: none;" href="<?php echo base_url().'user/'.$user->uid.'/'.$slug.'/'.$row->cid; ?>" target="_blank">view</a></td>
-                            </tr>
-                        <?php endforeach; ?>
-                </table>                
-            </div>
-            <?php endif; ?>
-            <!-- end of classroom -->                   
-                
+<?php endif; ?>
+
         </div>
         <!-- end of profile-right div -->
     </div>

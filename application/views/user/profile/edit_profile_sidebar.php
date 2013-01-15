@@ -8,8 +8,7 @@
 		<li><a href="<?php echo base_url(); ?>user/profile/edit/experience" class="calendar-icon">Experience</a></li>
 		<li><a href="<?php echo base_url(); ?>user/profile/edit/images" class="image-icon">Images</a></li>
 		<li><a href="<?php echo base_url(); ?>user/profile/edit/videos" class="film-icon">Videos</a></li>
-		<li><a href="<?php echo base_url(); ?>user/profile/edit/settings" class="settings-icon">Settings</a></li>
-		<li><a href="<?php echo base_url(); ?>user/classroom" class="classroom-icon">Classroom</a></li>
+		<li><a href="<?php echo base_url(); ?>user/profile/edit/settings" class="settings-icon">Settings</a></li>		
 	</ul>
 	<div class="profile-widgets">
 		<?php echo $this->widgets->views(); ?>

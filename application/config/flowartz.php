@@ -28,6 +28,7 @@
 	
         //Paging
         $config['numof_artist_paging'] = 16;
+        $config['numof_workshop_paging'] = 1;
         
 	//Skill and Experience level
         $config['artist_level'] = array(
@@ -35,4 +36,16 @@
                 'performing_level'=>'Performing Level',
                 'teaching_level'=>'Teaching Level'
             );        
+        
+        //Art category
+        $config['artist_category'] = array(
+                '1'=>'MUSIC',
+                '2'=>'DANCE',
+                '3'=>'PROP + CIRCUS',
+                '4'=>'DIGITAL',
+                '5'=>'MARTIAL',
+                '6'=>'TRADITIONAL'
+            );        
+        
+        $config['workshop_max_files'] = 5;
 ?>

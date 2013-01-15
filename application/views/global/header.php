@@ -69,6 +69,7 @@
 			<li><a href="<?php echo base_url(); ?>">Home</a></li>
 			<li><?php echo anchor('artists', 'Artists'); ?></li>
 			<li><a href="<?php echo base_url().'book_talent'; ?>">Book Talent</a></li>
+			<li><a href="<?php echo base_url().'workshop'; ?>">Workshop</a></li>
 			<li><a href="<?php echo base_url().'about'; ?>">About</a></li>
 		</ul>
 		<!-- end of nav list -->
