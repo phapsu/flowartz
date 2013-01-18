@@ -271,29 +271,36 @@ class Workshop extends CI_Controller {
 
                 //check permision of workshop
                 if (empty($data['workshop']) || $session_uid != $data['workshop'][0]->uid) {
+                    $this->error->set_message('You are not authorized to access that location.', 'error');
                     $this->app->redirect('workshop');
-                }
-
-                $this->load->model('user/user_model');
-                $this->load->model('user/profile_model');
-
-                $data['enrolled'] = $this->workshop_model->get_student_enrolled($id);
-
+                }                               
 
                 //add file               
                 $data['files'] = $this->workshop_model->get_files($id);
                 $data['workshop_max_files'] = $this->config->item('workshop_max_files');
 
                 //get student enrolled workshop                
-                $data['student_enrolled'] = $this->workshop_model->get_student_enrolled($id);
-
-
-
-
+                $data['enrolled'] = $this->workshop_model->get_student_enrolled($id);
 
                 $data['categories'] = $this->config->item('artist_category');
                 $data['skills'] = $this->config->item('artist_level');
 
+                //total fee
+                $data['total_enrolled'] = count($data['enrolled']);
+                $fee = explode("$", $data['workshop'][0]->fee);
+                if(isset($fee[1])) $fee = $fee[1];
+                else $fee = $fee[0];
+                                
+                $surcharge = $this->config->item('workshop_surcharge');
+                $total = ($fee * $data['total_enrolled']);
+                $total_surcharge = ($surcharge * $total )/100;
+                $total_surcharge = round($total_surcharge, 3);
+                
+                $data['surcharge'] = $surcharge;
+                $data['total'] = $total;
+                $data['total_surcharge'] = $total_surcharge;
+                $data['total_real'] =  $total - $total_surcharge;
+                
                 $this->load->view('global/header');
                 $this->load->view('workshop/edit', $data);
                 $this->load->view('global/footer');
@@ -315,7 +322,7 @@ class Workshop extends CI_Controller {
 
             $this->workshop_model->add_file($postdata['wid'], $_FILES);
 
-            $this->app->redirect('workshop');
+            $this->app->redirect('workshop/edit/'.$postdata['wid']);
         }
     }
 
@@ -337,7 +344,7 @@ class Workshop extends CI_Controller {
 
                 $this->error->set_message('Delete Sucessfully!', 'success');
             }
-            $this->app->redirect('workshop');
+            $this->app->redirect('workshop/edit/'.$postdata['wid']);
         }
     }
 
@@ -358,7 +365,7 @@ class Workshop extends CI_Controller {
                 //get student enrolled workshop                
                 $student_enrolled = $this->workshop_model->get_student_enrolled($postdata['wid']);
                 if (count($student_enrolled) > 0) {
-
+                    
                     //send mail to list enrolled workshop
                     $this->load->library('email');
                     $config['mailtype'] = 'html';
@@ -385,10 +392,12 @@ class Workshop extends CI_Controller {
                     $message .= '</table>';
 
                     $this->email->message($message);
-                    $this->email->send();
-
+                    $this->email->send();                    
+                    
                     $this->error->set_message('Send Message Sucessfully!', 'success');
                 }
+                
+                 $this->app->redirect('workshop/edit/'.$postdata['wid']);
             }
 
             $this->app->redirect('workshop');
@@ -409,9 +418,9 @@ class Workshop extends CI_Controller {
 
                     //check permision of workshop
                     if ($session_uid != $workshop[0]->uid) {
+                        $this->error->set_message('You are not authorized to access that location.', 'error');
                         $this->app->redirect('workshop');
                     }
-
 
                     //get student enrolled workshop                
                     $student_enrolled = $this->workshop_model->get_student_enrolled($id);

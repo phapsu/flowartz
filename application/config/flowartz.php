@@ -48,4 +48,6 @@
             );        
         
         $config['workshop_max_files'] = 5;
+        
+        $config['workshop_surcharge'] = 7; //%
 ?>

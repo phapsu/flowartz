@@ -4,13 +4,13 @@
     position: relative;
     text-align: center;
 }
-input, textarea{
+input, textarea, select{
     border: 1px solid #999;
     border-radius: 8px 8px 8px 8px;
     padding: 4px 6px;
 }
 .ch_normal img, .artist-border{
-border: 1px solid #999;
+    border: 1px solid #999;
     border-radius: 8px 8px 8px 8px;
 }
 .shop-left{
@@ -19,10 +19,14 @@ border: 1px solid #999;
     width: 220px;
 }
 .shop-left input, .shop-left label{
- 	width: 84%;
+    width: 84%;
+}
+.shop-left select{
+    width: 90%;
+    text-align: center;
 }
 .shop-right input, .shop-right label{
- 	width: 70%;
+    width: 70%;
 }
 .shop-right{
     float: right;
@@ -30,12 +34,12 @@ border: 1px solid #999;
     width: 700px;
 }
 .shop-right-left, .shop-right-right{
-float: left;
+    float: left;
     position: relative;
-width: 266px;
+    width: 266px;
 }
 .shop-right-left input, .shop-right-right input{
-width: 84%;
+    width: 84%;
 }
 .button.gradient {
     background-image: -moz-linear-gradient(center bottom , rgba(0, 0, 0, 0.3) 1%, rgba(255, 255, 255, 0.2) 100%);
@@ -59,17 +63,17 @@ width: 84%;
     padding: 8px 14px 10px;
     position: relative;
     text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
-	}
-	.totalEn label {
+}
+.totalEn label {
     display: block;
     float: left;
     position: relative;
     text-align: right;
     width: 35%;
-	padding:5px;
+    padding:5px;
 }
 .totalEn div{
-margin-bottom: 10px;
+    margin-bottom: 10px;
 }
 .menu-nav ul.nav, .menu-az ul.nav {
     border-right: 1px solid #E5E5E5;
@@ -86,7 +90,7 @@ margin-bottom: 10px;
     padding: 6px 0;
     text-align: center;
     width: 155px;
-	font-weight:bold;
+    font-weight:bold;
 }
 .menu-az ul.nav {
     border-right: 1px solid #E5E5E5;
@@ -100,7 +104,7 @@ margin-bottom: 10px;
     padding: 6px 0;
     text-align: center;
     width: 120px;
-	font-weight:bold;
+    font-weight:bold;
 }
 
 ul.artist-group.fea-group li.artist-profile {
@@ -111,25 +115,25 @@ ul.artist-group.fea-group.note-group li.artist-profile {
 }
 .rotate {
 
-/* Safari */
--webkit-transform: rotate(-90deg);
+    /* Safari */
+    -webkit-transform: rotate(-90deg);
 
-/* Firefox */
--moz-transform: rotate(-90deg);
+    /* Firefox */
+    -moz-transform: rotate(-90deg);
 
-/* IE */
--ms-transform: rotate(-90deg);
+    /* IE */
+    -ms-transform: rotate(-90deg);
 
-/* Opera */
--o-transform: rotate(-90deg);
+    /* Opera */
+    -o-transform: rotate(-90deg);
 
-/* Internet Explorer */
-filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+    /* Internet Explorer */
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 
 }
 .artist-border label{
-margin:0;
+    margin:0;
 }
 .artist-border img{
-border: 0 none;
+    border: 0 none;
 }

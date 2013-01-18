@@ -88,7 +88,7 @@
         </div>
 
         <!-- begin box Enrolled  -->
-        <div style="border-top: 1px solid #bbb;display: inline-block;padding: 20px 0;text-align:center">
+        <div style="border-top: 1px solid #bbb;display: inline-block;padding: 20px 0;text-align:center; width: 100%">
             <span style="font-weight:bold;font-size:20px">Student Enrolled</span>
             <ul class="artist-group" style="border-radius:10px;border:1px solid #ccc;margin-top:10px">
                 <?php
