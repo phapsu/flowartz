@@ -9,7 +9,7 @@ input, textarea{
     border-radius: 8px 8px 8px 8px;
     padding: 4px 6px;
 }
-.ch_normal img{
+.ch_normal img, .artist-border{
 border: 1px solid #999;
     border-radius: 8px 8px 8px 8px;
 }
@@ -126,4 +126,10 @@ ul.artist-group.fea-group.note-group li.artist-profile {
 /* Internet Explorer */
 filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 
+}
+.artist-border label{
+margin:0;
+}
+.artist-border img{
+border: 0 none;
 }

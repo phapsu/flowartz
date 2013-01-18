@@ -90,6 +90,14 @@ class Ipn_order_model extends CI_Model
                 $item['created_at'] = $upsertTime; // Insert needs a created_at time as well
                 $this->db->insert(self::ORDER_ITEM_TABLE, $item);
             }
+            
+            //update counter enrolled
+            if($item['item_name']){
+                $workshop_id = explode("#", $item['item_name']);
+                if(isset($workshop_id[1]) && !empty ($workshop_id[1])){
+                    $this->db->query("update fa_workshops set enrolled_counter 	= enrolled_counter +1 where wid= ".$workshop_id[1]);
+                }
+            }
         }
     }
 }

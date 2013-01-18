@@ -11,25 +11,26 @@ class Workshop extends CI_Controller {
     public function index() {
 
         $data['categories'] = $this->config->item('artist_category');
-        
+        $data['skills'] = $this->config->item('artist_level');
         $this->load->model('workshop_model');
         $data['workshop_featured'] = $this->workshop_model->get_workshop_featured();
         $data['workshop_soon'] = $this->workshop_model->get_workshop_soon();
-        $data['workshop_nearby'] = $this->workshop_model->get_workshop_nearby();        
-        
+        $data['workshop_nearby'] = $this->workshop_model->get_workshop_nearby();
+
         $this->load->view('global/header');
         $this->load->view('workshop/index', $data);
         $this->load->view('global/footer');
     }
-    
-    public function cats($cat_id){
-        if(empty ($cat_id)) $this->app->redirect('workshop');
-        
+
+    public function cats($cat_id) {
+        if (empty($cat_id))
+            $this->app->redirect('workshop');
+
         $this->app->set_title('Workshop');
         $this->load->model('workshop_model');
-        
+
         $config = array();
-        $config["base_url"] = base_url() . "workshop/cats/".$cat_id;
+        $config["base_url"] = base_url() . "workshop/cats/" . $cat_id;
         $config["total_rows"] = $this->workshop_model->count_workshop_cats($cat_id);
         $config["per_page"] = $this->config->item('numof_workshop_paging');
         $config["uri_segment"] = 4;
@@ -39,30 +40,32 @@ class Workshop extends CI_Controller {
         $this->load->library("pagination");
         $this->pagination->initialize($config);
 
-        $page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;//echo $page;exit;
+        $page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0; //echo $page;exit;
         $data["workshop"] = $this->workshop_model->get_workshop_cats($cat_id, $config["per_page"], $page);
-        
+
         $data["links"] = $this->pagination->create_links();
-        
-        
-        $data["action"] = $this->uri->segment(2);     
-        
+
+
+        $data["action"] = $this->uri->segment(2);
+        $cats = $this->config->item('artist_category');
+        $data["cat_name"] = $cats[$cat_id];
+
+        $data['categories'] = $cats;
+        $data['skills'] = $this->config->item('artist_level');
+
         $this->load->view('global/header');
         $this->load->view('workshop/cats', $data);
         $this->load->view('global/footer');
     }
-    
-    public function search(){
-                
-        $this->app->set_title('Search Workshop');
+
+    public function all() {
+
+        $this->app->set_title('Workshop');
         $this->load->model('workshop_model');
-        
-        $type_id =0; //=0:a-z; 1:nearby; =2:price; =3:availyblity; =4:skilly; =5:soonely
-        $keyword = 'workshop';
-        
+
         $config = array();
-        $config["base_url"] = base_url() . "workshop/search";
-        $config["total_rows"] = $this->workshop_model->count_workshop_cats($cat_id);
+        $config["base_url"] = base_url() . "workshop/all";
+        $config["total_rows"] = $this->workshop_model->count_workshop_all();
         $config["per_page"] = $this->config->item('numof_workshop_paging');
         $config["uri_segment"] = 3;
         $choice = $config["total_rows"] / $config["per_page"];
@@ -71,17 +74,88 @@ class Workshop extends CI_Controller {
         $this->load->library("pagination");
         $this->pagination->initialize($config);
 
-        $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;//echo $page;exit;
-        $data["workshop"] = $this->workshop_model->get_workshop_cats($cat_id, $config["per_page"], $page);
-        
+        $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0; //echo $page;exit;
+        $data["workshop"] = $this->workshop_model->get_workshop_all($config["per_page"], $page);
+
         $data["links"] = $this->pagination->create_links();
-        
-        
-        $data["action"] = $this->uri->segment(2);     
-        
+
+
+        $data["action"] = $this->uri->segment(2);
+
+        $data['categories'] = $this->config->item('artist_category');
+        $data['skills'] = $this->config->item('artist_level');
+
         $this->load->view('global/header');
-        $this->load->view('workshop/cats', $data);
+        $this->load->view('workshop/all', $data);
         $this->load->view('global/footer');
+    }
+
+    public function search() {
+
+        $this->app->set_title('Search Workshop');
+        $this->load->model('workshop_model');
+
+        $postdata = $this->input->post('fac_workshop');
+        if (empty($postdata['type_id']))
+            $type_id = 0;
+        else
+            $type_id = $postdata['type_id'];
+
+        //$type_id =0:a-z; 1:nearby; =2:price; =3:availyblity; =4:skilly; =5:soonely
+        $keyword = $postdata['keyword'];
+        $keyword = 'new workshop';
+
+        $config = array();
+        $config["base_url"] = base_url() . "workshop/search";
+        $config["total_rows"] = $this->workshop_model->count_workshop_search($keyword, $type_id);
+        $config["per_page"] = $this->config->item('numof_workshop_paging');
+        $config["uri_segment"] = 3;
+        $choice = $config["total_rows"] / $config["per_page"];
+        $config["num_links"] = round($choice);
+
+        $this->load->library("pagination");
+        $this->pagination->initialize($config);
+
+        $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0; //echo $page;exit;
+        $data["workshop"] = $this->workshop_model->get_workshop_search($keyword, $type_id, $config["per_page"], $page);
+        print_r($data["workshop"]);
+        exit;
+
+
+        $data["links"] = $this->pagination->create_links();
+
+
+        $data["action"] = $this->uri->segment(2);
+
+        $data['categories'] = $this->config->item('artist_category');
+        $data['tags'] = $this->workshop_model->get_workshop_all_tags();
+        $data['skills'] = $this->config->item('artist_level');
+
+        $this->load->view('global/header');
+        $this->load->view('workshop/search', $data);
+        $this->load->view('global/footer');
+    }
+
+    public function popup($id=null) {
+        $data['wid'] = $id;
+
+        $this->load->view('workshop/popup', $data);
+    }
+
+    public function popup_send_mail($id=null) {
+        $data['wid'] = $id;
+
+        $this->load->view('workshop/popup_send_mail', $data);
+    }
+
+    public function add_favorite() {
+        $session_data['Favorite'] = array(
+            'workshop_id' => $_POST['id'],
+            'workshop_name' => $_POST['name']
+        );
+        $this->session->set_userdata($session_data);
+
+        return 1;
     }
 
     public function add() {
@@ -102,12 +176,12 @@ class Workshop extends CI_Controller {
                 $this->error->set_message('Add Workshop Sucessfully!', 'success');
                 //$this->app->redirect('/user/login/');
             }
-            
+
             $this->load->model('user/user_model');
             $this->load->model('user/profile_model');
-            
+
             $data['userinfo'] = $this->profile_model->userinfo();
-            
+
             $data['categories'] = $this->config->item('artist_category');
             $data['skills'] = $this->config->item('artist_level');
 
@@ -134,9 +208,9 @@ class Workshop extends CI_Controller {
 
                 if (!empty($postdata)) {
                     $this->workshop_model->update($postdata);
-                    
+
                     $this->error->set_message('Update Workshop Sucessfully!', 'success');
-                    
+
                     $this->app->redirect('user/profile');
                 }
 
@@ -379,7 +453,7 @@ class Workshop extends CI_Controller {
             }
         }
     }
-        
+
     //guest view
     public function view($id) {
         if (empty($id)) {

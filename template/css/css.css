@@ -4,12 +4,12 @@
     position: relative;
     text-align: center;
 }
-input, textarea, select{
+input, textarea{
     border: 1px solid #999;
     border-radius: 8px 8px 8px 8px;
     padding: 4px 6px;
 }
-.ch_normal img{
+.ch_normal img, .artist-border{
 border: 1px solid #999;
     border-radius: 8px 8px 8px 8px;
 }
@@ -19,11 +19,7 @@ border: 1px solid #999;
     width: 220px;
 }
 .shop-left input, .shop-left label{
- 	width: 94%;
-}
-.shop-left select{
- 	width: 100%;
-	text-align: center;
+ 	width: 84%;
 }
 .shop-right input, .shop-right label{
  	width: 70%;
@@ -130,4 +126,10 @@ ul.artist-group.fea-group.note-group li.artist-profile {
 /* Internet Explorer */
 filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 
+}
+.artist-border label{
+margin:0;
+}
+.artist-border img{
+border: 0 none;
 }

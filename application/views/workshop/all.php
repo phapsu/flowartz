@@ -41,10 +41,9 @@
 
             <!-- begin box all -->
             <ul class="artist-group fea-group workshop-center-box-container" style="border-top: 1px solid #CCCCCC;">
-                <li class="artist-profile rotate" style="width:20px;font-weight: bold;margin-top: 109px;"><?php echo $cat_name; ?></li> 
-                <?php if ($workshop) {
-                    foreach ($workshop as $id => $w) { ?>                
-                        <li class="artist-profile artist-border" style="padding:5px;margin: 0 8px 20px;">
+                <li class="artist-profile rotate" style="width:20px;font-weight: bold;margin-top: 109px;">All</li> 
+                <?php if($workshop){ foreach($workshop as $id =>$w){ ?>                
+                <li class="artist-profile artist-border" style="padding:5px;margin: 0 8px 20px;">
                             <div class="ch_normal">
                                 <div style="width:67%;float:left;text-align:center">
                                     <input type="text" value="<?php echo  $skills[$w->skill_level]; ?>" style="margin: 3px 0px;width:100%"/>
@@ -67,14 +66,12 @@
                                 </div>
                             </div>                                                  
                         </li>
-                    <?php }
-                } ?>                
+                <?php } }?>                
             </ul>
             <!-- end box all -->
 
-            <div class="pagination"><?php if (isset($links))
-                    echo $links; ?></div>
-
+            <div class="pagination"><?php if(isset($links)) echo $links; ?></div>
+            
         </div>
     </div>
     <!-- end of content wrapper div -->

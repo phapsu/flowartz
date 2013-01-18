@@ -141,8 +141,8 @@ class Workshop_model extends CI_Model {
         $sunday = date("Y-m-d H:i:s", strtotime('Sunday'));
         $monday = date("Y-m-d H:i:s", strtotime('Sunday -6 days'));
         
-        $sql = 'SELECT * FROM fa_workshops WHERE DATEDIFF( "' . $sunday . '" , date) >= 0 and DATEDIFF( "' . $monday . '" , date) <= 0 and status = 0';
-        $sql .=' order by date desc limit 4';
+        $sql = 'SELECT * FROM fa_workshops as w left join fa_profile_images as i on w.uid = i.uid WHERE DATEDIFF( "' . $sunday . '" , w.date) >= 0 and DATEDIFF( "' . $monday . '" , w.date) <= 0 and w.status = 0';
+        $sql .=' order by w.date desc limit 4';
         
         $query = $this->db->query($sql);
         return $query->result();        
@@ -153,8 +153,8 @@ class Workshop_model extends CI_Model {
         
         $sunday = date("Y-m-d H:i:s", strtotime('Sunday'));
         
-        $sql = 'SELECT * FROM fa_workshops WHERE DATEDIFF( "' . $sunday . '" , date) <= 0 and status = 0';
-        $sql .=' order by date desc limit 4';
+        $sql = 'SELECT * FROM fa_workshops as w left join fa_profile_images as i on w.uid = i.uid WHERE DATEDIFF( "' . $sunday . '" , w.date) <= 0 and w.status = 0';
+        $sql .=' order by w.date desc limit 4';
         
         $query = $this->db->query($sql);
         return $query->result();        
@@ -163,26 +163,65 @@ class Workshop_model extends CI_Model {
     //get workshop nearby: default: city Toronto
     public function get_workshop_nearby(){
         
-        $sql = "SELECT * FROM fa_workshops WHERE location like '%Toronto%'";
-        $sql .=' order by date desc limit 4';
+        $sql = "SELECT * FROM fa_workshops as w left join fa_profile_images as i on w.uid = i.uid WHERE w.location like '%Toronto%'";
+        $sql .=' order by w.date desc limit 4';
         
         $query = $this->db->query($sql);
         return $query->result();        
     }
     
     //get workshop in category
-    public function get_workshop_cats($cat_id, $limit=null, $start=null){
+    public function get_workshop_all_tags(){
+        $this->db->distinct('tag');
+        $this->db->from('fa_workshops');        
+        
+        $this->db->where('status = 0');
+        
+        $this->db->order_by("date", "DESC");        
+        $query = $this->db->get();
+   
+        return $query->result();
+    }
+    
+    //get workshop in category
+    public function get_workshop_all($limit=null, $start=null){
         
         $this->db->select('*');
-        $this->db->from('fa_workshops');
+        $this->db->from('fa_workshops as w');
+        $this->db->join('fa_profile_images as i', ' w.uid = i.uid');
                 
         if(!empty ($limit)){
             $this->db->limit($limit, $start);
         }
         
-        $this->db->where('status = 0 and cat_id = '.$cat_id);
+        $this->db->where('w.status = 0');
         
-        $this->db->order_by("date", "DESC");        
+        $this->db->order_by("w.date", "DESC");        
+        $query = $this->db->get();
+   
+        return $query->result();
+    }
+    
+    public function count_workshop_all(){
+        $this->db->from('fa_workshops');        
+        $this->db->where('status = 0 ');
+        return $this->db->count_all_results();
+    }
+    
+    //get workshop in category
+    public function get_workshop_cats($cat_id, $limit=null, $start=null){
+        
+        $this->db->select('*');
+        $this->db->from('fa_workshops as w');
+        $this->db->join('fa_profile_images as i', ' w.uid = i.uid');
+                
+        if(!empty ($limit)){
+            $this->db->limit($limit, $start);
+        }
+        
+        $this->db->where('w.status = 0 and w.cat_id = '.$cat_id);
+        
+        $this->db->order_by("w.date", "DESC");        
         $query = $this->db->get();
    
         return $query->result();
@@ -198,7 +237,8 @@ class Workshop_model extends CI_Model {
     public function get_workshop_search($keyword, $type_id, $limit=null, $start=null){
         
         $this->db->select('*');
-        $this->db->from('fa_workshops');
+        $this->db->from('fa_workshops as w');
+        $this->db->join('fa_profile_images as i', ' w.uid = i.uid');
         
         if(!empty ($limit)){
             $this->db->limit($limit, $start);
@@ -206,29 +246,29 @@ class Workshop_model extends CI_Model {
         
         switch ($type_id):
             case 1:{
-                $this->db->where("status = 0 and name like '%".$keyword."%'");
+                $this->db->where("w.status = 0 and w.name like '%".$keyword."%'");
                 break;
             }
             case 2:{
-                $this->db->where("status = 0 and location like '%".$keyword."%'");
+                $this->db->where("w.status = 0 and w.location like '%".$keyword."%'");
                 break;
             }
             case 3:{
-                $this->db->where("status = 0 and fee like '%".$keyword."%'");
+                $this->db->where("w.status = 0 and w.fee like '%".$keyword."%'");
                 break;
             }
             case 4:{
-                $this->db->where("status = 0 and skill_level like '%".$keyword."%'"); // chi lay position dau 0
+                $this->db->where("w.status = 0 and w.skill_level like '%".$keyword."%'"); // chi lay position dau 0
                 break;
             }
             default:{
                 $sunday = date("Y-m-d H:i:s", strtotime('Sunday'));
-                $this->db->where(" DATEDIFF( '" . $sunday . "' , date) <= 0 and status = 0 and name like '%".$keyword."%'");
+                $this->db->where(" DATEDIFF( '" . $sunday . "' , w.date) <= 0 and w.status = 0 and w.name like '%".$keyword."%'");
                 break;
             }
         endswitch;        
         
-        $this->db->order_by("date", "DESC");        
+        $this->db->order_by("w.date", "DESC");        
         $query = $this->db->get();
    
         return $query->result();
