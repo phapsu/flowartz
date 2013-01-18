@@ -4,6 +4,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
         <title>Untitled Document</title>
         <script src="<?php echo base_url(); ?>template/js/jquery.min.js"></script> 
+        <script type="text/javascript" src="<?php echo base_url(); ?>template/js/common.js"></script>
         <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>/template/css/styles.css" />
     
         <script>
@@ -16,8 +17,13 @@
                $('.btn_accept').show();
                $('.btn_cancel').show();
             });
+            
+            $('.sendmail').click(function(){    
+                window.parent.$(".sendmail").click();               
+            });
+           
         });
-        </script>
+        </script>     
     </head>
 
     <body>
@@ -27,7 +33,7 @@
         </div>
         <div style="width:42%;float:right">
             <a href="#" class="button btn_add" style="background-color: #4B216A;float: left;margin-left: 30px; margin-bottom: 10px;padding: 11px 7px;text-decoration: none;font-size: 12px;font-weight: bold;">ADD</a>
-            <a href="#" class="button" style="background-color: #4B216A;float: left;margin-left: 30px;padding:8px; margin-bottom: 10px;"><img src="<?php echo base_url(); ?>/template/images/24_comment_square.png" /></a>
+            <a class="sendmail button" href="#" style="background-color: #4B216A;float: left;margin-left: 30px;padding:8px; margin-bottom: 10px;"><img src="<?php echo base_url(); ?>/template/images/24_comment_square.png" /></a>
             <a href="#" class="button" style="background-color: #4B216A;float: left;margin-left: 30px;padding:4px"><img src="<?php echo base_url(); ?>/template/images/down_right2.png" /></a>
         </div>
     </body>

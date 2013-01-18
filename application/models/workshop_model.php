@@ -126,10 +126,27 @@ class Workshop_model extends CI_Model {
 
     public function get_workshop($id, $admin=false) {
         if (!$admin) {
-            $query = $this->db->query('SELECT * FROM fa_workshops WHERE fa_workshops.status=0 and fa_workshops.wid = ' . $id);
+            $query = $this->db->query('SELECT w.*, i.name as i_name FROM fa_workshops as w left join fa_profile_images as i on w.uid = i.uid WHERE w.status=0 and w.wid = ' . $id);
         }
         else{
-            $query = $this->db->query('SELECT * FROM fa_workshops WHERE fa_workshops.wid = ' . $id);
+            $query = $this->db->query('SELECT w.*, i.name as i_name FROM fa_workshops as w left join fa_profile_images as i on w.uid = i.uid WHERE w.wid = ' . $id);
+        }
+        
+        return $query->result();        
+    }
+    
+    public function get_email_workshop($workshop_id){
+        $query = $this->db->query('SELECT u.email FROM fa_workshops as w left join fa_users as u on w.uid = u.uid WHERE w.wid = ' . $workshop_id);
+        
+        return $query->result(); 
+    }
+    
+    public function get_workshop_enrolled($id, $admin=false) {
+        if (!$admin) {
+            $query = $this->db->query('SELECT w.*, i.name as i_name FROM fa_workshops as w left join fa_profile_images as i on w.uid = i.uid WHERE w.status=0 and w.wid = ' . $id);
+        }
+        else{
+            $query = $this->db->query('SELECT w.*, i.name as i_name FROM fa_workshops as w left join fa_profile_images as i on w.uid = i.uid WHERE w.wid = ' . $id);
         }
         
         return $query->result();        
@@ -141,7 +158,8 @@ class Workshop_model extends CI_Model {
         $sunday = date("Y-m-d H:i:s", strtotime('Sunday'));
         $monday = date("Y-m-d H:i:s", strtotime('Sunday -6 days'));
         
-        $sql = 'SELECT * FROM fa_workshops as w left join fa_profile_images as i on w.uid = i.uid WHERE DATEDIFF( "' . $sunday . '" , w.date) >= 0 and DATEDIFF( "' . $monday . '" , w.date) <= 0 and w.status = 0';
+        //$sql = 'SELECT * FROM fa_workshops as w left join fa_profile_images as i on w.uid = i.uid WHERE DATEDIFF( "' . $sunday . '" , w.date) >= 0 and DATEDIFF( "' . $monday . '" , w.date) <= 0 and w.status = 0';
+        $sql = 'SELECT * FROM fa_workshops as w WHERE DATEDIFF( "' . $sunday . '" , w.date) >= 0 and DATEDIFF( "' . $monday . '" , w.date) <= 0 and w.status = 0';
         $sql .=' order by w.date desc limit 4';
         
         $query = $this->db->query($sql);
@@ -153,7 +171,7 @@ class Workshop_model extends CI_Model {
         
         $sunday = date("Y-m-d H:i:s", strtotime('Sunday'));
         
-        $sql = 'SELECT * FROM fa_workshops as w left join fa_profile_images as i on w.uid = i.uid WHERE DATEDIFF( "' . $sunday . '" , w.date) <= 0 and w.status = 0';
+        $sql = 'SELECT * FROM fa_workshops as w WHERE DATEDIFF( "' . $sunday . '" , w.date) <= 0 and w.status = 0';
         $sql .=' order by w.date desc limit 4';
         
         $query = $this->db->query($sql);
@@ -163,7 +181,7 @@ class Workshop_model extends CI_Model {
     //get workshop nearby: default: city Toronto
     public function get_workshop_nearby(){
         
-        $sql = "SELECT * FROM fa_workshops as w left join fa_profile_images as i on w.uid = i.uid WHERE w.location like '%Toronto%'";
+        $sql = "SELECT * FROM fa_workshops as w WHERE w.location like '%Toronto%'";
         $sql .=' order by w.date desc limit 4';
         
         $query = $this->db->query($sql);
@@ -188,7 +206,7 @@ class Workshop_model extends CI_Model {
         
         $this->db->select('*');
         $this->db->from('fa_workshops as w');
-        $this->db->join('fa_profile_images as i', ' w.uid = i.uid');
+        //$this->db->join('fa_profile_images as i', ' w.uid = i.uid');
                 
         if(!empty ($limit)){
             $this->db->limit($limit, $start);
@@ -213,7 +231,7 @@ class Workshop_model extends CI_Model {
         
         $this->db->select('*');
         $this->db->from('fa_workshops as w');
-        $this->db->join('fa_profile_images as i', ' w.uid = i.uid');
+        //$this->db->join('fa_profile_images as i', ' w.uid = i.uid');
                 
         if(!empty ($limit)){
             $this->db->limit($limit, $start);
@@ -238,7 +256,7 @@ class Workshop_model extends CI_Model {
         
         $this->db->select('*');
         $this->db->from('fa_workshops as w');
-        $this->db->join('fa_profile_images as i', ' w.uid = i.uid');
+        //$this->db->join('fa_profile_images as i', ' w.uid = i.uid');
         
         if(!empty ($limit)){
             $this->db->limit($limit, $start);

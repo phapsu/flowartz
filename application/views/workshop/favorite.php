@@ -39,15 +39,23 @@
      });
 </script>
 <div id="recently-post">
-<div class="slide-out-div">
-    <div class="slide-out-div-top"><a href="javascript:void(0);" class="button_slide_top"><img src="<?php echo base_url(); ?>template/images/srecently_posted.png"></a></div>
-    <a class="handle" href="javascript:void(0);" style="background-image: url(<?php echo base_url(); ?>template/images/favorite.png); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: initial; width: 32px; height: 250px; text-indent: -99999px; outline-style: none; outline-width: initial; outline-color: initial; position: absolute; top: 0px; left: -32px; display: none; background-position: initial initial; background-repeat: no-repeat no-repeat; ">RECENTLY POSTED</a>
-    <div class="rpCont">
-        <div class="rpCont1">
-            <div class="rpCont2" id="recently_posts">
-                hello world
+    <div class="slide-out-div">
+        <div class="slide-out-div-top"><a href="javascript:void(0);" class="button_slide_top"><img src="<?php echo base_url(); ?>template/images/srecently_posted.png"></a></div>
+        <a class="handle" href="javascript:void(0);" style="background-image: url(<?php echo base_url(); ?>template/images/favorite.png); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: initial; width: 32px; height: 250px; text-indent: -99999px; outline-style: none; outline-width: initial; outline-color: initial; position: absolute; top: 0px; left: -32px; display: none; background-position: initial initial; background-repeat: no-repeat no-repeat; ">RECENTLY POSTED</a>
+        <div class="rpCont">
+            <div class="rpCont1">
+                <div class="rpCont2" id="recently_posts">
+                    <?php 
+                    $ci = & get_instance();
+                    $favorite = $ci->session->userdata('Favorite');
+                    if ($favorite) {
+                        foreach($favorite as  $row) {
+                            echo "<a href='/workshop/view/".$row['workshop_id']."'>".$row['workshop_name']."</a><br/>";
+                        }
+                    }
+                    ?>                    
+                </div>
             </div>
         </div>
     </div>
-</div>
 </div>

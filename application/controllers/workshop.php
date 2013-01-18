@@ -9,7 +9,7 @@ class Workshop extends CI_Controller {
     //methods
 
     public function index() {
-
+         
         $data['categories'] = $this->config->item('artist_category');
         $data['skills'] = $this->config->item('artist_level');
         $this->load->model('workshop_model');
@@ -118,8 +118,6 @@ class Workshop extends CI_Controller {
 
         $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0; //echo $page;exit;
         $data["workshop"] = $this->workshop_model->get_workshop_search($keyword, $type_id, $config["per_page"], $page);
-        print_r($data["workshop"]);
-        exit;
 
 
         $data["links"] = $this->pagination->create_links();
@@ -130,6 +128,8 @@ class Workshop extends CI_Controller {
         $data['categories'] = $this->config->item('artist_category');
         $data['tags'] = $this->workshop_model->get_workshop_all_tags();
         $data['skills'] = $this->config->item('artist_level');
+        $data['keyword'] = $keyword;
+        $data['type_id'] = $type_id;
 
         $this->load->view('global/header');
         $this->load->view('workshop/search', $data);
@@ -143,16 +143,69 @@ class Workshop extends CI_Controller {
     }
 
     public function popup_send_mail($id=null) {
-        $data['wid'] = $id;
 
-        $this->load->view('workshop/popup_send_mail', $data);
+        $wid = $this->input->post('wid');
+        if ($wid) {
+            //send email
+
+            $workshop = $this->workshop_model->get_email_workshop($wid);           
+            
+            
+            $this->load->library('email');
+            $config['mailtype'] = 'html';
+            $this->email->initialize($config);
+
+            $from = $this->input->post('email');
+            $this->email->from($from);
+            $this->email->subject('Send Message To Teacher');
+
+            $this->email->to($workshop[0]->email);
+            
+            $message = '';
+            $message .= '<table width="100%" border="0" cellpadding="0" cellspacing="10">';
+            $message .= '<tr><td width="1%" nowrap="">Message:</td></tr>';
+            $message .= '<tr><td width="1%" nowrap="">' . $this->input->post('message') . ':</td></tr>';
+            $message .= '</table>';
+
+            $this->email->message($message);
+            $this->email->send();
+
+//            log_message("error", "from email:".$from);
+//            log_message("error", "to email:".$workshop[0]->email);
+//            log_message("error", "message:".$this->input->post('message'));
+//            
+            
+            //$this->error->set_message('Send Message Sucessfully!', 'success');
+        } else {
+            $data['wid'] = $id;
+
+            $this->load->view('workshop/popup_send_mail', $data);
+        }
     }
 
     public function add_favorite() {
-        $session_data['Favorite'] = array(
-            'workshop_id' => $_POST['id'],
-            'workshop_name' => $_POST['name']
+        $session_data = array();
+
+        $wowkshop_id = $_POST['id'];
+        $wowkshop_name = $_POST['name'];
+
+        $favorite = $this->session->userdata('Favorite');
+        if ($favorite) {
+            foreach ($favorite as $row) {
+                if ($wowkshop_id != $row['workshop_id']) {
+                    $session_data['Favorite'][] = array(
+                        'workshop_id' => $row['workshop_id'],
+                        'workshop_name' => $row['workshop_name'],
+                    );
+                }
+            }
+        }
+
+        $session_data['Favorite'][] = array(
+            'workshop_id' => $wowkshop_id,
+            'workshop_name' => $wowkshop_name
         );
+
         $this->session->set_userdata($session_data);
 
         return 1;
@@ -224,14 +277,10 @@ class Workshop extends CI_Controller {
                 $this->load->model('user/user_model');
                 $this->load->model('user/profile_model');
 
-                $data['userinfo'] = $this->profile_model->userinfo();
+                $data['enrolled'] = $this->workshop_model->get_student_enrolled($id);
 
 
-
-                //add file
-                $this->load->model('user/user_model');
-                $this->load->model('user/profile_model');
-                $data['userinfo'] = $this->profile_model->userinfo();
+                //add file               
                 $data['files'] = $this->workshop_model->get_files($id);
                 $data['workshop_max_files'] = $this->config->item('workshop_max_files');
 
@@ -461,6 +510,32 @@ class Workshop extends CI_Controller {
         } else {
             $this->load->model('workshop_model');
             $data['workshop'] = $this->workshop_model->get_workshop($id);
+
+            $data['categories'] = $this->config->item('artist_category');
+            $data['skills'] = $this->config->item('artist_level');
+
+            $this->load->view('global/header');
+            $this->load->view('workshop/view', $data);
+            $this->load->view('global/footer');
+        }
+    }
+
+    public function enroll($id) {
+        if (empty($id)) {
+            $this->app->redirect('workshop');
+        } else {
+            $this->load->model('workshop_model');
+            $data['workshop'] = $this->workshop_model->get_workshop($id);
+
+            $data['categories'] = $this->config->item('artist_category');
+            $data['skills'] = $this->config->item('artist_level');
+            $data['enrolled'] = $this->workshop_model->get_student_enrolled($id);
+            //add file               
+            $data['files'] = $this->workshop_model->get_files($id);
+
+            $this->load->view('global/header');
+            $this->load->view('workshop/enroll', $data);
+            $this->load->view('global/footer');
         }
     }
 

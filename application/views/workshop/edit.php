@@ -22,9 +22,8 @@
                 <!-- begin of profile-picture div -->
                 <div class="profile-picture" style="margin-bottom: 20px;">
                     <a href="<?php echo base_url(); ?>user/profile/edit/profile_picture">Edit</a>
-                    <?php $user = $userinfo[0]; ?>
-                    <?php if (false === is_null($user->profile_picture)) : ?>
-                        <img src="<?php echo base_url(); ?>application/files/<?php echo $user->profile_picture; ?>" alt="Profile Picture" />
+                    <?php if ($workshop[0]->i_name) : ?>
+                        <img src="<?php echo base_url(); ?>application/files/<?php echo $workshop[0]->i_name; ?>" alt="Profile Picture" />
                     <?php else : ?>
                         <img src="<?php echo base_url(); ?>template/images/artist-image.png" alt="Profile Picture" />
                     <?php endif; ?>
@@ -115,57 +114,23 @@
             <div style="border-top: 1px solid #bbb;display: inline-block;padding: 20px 0;text-align:center">
                 <span style="font-weight:bold;font-size:20px">Student Enrolled</span>
                 <ul class="artist-group" style="border-radius:10px;border:1px solid #ccc;margin-top:10px">
-
-                    <li class="artist-profile">
-                        <div class="ch_normal">
-                            <img src="http://flowartz.dev:8080/template/images/artist-image.png">
-                        </div>                      
-                        <!-- end of artist div -->
-                    </li>
-
-                    <li class="artist-profile">
-                        <div class="ch_normal">
-                            <img src="http://flowartz.dev:8080/template/images/artist-image.png">
-                        </div>                      
-                        <!-- end of artist div -->
-                    </li>
-                    <li class="artist-profile">
-                        <div class="ch_normal">
-                            <img src="http://flowartz.dev:8080/template/images/artist-image.png">
-                        </div>                      
-                        <!-- end of artist div -->
-                    </li>
-                    <li class="artist-profile">
-                        <div class="ch_normal">
-                            <img src="http://flowartz.dev:8080/template/images/artist-image.png">
-                        </div>                      
-                        <!-- end of artist div -->
-                    </li>
-                    <li class="artist-profile">
-                        <div class="ch_normal">
-                            <img src="http://flowartz.dev:8080/template/images/artist-image.png">
-                        </div>                      
-                        <!-- end of artist div -->
-                    </li>
-
-                    <li class="artist-profile">
-                        <div class="ch_normal">
-                            <img src="http://flowartz.dev:8080/template/images/artist-image.png">
-                        </div>                      
-                        <!-- end of artist div -->
-                    </li>
-                    <li class="artist-profile">
-                        <div class="ch_normal">
-                            <img src="http://flowartz.dev:8080/template/images/artist-image.png">
-                        </div>                      
-                        <!-- end of artist div -->
-                    </li>
-                    <li class="artist-profile">
-                        <div class="ch_normal">
-                            <img src="http://flowartz.dev:8080/template/images/artist-image.png">
-                        </div>                      
-                        <!-- end of artist div -->
-                    </li>
+                    <?php
+                    if ($enrolled) {
+                        foreach ($enrolled as $id => $row) {
+                            ?>
+                            <li class="artist-profile">
+                                <div class="ch_normal">
+                                    <?php if($row->profile_picture) { ?>
+                                        <img src="<?php echo base_url(); ?>application/files/<?php echo $row->profile_picture; ?>" alt="Profile Picture" />
+                                    <?php }else{ ?>
+                                        <img src="<?php echo base_url(); ?>template/images/artist-image.png" alt="Profile Picture" />
+                                    <?php } ?>
+                                </div>                                              
+                            </li>
+                        <?php
+                        }
+                    }
+                    ?>   
                 </ul>
             </div>
             <!-- end box Enrolled  -->

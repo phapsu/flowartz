@@ -54,7 +54,7 @@
                                     <label>Spots Filled</label>
                                 </div>
                                 <div style="width:20%;float:right">
-                                    <a href="#" onclick="add_favorite('<?php echo $w->wid; ?>', '<?php echo $w->name; ?>')" class="button" style="background-color: #4B216A;float: left;padding:4px; margin-bottom: 10px;">
+                                    <a href="#" onclick="add_favorite(this, '<?php echo $w->wid; ?>', '<?php echo $w->name; ?>')" class="button" style="background-color: #4B216A;float: left;padding:4px; margin-bottom: 10px;">
                                         <img src="<?php echo base_url(); ?>template/images/star.png" />
                                     </a>
                                     <a href="workshop/popup_send_mail/<?php echo $w->wid; ?>" data-fancybox-type="iframe" class="sendmail button" style="background-color: #4B216A;float: left;padding:8px; margin-bottom: 10px;">
@@ -145,6 +145,7 @@
 
 <link rel="stylesheet" href="<?php echo base_url(); ?>template/css/jquery.fancybox.css" type="text/css" media="screen" />
 <script type="text/javascript" src="<?php echo base_url(); ?>template/js/jquery.fancybox.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>template/js/common.js"></script>
 
 <script>
     $(document).ready(function() {
@@ -152,8 +153,8 @@
             maxWidth	: 220,
             maxHeight	: 300,
             fitToView	: false,
-            width		: '40%',
-            height		: '30%',
+            width	: '40%',
+            height	: '30%',
             autoSize	: false,
             closeClick	: false,
             openEffect	: 'none',
@@ -162,20 +163,15 @@
         
         $(".sendmail").fancybox({
             maxWidth	: 620,
-            maxHeight	: 500,
+            maxHeight	: 620,
             fitToView	: false,
-            width		: '70%',
-            height		: '60%',
+            width	: '70%',
+            height	: '65%',
             autoSize	: false,
             closeClick	: false,
             openEffect	: 'none',
             closeEffect	: 'none'
         });
-    });
+    });    
     
-    function add_favorite($id, $name){
-        $.post("/workshop/add_favorite",{id: $id, name: $name} ,function(data) {
-            alert('Add Favorite Successful.');
-        });
-    }
 </script>
