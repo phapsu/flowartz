@@ -4,25 +4,34 @@
         <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
         <title>Untitled Document</title>
         <script src="<?php echo base_url(); ?>template/js/jquery.min.js"></script> 
-        <script type="text/javascript" src="<?php echo base_url(); ?>template/js/common.js"></script>
         <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>/template/css/styles.css" />
-    
+
         <script>
-        $(document).ready(function() {
-            $('.btn_cancel').click(function(){
-               javascript:parent.jQuery.fancybox.close();
-            });
+            $(document).ready(function() {
+                $('.btn_cancel').click(function(){
+                    javascript:parent.jQuery.fancybox.close();
+                });
             
-            $('.btn_add').click(function(){               
-               $('.btn_accept').show();
-               $('.btn_cancel').show();
-            });
+                $('.btn_add').click(function(){               
+                    $('.btn_accept').show();
+                    $('.btn_cancel').show();
+                });
             
-            $('.sendmail').click(function(){    
-                window.parent.$(".sendmail").click();               
-            });
+                $('.sendmail').click(function(){    
+                    window.parent.$(".sendmail").click();               
+                });
            
-        });
+            });
+        
+            function add_favorite(contaner, $id, $name){
+                $(contaner).html('Saving...');
+                $.post("/workshop/add_favorite",{
+                    id: $id, 
+                    name: $name
+                } ,function(data) {
+                    $(contaner).html('<img src="<?php echo base_url(); ?>template/images/star.png" />');            
+                });
+            }
         </script>     
     </head>
 

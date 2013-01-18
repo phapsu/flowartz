@@ -145,7 +145,6 @@
 
 <link rel="stylesheet" href="<?php echo base_url(); ?>template/css/jquery.fancybox.css" type="text/css" media="screen" />
 <script type="text/javascript" src="<?php echo base_url(); ?>template/js/jquery.fancybox.js"></script>
-<script type="text/javascript" src="<?php echo base_url(); ?>template/js/common.js"></script>
 
 <script>
     $(document).ready(function() {
@@ -173,5 +172,15 @@
             closeEffect	: 'none'
         });
     });    
+    
+    function add_favorite(contaner, $id, $name){
+        $(contaner).html('Saving...');
+        $.post("/workshop/add_favorite",{
+            id: $id, 
+            name: $name
+        } ,function(data) {
+            $(contaner).html('<img src="<?php echo base_url(); ?>template/images/star.png" />');            
+        });
+    }
     
 </script>
