@@ -137,11 +137,13 @@
 
             <!-- begin box Complete Event  -->
             <div>
-                <div style="width:50%;text-align:center;float:left">
-                    <div><a style="margin: 0;" href="#" class="button">Complete Event</a></div>
-                    <div style="margin-top:20px">PLEASE NOTE THAT WHEN YOU CAN'T COMPLETE AN EVENT UNTIL AFTER THE DATE WAS BEING LOSTED </div>
+                <div style="width:60%;text-align:center;float:left">
+                    <div><a style="margin: 0;" href="javascript:;;" onclick="document.complete_eventForm.submit();" class="button">Complete Event</a></div>
+                    <div style="margin-top:20px">PLEASE NOTE THAT WHEN YOU CAN'T COMPLETE AN EVENT UNTIL AFTER THE DATE WAS BEING HOSTED. </div>
+                    
+                    <div style="margin-top:20px">PLEASE ENSURE THAT YOU HAVE CONFIRMED THE ATTENDACE OF YOUR STUDENTS BEFORE COMPLETING SO THAT THIS WORKSHOP WILL BE ADDED  TO THEIR EXPERIENCE. </div>
                 </div>
-                <div class="totalEn" style="width:50%;float:right">
+                <div class="totalEn" style="width:40%;float:right">
                     
                     <div><label>Total Enrolled :</label><input type="text" readonly value="<?php echo $total_enrolled; ?>"/></div>
                     <div><label>Cost :</label><input class="currency" type="text" readonly value="<?php echo $workshop[0]->fee; ?>"/></div>
@@ -249,13 +251,18 @@
 
         <!--send message form -->
         <div class="thumbnail" id="div_sendmessage" style="display: none; height: 500px; overflow: hidden; width: 700px;">
-            <form id="deleteFileForm" class="fa-edit-form" action="<?php echo base_url(); ?>workshop/send_message" method="post">
+            <form id="sendmessageForm" class="fa-edit-form" action="<?php echo base_url(); ?>workshop/send_message" method="post">
                 <input type="hidden" name="fac_workshop[wid]" value="<?php echo $workshop[0]->wid; ?>">
                 <h2>Form Send Message</h2>
                 <textarea name="fac_workshop[message]" style="height: 370px;"></textarea>
                 <input type="submit" value="Send" />
             </form>
         </div>
+        
+        <!--form complete_eventForm  -->
+        <form id="complete_eventForm" name="complete_eventForm" class="fa-edit-form" action="<?php echo base_url(); ?>workshop/complete_event" method="post">
+            <input type="hidden" name="fac_workshop[wid]" value="<?php echo $workshop[0]->wid; ?>">
+        </form>
 
     </div>
     <!-- end of content wrapper div -->

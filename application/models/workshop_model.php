@@ -29,12 +29,15 @@ class Workshop_model extends CI_Model {
         if ($postdata) {
             
             $date = !empty($postdata['date']) ? date("Y-m-d", strtotime($postdata['date'])) : null;
+            $length = intval($postdata['length']);            
+            $to_date = (!empty($date)) ? date("Y-m-d", strtotime($date +$length+' days')) : null;
             
             $data = array(
                 'uid' => $this->uid,
                 'name' => $postdata['name'],
                 'teacher_name' => $postdata['teacher_name'],
                 'date' => $date,
+                'to_date' => $to_date,
                 'time' => $postdata['time'],
                 'length' => $postdata['length'],
                 'time' => $postdata['time'],
@@ -51,9 +54,8 @@ class Workshop_model extends CI_Model {
 
             $this->db->insert('fa_workshops', $data);
 
-            return true;
+            return $this->db->insert_id();
         } else {
-
             return false;
         }
     }
@@ -61,12 +63,15 @@ class Workshop_model extends CI_Model {
     public function update($postdata) {
         if ($postdata) {
             $date = !empty($postdata['date']) ? date("Y-m-d", strtotime($postdata['date'])) : null;
+            $length = intval($postdata['length']);            
+            $to_date = (!empty($date)) ? date("Y-m-d", strtotime($date +$length+' days')) : null;
             
             $data = array(
                 'uid' => $this->uid,
                 'name' => $postdata['name'],
                 'teacher_name' => $postdata['teacher_name'],
                 'date' => $date,
+                'to_date' => $to_date,
                 'time' => $postdata['time'],
                 'length' => $postdata['length'],
                 'time' => $postdata['time'],
@@ -126,10 +131,10 @@ class Workshop_model extends CI_Model {
 
     public function get_workshop($id, $admin=false) {
         if (!$admin) {
-            $query = $this->db->query('SELECT w.*, i.name as i_name FROM fa_workshops as w left join fa_profile_images as i on w.uid = i.uid WHERE w.status=0 and w.wid = ' . $id);
+            $query = $this->db->query('SELECT w.*, i.name as i_name, u.email as email FROM fa_workshops as w left join fa_profile_images as i on w.uid = i.uid left join fa_users as u on w.uid = u.uid WHERE w.status=0 and w.wid = ' . $id);
         }
         else{
-            $query = $this->db->query('SELECT w.*, i.name as i_name FROM fa_workshops as w left join fa_profile_images as i on w.uid = i.uid WHERE w.wid = ' . $id);
+            $query = $this->db->query('SELECT w.*, i.name as i_name, u.email as email FROM fa_workshops as w left join fa_profile_images as i on w.uid = i.uid left join fa_users as u on w.uid = u.uid WHERE w.wid = ' . $id);
         }
         
         return $query->result();        
@@ -263,25 +268,39 @@ class Workshop_model extends CI_Model {
         }
         
         switch ($type_id):
-            case 1:{
+            case 0:{
+                //a-z
                 $this->db->where("w.status = 0 and w.name like '%".$keyword."%'");
                 break;
             }
-            case 2:{
+            case 1:{
+                //nearby
                 $this->db->where("w.status = 0 and w.location like '%".$keyword."%'");
                 break;
             }
-            case 3:{
+            case 2:{
+                //price
                 $this->db->where("w.status = 0 and w.fee like '%".$keyword."%'");
                 break;
             }
+            case 3:{
+                //availyblity                
+                $this->db->where("DATEDIFF(NOW() , w.date) >= 0 and DATEDIFF(NOW() , w.to_date) <= 0 and w.status = 0 and w.name like '%".$keyword."%'");
+                
+                break;
+            }
             case 4:{
+                //skilly
+                $keyword = explode(" ", $keyword);
+                $keyword = $keyword[0];
+                
                 $this->db->where("w.status = 0 and w.skill_level like '%".$keyword."%'"); // chi lay position dau 0
                 break;
             }
             default:{
+                //soonely
                 $sunday = date("Y-m-d H:i:s", strtotime('Sunday'));
-                $this->db->where(" DATEDIFF( '" . $sunday . "' , w.date) <= 0 and w.status = 0 and w.name like '%".$keyword."%'");
+                $this->db->where("DATEDIFF( '" . $sunday . "' , w.date) <= 0 and w.status = 0 and w.name like '%".$keyword."%'");
                 break;
             }
         endswitch;        
@@ -293,34 +312,47 @@ class Workshop_model extends CI_Model {
     }
     
     public function count_workshop_search($keyword, $type_id){
-        $this->db->from('fa_workshops');        
+        $this->db->from('fa_workshops as w');        
         switch ($type_id):
+            case 0:{
+                //a-z
+                $this->db->where("w.status = 0 and w.name like '%".$keyword."%'");
+                break;
+            }
             case 1:{
-                $this->db->where("status = 0 and name like '%".$keyword."%'");
+                //nearby
+                $this->db->where("w.status = 0 and w.location like '%".$keyword."%'");
                 break;
             }
             case 2:{
-                $this->db->where("status = 0 and location like '%".$keyword."%'");
+                //price
+                $this->db->where("w.status = 0 and w.fee like '%".$keyword."%'");
                 break;
             }
             case 3:{
-                $this->db->where("status = 0 and fee like '%".$keyword."%'");
+                //availyblity                
+                $this->db->where("DATEDIFF(NOW() , w.date) >= 0 and DATEDIFF(NOW() , w.to_date) <= 0 and w.status = 0 and w.name like '%".$keyword."%'");
+                
                 break;
             }
             case 4:{
-                $this->db->where("status = 0 and skill_level like '%".$keyword."%'"); // chi lay position dau 0
+                //skilly
+                $keyword = explode(" ", $keyword);
+                $keyword = $keyword[0];
+                
+                $this->db->where("w.status = 0 and w.skill_level like '%".$keyword."%'"); // chi lay position dau 0
                 break;
             }
             default:{
+                //soonely
                 $sunday = date("Y-m-d H:i:s", strtotime('Sunday'));
-                $this->db->where(" DATEDIFF( '" . $sunday . "' , date) <= 0 and status = 0 and name like '%".$keyword."%'");
+                $this->db->where("DATEDIFF( '" . $sunday . "' , w.date) <= 0 and w.status = 0 and w.name like '%".$keyword."%'");
                 break;
             }
         endswitch;    
         
         return $this->db->count_all_results();
-    }
-    
+    }    
     
     public function get_files($id) {
         $this->db->order_by("created", "asc");

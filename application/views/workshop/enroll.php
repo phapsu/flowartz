@@ -58,7 +58,7 @@
             </div>
             </br>
             <div style="position: absolute;right: 0;top: 0;width: 35%;">
-                <a class="button turquoise gradient" href="#" onclick="add_favorite(this, '<?php echo $workshop[0]->wid; ?>', '<?php echo $workshop[0]->name; ?>')" style="float: right;margin: 0;text-align: center;width: 50%;margin-bottom:25px">Add to Favorite</a>
+                <a class="button turquoise gradient" href="javascript:;;" onclick="add_favorite(this, '<?php echo $workshop[0]->wid; ?>', '<?php echo $workshop[0]->name; ?>')" style="float: right;margin: 0;text-align: center;width: 50%;margin-bottom:25px">Add to Favorite</a>
                 <a class="button turquoise gradient" href="/workshop/enroll/<?php echo $workshop[0]->wid; ?>" style="float: right;margin: 0;text-align: center;width: 50%;margin-bottom:25px">EnRolled</a>
                 <a class="button" id="box1" href="#div_addfile" style="float: right;margin: 0;text-align: center;width: 50%;margin-bottom:25px">VIEW FILES</a>                    
             </div>                

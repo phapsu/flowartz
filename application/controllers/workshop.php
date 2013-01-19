@@ -9,7 +9,7 @@ class Workshop extends CI_Controller {
     //methods
 
     public function index() {
-         
+
         $data['categories'] = $this->config->item('artist_category');
         $data['skills'] = $this->config->item('artist_level');
         $this->load->model('workshop_model');
@@ -103,7 +103,7 @@ class Workshop extends CI_Controller {
 
         //$type_id =0:a-z; 1:nearby; =2:price; =3:availyblity; =4:skilly; =5:soonely
         $keyword = $postdata['keyword'];
-        $keyword = 'new workshop';
+        $keyword = 'workshop';
 
         $config = array();
         $config["base_url"] = base_url() . "workshop/search";
@@ -118,7 +118,7 @@ class Workshop extends CI_Controller {
 
         $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0; //echo $page;exit;
         $data["workshop"] = $this->workshop_model->get_workshop_search($keyword, $type_id, $config["per_page"], $page);
-
+        print_r($data["workshop"]); exit;
 
         $data["links"] = $this->pagination->create_links();
 
@@ -148,9 +148,9 @@ class Workshop extends CI_Controller {
         if ($wid) {
             //send email
 
-            $workshop = $this->workshop_model->get_email_workshop($wid);           
-            
-            
+            $workshop = $this->workshop_model->get_email_workshop($wid);
+
+
             $this->load->library('email');
             $config['mailtype'] = 'html';
             $this->email->initialize($config);
@@ -160,7 +160,7 @@ class Workshop extends CI_Controller {
             $this->email->subject('Send Message To Teacher');
 
             $this->email->to($workshop[0]->email);
-            
+
             $message = '';
             $message .= '<table width="100%" border="0" cellpadding="0" cellspacing="10">';
             $message .= '<tr><td width="1%" nowrap="">Message:</td></tr>';
@@ -174,7 +174,6 @@ class Workshop extends CI_Controller {
 //            log_message("error", "to email:".$workshop[0]->email);
 //            log_message("error", "message:".$this->input->post('message'));
 //            
-            
             //$this->error->set_message('Send Message Sucessfully!', 'success');
         } else {
             $data['wid'] = $id;
@@ -212,7 +211,7 @@ class Workshop extends CI_Controller {
     }
 
     public function add() {
-
+        
         $session_uid = $this->session->userdata('user_id');
         $this->app->set_title('Add Workshop');
 
@@ -224,10 +223,10 @@ class Workshop extends CI_Controller {
             if (!empty($postdata)) {
 
                 $this->load->model('workshop_model');
-                $this->workshop_model->save($postdata);
+                $workshop_id = $this->workshop_model->save($postdata);
 
                 $this->error->set_message('Add Workshop Sucessfully!', 'success');
-                //$this->app->redirect('/user/login/');
+                $this->app->redirect('/workshop/edit/' . $workshop_id);
             }
 
             $this->load->model('user/user_model');
@@ -273,7 +272,7 @@ class Workshop extends CI_Controller {
                 if (empty($data['workshop']) || $session_uid != $data['workshop'][0]->uid) {
                     $this->error->set_message('You are not authorized to access that location.', 'error');
                     $this->app->redirect('workshop');
-                }                               
+                }
 
                 //add file               
                 $data['files'] = $this->workshop_model->get_files($id);
@@ -288,19 +287,21 @@ class Workshop extends CI_Controller {
                 //total fee
                 $data['total_enrolled'] = count($data['enrolled']);
                 $fee = explode("$", $data['workshop'][0]->fee);
-                if(isset($fee[1])) $fee = $fee[1];
-                else $fee = $fee[0];
-                                
+                if (isset($fee[1]))
+                    $fee = $fee[1];
+                else
+                    $fee = $fee[0];
+
                 $surcharge = $this->config->item('workshop_surcharge');
                 $total = ($fee * $data['total_enrolled']);
-                $total_surcharge = ($surcharge * $total )/100;
+                $total_surcharge = ($surcharge * $total ) / 100;
                 $total_surcharge = round($total_surcharge, 3);
-                
+
                 $data['surcharge'] = $surcharge;
                 $data['total'] = $total;
                 $data['total_surcharge'] = $total_surcharge;
-                $data['total_real'] =  $total - $total_surcharge;
-                
+                $data['total_real'] = $total - $total_surcharge;
+
                 $this->load->view('global/header');
                 $this->load->view('workshop/edit', $data);
                 $this->load->view('global/footer');
@@ -322,7 +323,7 @@ class Workshop extends CI_Controller {
 
             $this->workshop_model->add_file($postdata['wid'], $_FILES);
 
-            $this->app->redirect('workshop/edit/'.$postdata['wid']);
+            $this->app->redirect('workshop/edit/' . $postdata['wid']);
         }
     }
 
@@ -344,7 +345,7 @@ class Workshop extends CI_Controller {
 
                 $this->error->set_message('Delete Sucessfully!', 'success');
             }
-            $this->app->redirect('workshop/edit/'.$postdata['wid']);
+            $this->app->redirect('workshop/edit/' . $postdata['wid']);
         }
     }
 
@@ -365,7 +366,7 @@ class Workshop extends CI_Controller {
                 //get student enrolled workshop                
                 $student_enrolled = $this->workshop_model->get_student_enrolled($postdata['wid']);
                 if (count($student_enrolled) > 0) {
-                    
+
                     //send mail to list enrolled workshop
                     $this->load->library('email');
                     $config['mailtype'] = 'html';
@@ -392,27 +393,33 @@ class Workshop extends CI_Controller {
                     $message .= '</table>';
 
                     $this->email->message($message);
-                    $this->email->send();                    
-                    
+                    $this->email->send();
+
                     $this->error->set_message('Send Message Sucessfully!', 'success');
                 }
-                
-                 $this->app->redirect('workshop/edit/'.$postdata['wid']);
+
+                $this->app->redirect('workshop/edit/' . $postdata['wid']);
             }
 
             $this->app->redirect('workshop');
         }
     }
 
-    public function complete_event($id) {
-        if (empty($id)) {
-            $this->app->redirect('workshop');
+    public function complete_event() {
+
+        $session_uid = $this->session->userdata('user_id');
+        $this->app->set_title('Complete Event');
+
+        if (false === $session_uid) {
+            $this->app->redirect('user/login/');
         } else {
-            if (false === $session_uid) {
-                $this->app->redirect('user/login/');
-            } else {
+
+            $postdata = $this->input->post('fac_workshop');
+
+            if (!empty($postdata)) {
+
                 $this->load->model('workshop_model');
-                $workshop = $this->workshop_model->get_workshop($id);
+                $workshop = $this->workshop_model->get_workshop($postdata['wid']);
 
                 if (!empty($workshop)) {
 
@@ -423,7 +430,7 @@ class Workshop extends CI_Controller {
                     }
 
                     //get student enrolled workshop                
-                    $student_enrolled = $this->workshop_model->get_student_enrolled($id);
+                    $student_enrolled = $this->workshop_model->get_student_enrolled($postdata['wid']);
 
                     //send mail flowartz to notification finish workshop
                     $this->load->library('email');
@@ -454,13 +461,10 @@ class Workshop extends CI_Controller {
                         $message .= '<tr><td width="1%" nowrap="">Name: ' . $row->name . '</td><td>Email: ' . $row->email . '</td></tr>';
                     }
 
-                    $message .= '</table>';
-
+                    $message .= '</table>';                    
 
                     $this->email->message($message);
                     $this->email->send();
-
-
                     //send mail confirm learning
                     if (count($student_enrolled) > 0) {
                         $from = $this->config->item('contact_email');
@@ -495,18 +499,31 @@ class Workshop extends CI_Controller {
                         $message .= '</table>';
 
                         $this->email->message($message);
+                        
                         $this->email->send();
                     }
 
                     //update finished workshop
                     $data = array('status' => 1);
                     $this->workshop_model->update($id, $data);
-                    //move workshop to experience
+                    
+                    //insert workshop to experience
+                    $job_date = !empty($workshop[0]->date) ? date("Y-m-d", strtotime($workshop[0]->date)) : null;
 
+                    $data_experience = array(
+                        'uid' => $session_uid,
+                        'job_event_title' => $workshop[0]->name,
+                        'job_description' => $workshop[0]->description,
+                        'job_date' => $job_date,
+                        'job_location' => $workshop[0]->location,
+                        'artist_level' => $workshop[0]->skill_level
+                    );
+
+                    $this->db->insert('fa_users_experience', $data_experience);
 
                     $this->error->set_message('Complete Event Sucessfully!', 'success');
 
-                    $this->app->redirect('workshop');
+                    $this->app->redirect('user/profile');
                 }
             }
         }

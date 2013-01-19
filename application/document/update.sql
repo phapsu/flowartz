@@ -35,4 +35,6 @@ CREATE TABLE IF NOT EXISTS `fa_workshops_files` (
   KEY `uid_idx` (`wid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
-ALTER TABLE `fa_workshops` ADD `enrolled_counter` TINYINT( 3 ) NOT NULL DEFAULT '0' AFTER `status` 
+ALTER TABLE `fa_workshops` ADD `enrolled_counter` TINYINT( 3 ) NOT NULL DEFAULT '0' AFTER `status` ;
+
+ALTER TABLE `fa_workshops` ADD `to_date` DATE NOT NULL AFTER `date` ;
