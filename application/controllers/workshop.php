@@ -58,12 +58,13 @@ class Workshop extends CI_Controller {
         $this->load->view('workshop/cats', $data);
         $this->load->view('global/footer');
     }
-    
+
     public function tag($tag) {
-        
-        print_r($tag); exit;
-        
-        
+
+        print_r($tag);
+        exit;
+
+
         if (empty($tag))
             $this->app->redirect('workshop');
 
@@ -72,7 +73,7 @@ class Workshop extends CI_Controller {
 
         $config = array();
         $config["base_url"] = base_url() . "workshop/tag/" . $tag;
-        $tag = urldecode($tag); 
+        $tag = urldecode($tag);
         $config["total_rows"] = $this->workshop_model->count_workshop_tag($tag);
         $config["per_page"] = $this->config->item('numof_workshop_paging');
         $config["uri_segment"] = 4;
@@ -146,7 +147,7 @@ class Workshop extends CI_Controller {
 
         //$type_id =0:a-z; 1:nearby; =2:price; =3:availyblity; =4:skilly; =5:soonely
         $keyword = $postdata['keyword'];
-        
+
         $config = array();
         $config["base_url"] = base_url() . "workshop/search";
         $config["total_rows"] = $this->workshop_model->count_workshop_search($keyword, $type_id);
@@ -160,16 +161,16 @@ class Workshop extends CI_Controller {
 
         $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0; //echo $page;exit;
         $data["workshop"] = $this->workshop_model->get_workshop_search($keyword, $type_id, $config["per_page"], $page);
-       
+
         $data["workshop_tag"] = $this->workshop_model->get_workshop_search_tag($keyword, $type_id);
-               
+
         $data["links"] = $this->pagination->create_links();
 
         $data["action"] = $this->uri->segment(2);
 
         $data['categories'] = $this->config->item('artist_category');
         $data['tags'] = $this->workshop_model->get_workshop_all_tags();
-                
+
         $data['skills'] = $this->config->item('artist_level');
         $data['keyword'] = $keyword;
         $data['type_id'] = $type_id;
@@ -254,7 +255,7 @@ class Workshop extends CI_Controller {
     }
 
     public function add() {
-        
+
         $session_uid = $this->session->userdata('user_id');
         $this->app->set_title('Add Workshop');
 
@@ -504,7 +505,7 @@ class Workshop extends CI_Controller {
                         $message .= '<tr><td width="1%" nowrap="">Name: ' . $row->name . '</td><td>Email: ' . $row->email . '</td></tr>';
                     }
 
-                    $message .= '</table>';                    
+                    $message .= '</table>';
 
                     $this->email->message($message);
                     $this->email->send();
@@ -542,14 +543,14 @@ class Workshop extends CI_Controller {
                         $message .= '</table>';
 
                         $this->email->message($message);
-                        
+
                         $this->email->send();
                     }
 
                     //update finished workshop
                     $data = array('status' => 1);
                     $this->workshop_model->update($id, $data);
-                    
+
                     //insert workshop to experience
                     $job_date = !empty($workshop[0]->date) ? date("Y-m-d", strtotime($workshop[0]->date)) : null;
 
@@ -577,15 +578,23 @@ class Workshop extends CI_Controller {
         if (empty($id)) {
             $this->app->redirect('workshop');
         } else {
-            $this->load->model('workshop_model');
-            $data['workshop'] = $this->workshop_model->get_workshop($id);
+            $session_uid = $this->session->userdata('user_id');
+            $this->app->set_title('View Workshop');
 
-            $data['categories'] = $this->config->item('artist_category');
-            $data['skills'] = $this->config->item('artist_level');
+            if (false === $session_uid) {
+                $this->app->redirect('user/login/');
+            } else {
 
-            $this->load->view('global/header');
-            $this->load->view('workshop/view', $data);
-            $this->load->view('global/footer');
+                $this->load->model('workshop_model');
+                $data['workshop'] = $this->workshop_model->get_workshop($id);
+
+                $data['categories'] = $this->config->item('artist_category');
+                $data['skills'] = $this->config->item('artist_level');
+
+                $this->load->view('global/header');
+                $this->load->view('workshop/view', $data);
+                $this->load->view('global/footer');
+            }
         }
     }
 
