@@ -195,15 +195,12 @@ class Workshop_model extends CI_Model {
     
     //get workshop in category
     public function get_workshop_all_tags(){
-        $this->db->distinct('tag');
-        $this->db->from('fa_workshops');        
         
-        $this->db->where('status = 0');
+        $sql = "SELECT distinct tag FROM fa_workshops as w WHERE w.status = 0";
+        $sql .=' order by w.date desc';
         
-        $this->db->order_by("date", "DESC");        
-        $query = $this->db->get();
-   
-        return $query->result();
+        $query = $this->db->query($sql);
+        return $query->result();  
     }
     
     //get workshop in category
@@ -253,6 +250,31 @@ class Workshop_model extends CI_Model {
     public function count_workshop_cats($cat_id){
         $this->db->from('fa_workshops');        
         $this->db->where('status = 0 and cat_id = '.$cat_id);
+        return $this->db->count_all_results();
+    }
+    
+    //get workshop in tag
+    public function get_workshop_tag($tag, $limit=null, $start=null){
+        
+        $this->db->select('*');
+        $this->db->from('fa_workshops as w');
+        //$this->db->join('fa_profile_images as i', ' w.uid = i.uid');
+                
+        if(!empty ($limit)){
+            $this->db->limit($limit, $start);
+        }
+        
+        $this->db->where("w.status = 0 and w.tag = '".$tag."'");
+        
+        $this->db->order_by("w.date", "DESC");        
+        $query = $this->db->get();
+   
+        return $query->result();
+    }
+    
+    public function count_workshop_tag($tag){
+        $this->db->from('fa_workshops');        
+        $this->db->where("status = 0 and tag = '".$tag."'");
         return $this->db->count_all_results();
     }
     
@@ -309,6 +331,64 @@ class Workshop_model extends CI_Model {
         $query = $this->db->get();
    
         return $query->result();
+    }
+    
+    public function get_workshop_search_tag($keyword, $type_id){
+        
+        $this->db->distinct();
+        $this->db->select('tag');
+        $this->db->from('fa_workshops as w');
+        //$this->db->join('fa_profile_images as i', ' w.uid = i.uid');
+         
+        switch ($type_id):
+            case 0:{
+                //a-z
+                $this->db->where("w.status = 0 and w.name like '%".$keyword."%'");
+                break;
+            }
+            case 1:{
+                //nearby
+                $this->db->where("w.status = 0 and w.location like '%".$keyword."%'");
+                break;
+            }
+            case 2:{
+                //price
+                $this->db->where("w.status = 0 and w.fee like '%".$keyword."%'");
+                break;
+            }
+            case 3:{
+                //availyblity                
+                $this->db->where("DATEDIFF(NOW() , w.date) >= 0 and DATEDIFF(NOW() , w.to_date) <= 0 and w.status = 0 and w.name like '%".$keyword."%'");
+                
+                break;
+            }
+            case 4:{
+                //skilly
+                $keyword = explode(" ", $keyword);
+                $keyword = $keyword[0];
+                
+                $this->db->where("w.status = 0 and w.skill_level like '%".$keyword."%'"); // chi lay position dau 0
+                break;
+            }
+            default:{
+                //soonely
+                $sunday = date("Y-m-d H:i:s", strtotime('Sunday'));
+                $this->db->where("DATEDIFF( '" . $sunday . "' , w.date) <= 0 and w.status = 0 and w.name like '%".$keyword."%'");
+                break;
+            }
+        endswitch;        
+            
+        $query = $this->db->get();
+        
+        $data = array();
+        
+        if ($query->num_rows() > 0) {
+            foreach ($query->result() as $row) {
+                $data[] = $row->tag;
+            }
+            return $data;
+        }
+        return false;
     }
     
     public function count_workshop_search($keyword, $type_id){

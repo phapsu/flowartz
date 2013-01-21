@@ -64,6 +64,7 @@ $route['user/(:num)/(:any)'] = "user/index/$1";
 $route['user/activate/(:any)'] = "user/activate/$1";
 $route['user/reset_password/(:any)'] = "user/reset_password/$1";
 
+//$route['workshop/tag/(:any)'] = "workshop/tag/$1";
 
 
 //search routes

@@ -50,11 +50,54 @@ class Workshop extends CI_Controller {
         $cats = $this->config->item('artist_category');
         $data["cat_name"] = $cats[$cat_id];
 
+        $data['category_id'] = $cat_id;
         $data['categories'] = $cats;
         $data['skills'] = $this->config->item('artist_level');
 
         $this->load->view('global/header');
         $this->load->view('workshop/cats', $data);
+        $this->load->view('global/footer');
+    }
+    
+    public function tag($tag) {
+        
+        print_r($tag); exit;
+        
+        
+        if (empty($tag))
+            $this->app->redirect('workshop');
+
+        $this->app->set_title('Workshop');
+        $this->load->model('workshop_model');
+
+        $config = array();
+        $config["base_url"] = base_url() . "workshop/tag/" . $tag;
+        $tag = urldecode($tag); 
+        $config["total_rows"] = $this->workshop_model->count_workshop_tag($tag);
+        $config["per_page"] = $this->config->item('numof_workshop_paging');
+        $config["uri_segment"] = 4;
+        $choice = $config["total_rows"] / $config["per_page"];
+        $config["num_links"] = round($choice);
+
+        $this->load->library("pagination");
+        $this->pagination->initialize($config);
+
+        $page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0; //echo $page;exit;
+        $data["workshop"] = $this->workshop_model->get_workshop_tag($tag, $config["per_page"], $page);
+
+        $data["links"] = $this->pagination->create_links();
+
+
+        $data["action"] = $this->uri->segment(2);
+        $cats = $this->config->item('artist_category');
+        $data["cat_name"] = $cats[$cat_id];
+
+        $data['tag'] = $tag;
+        $data['categories'] = $cats;
+        $data['skills'] = $this->config->item('artist_level');
+
+        $this->load->view('global/header');
+        $this->load->view('workshop/tag', $data);
         $this->load->view('global/footer');
     }
 
@@ -103,8 +146,7 @@ class Workshop extends CI_Controller {
 
         //$type_id =0:a-z; 1:nearby; =2:price; =3:availyblity; =4:skilly; =5:soonely
         $keyword = $postdata['keyword'];
-        $keyword = 'workshop';
-
+        
         $config = array();
         $config["base_url"] = base_url() . "workshop/search";
         $config["total_rows"] = $this->workshop_model->count_workshop_search($keyword, $type_id);
@@ -118,15 +160,16 @@ class Workshop extends CI_Controller {
 
         $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0; //echo $page;exit;
         $data["workshop"] = $this->workshop_model->get_workshop_search($keyword, $type_id, $config["per_page"], $page);
-        print_r($data["workshop"]); exit;
-
+       
+        $data["workshop_tag"] = $this->workshop_model->get_workshop_search_tag($keyword, $type_id);
+               
         $data["links"] = $this->pagination->create_links();
-
 
         $data["action"] = $this->uri->segment(2);
 
         $data['categories'] = $this->config->item('artist_category');
         $data['tags'] = $this->workshop_model->get_workshop_all_tags();
+                
         $data['skills'] = $this->config->item('artist_level');
         $data['keyword'] = $keyword;
         $data['type_id'] = $type_id;

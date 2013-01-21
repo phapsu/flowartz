@@ -45,15 +45,18 @@
         <div class="rpCont">
             <div class="rpCont1">
                 <div class="rpCont2" id="recently_posts">
+                    <h2>FAVORITE</h2><hr> <br>      
+                    <ul id="u-favorite">
                     <?php 
                     $ci = & get_instance();
                     $favorite = $ci->session->userdata('Favorite');
                     if ($favorite) {
                         foreach($favorite as  $row) {
-                            echo "<a href='/workshop/view/".$row['workshop_id']."'>".$row['workshop_name']."</a><br/>";
-                        }
+                            echo "<li class='item-".$row['workshop_id']."'><a href='/workshop/view/".$row['workshop_id']."'>".$row['workshop_name']."</a></li>";
+                        }                        
                     }
-                    ?>                    
+                    ?>    
+                    </ul>
                 </div>
             </div>
         </div>

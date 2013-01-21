@@ -28,7 +28,7 @@
 	
         //Paging
         $config['numof_artist_paging'] = 16;
-        $config['numof_workshop_paging'] = 1;
+        $config['numof_workshop_paging'] = 16;
         
 	//Skill and Experience level
         $config['artist_level'] = array(

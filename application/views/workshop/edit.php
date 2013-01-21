@@ -59,8 +59,8 @@
                 </div>
                 </br>
                 <div style="position: absolute;right: 0;top: 0;width: 35%;">
-                    <a class="button turquoise gradient" href="#" onclick="document.getElementById('frmEdit').submit();" style="float: right;margin: 0;text-align: center;width: 50%;margin-bottom:25px">Edit</a>
-                    <a class="button turquoise gradient" href="#" onclick="document.getElementById('frmEdit').reset();" style="float: right;margin: 0;text-align: center;width: 50%;margin-bottom:25px">Cancel Event</a>
+                    <a class="button turquoise gradient" href="javascript:;;" onclick="document.getElementById('frmEdit').submit();" style="float: right;margin: 0;text-align: center;width: 50%;margin-bottom:25px">Edit</a>
+                    <a class="button turquoise gradient" href="javascript:;;" onclick="document.getElementById('frmEdit').reset();" style="float: right;margin: 0;text-align: center;width: 50%;margin-bottom:25px">Cancel Event</a>
                     <a class="button" id="box1" href="#div_addfile" style="float: right;margin: 0;text-align: center;width: 50%;margin-bottom:25px">Add File</a>
                     <a class="button" id="box2" href="#div_sendmessage" style="float: right;margin: 0;text-align: center;width: 50%;">Send Message</a>
                 </div>                

@@ -59,16 +59,15 @@
                         <?php
                         foreach ($tags as $id => $tag) {
                             $class = '';
-                            if($workshop_tag){
-                                if (in_array($tag->tag, $workshop_tag))
+                            if($tag->tag == $tag){                                
                                 $class = 'style="color: red;"';
                             }
 
                             if ($id == 0) {
                                 ?>
-                                <span <?php echo $class; ?>><?php echo $tag->tag; ?></a>
+                                <a <?php echo $class; ?> href="<?php echo base_url(); ?>workshop/tag/<?php echo urlencode($tag->tag); ?>"><?php echo $tag->tag; ?></a>
                             <?php } else { ?>
-                                , <span <?php echo $class; ?>><?php echo $tag->tag; ?></a>
+                                , <a <?php echo $class; ?> href="<?php echo base_url(); ?>workshop/tag/<?php echo urlencode($tag->tag); ?>"><?php echo $tag->tag; ?></a>
                             <?php }
                         } ?>   
                     </p>
