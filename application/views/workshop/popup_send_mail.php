@@ -38,7 +38,7 @@
                     </div>
                     <div>
                         <label>Email</label>
-                        <input type="text" name="fac_workshop[email]" id="workshop_email" style="width: 630px;"/>
+                        <input type="text" name="fac_workshop[email]" value="<?php echo $email; ?>" id="workshop_email" style="width: 630px;"/>
                     </div>
                     <div>
                         <label>Content</label>

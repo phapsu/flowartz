@@ -17,6 +17,16 @@ class Workshop extends CI_Controller {
         $data['workshop_soon'] = $this->workshop_model->get_workshop_soon();
         $data['workshop_nearby'] = $this->workshop_model->get_workshop_nearby();
 
+        //pass session favorite to view
+        $favorite = $this->session->userdata('Favorite');
+        $array = array();
+        if (isset($favorite) && !empty($favorite)) {
+            foreach ($favorite as $row) {
+                $array[] = $row['workshop_id'];
+            }
+        }
+        $data['workshop_favorite'] = $array;
+
         $this->load->view('global/header');
         $this->load->view('workshop/index', $data);
         $this->load->view('global/footer');
@@ -54,6 +64,16 @@ class Workshop extends CI_Controller {
         $data['categories'] = $cats;
         $data['skills'] = $this->config->item('artist_level');
 
+        //pass session favorite to view
+        $favorite = $this->session->userdata('Favorite');
+        $array = array();
+        if (isset($favorite) && !empty($favorite)) {
+            foreach ($favorite as $row) {
+                $array[] = $row['workshop_id'];
+            }
+        }
+        $data['workshop_favorite'] = $array;
+        
         $this->load->view('global/header');
         $this->load->view('workshop/cats', $data);
         $this->load->view('global/footer');
@@ -129,6 +149,16 @@ class Workshop extends CI_Controller {
         $data['categories'] = $this->config->item('artist_category');
         $data['skills'] = $this->config->item('artist_level');
 
+        //pass session favorite to view
+        $favorite = $this->session->userdata('Favorite');
+        $array = array();
+        if (isset($favorite) && !empty($favorite)) {
+            foreach ($favorite as $row) {
+                $array[] = $row['workshop_id'];
+            }
+        }
+        $data['workshop_favorite'] = $array;
+        
         $this->load->view('global/header');
         $this->load->view('workshop/all', $data);
         $this->load->view('global/footer');
@@ -175,6 +205,16 @@ class Workshop extends CI_Controller {
         $data['keyword'] = $keyword;
         $data['type_id'] = $type_id;
 
+        //pass session favorite to view
+        $favorite = $this->session->userdata('Favorite');
+        $array = array();
+        if (isset($favorite) && !empty($favorite)) {
+            foreach ($favorite as $row) {
+                $array[] = $row['workshop_id'];
+            }
+        }
+        $data['workshop_favorite'] = $array;
+        
         $this->load->view('global/header');
         $this->load->view('workshop/search', $data);
         $this->load->view('global/footer');
@@ -221,6 +261,7 @@ class Workshop extends CI_Controller {
             //$this->error->set_message('Send Message Sucessfully!', 'success');
         } else {
             $data['wid'] = $id;
+            $data['email'] = $this->session->userdata('email');
 
             $this->load->view('workshop/popup_send_mail', $data);
         }
@@ -578,23 +619,19 @@ class Workshop extends CI_Controller {
         if (empty($id)) {
             $this->app->redirect('workshop');
         } else {
-            $session_uid = $this->session->userdata('user_id');
             $this->app->set_title('View Workshop');
 
-            if (false === $session_uid) {
-                $this->app->redirect('user/login/');
-            } else {
+            $this->load->model('workshop_model');
+            $data['workshop'] = $this->workshop_model->get_workshop($id);
 
-                $this->load->model('workshop_model');
-                $data['workshop'] = $this->workshop_model->get_workshop($id);
+            $data['categories'] = $this->config->item('artist_category');
+            $data['skills'] = $this->config->item('artist_level');
 
-                $data['categories'] = $this->config->item('artist_category');
-                $data['skills'] = $this->config->item('artist_level');
+            $data['user_id'] = $this->session->userdata('user_id');
 
-                $this->load->view('global/header');
-                $this->load->view('workshop/view', $data);
-                $this->load->view('global/footer');
-            }
+            $this->load->view('global/header');
+            $this->load->view('workshop/view', $data);
+            $this->load->view('global/footer');
         }
     }
 

@@ -39,7 +39,7 @@ class Login_model extends User_model {
 
         if (false === empty($this->_data)) {
 
-            $validation_query = $this->db->query('SELECT name, uid, email, token, last_visit_date, country, state, city, type_id FROM fa_users ' .
+            $validation_query = $this->db->query('SELECT name, uid, email, token, last_visit_date, country, state, city FROM fa_users ' .
                     'WHERE email = ' . $this->db->escape($this->_data['email']) .
                     ' AND password = SHA1(' . $this->db->escape($this->_data['password']) .
                     ' ) AND activated IS NULL'
@@ -56,8 +56,8 @@ class Login_model extends User_model {
                         'user_name' => $session_data->name,
                         'country' => $session_data->country,
                         'state' => $session_data->state,
-                        'city' => $session_data->city,
-                        'type_id' => $session_data->type_id
+                        'city' => $session_data->city,                        
+                        'email' => $session_data->email                        
                     );
                     $this->session->set_userdata($session_data);
                 }

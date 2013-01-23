@@ -60,7 +60,7 @@
             <div style="position: absolute;right: 0;top: 0;width: 35%;">
                 <a class="button turquoise gradient" href="javascript:;;" onclick="add_favorite(this, '<?php echo $workshop[0]->wid; ?>', '<?php echo $workshop[0]->name; ?>')" style="float: right;margin: 0;text-align: center;width: 50%;margin-bottom:25px">Add to Favorite</a>
                 <a class="button turquoise gradient" href="/workshop/enroll/<?php echo $workshop[0]->wid; ?>" style="float: right;margin: 0;text-align: center;width: 50%;margin-bottom:25px">EnRoll</a>
-                <a class="button" href="javascript:;;" onclick="document.frmRSVP.submit();" style="float: right;margin: 0;text-align: center;width: 50%;margin-bottom:25px">RSVP</a>                    
+                <a class="button" href="javascript:;;" onclick="javascript:rsvp();" style="float: right;margin: 0;text-align: center;width: 50%;margin-bottom:25px">RSVP</a>                    
                 <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" name="frmRSVP">
                     <input type="hidden" name="cmd" value="_s-xclick">
                     <input type="hidden" name="hosted_button_id" value="PXPDB9687JPKQ">
@@ -134,9 +134,18 @@
     function add_favorite(contaner, $id, $name){
         $(contaner).html('Saving...');
         $.post("/workshop/add_favorite",{id: $id, name: $name} ,function(data) {
-            $(contaner).html('<img src="<?php echo base_url(); ?>template/images/star.png" />');                     
+            $(contaner).removeAttr('onclick');   
+            $(contaner).html('Add to Favorite');
         });
     }
      
-    
+    function rsvp(){
+        var login = '<?php echo $user_id; ?>';
+        if(login!=''){
+            document.frmRSVP.submit();
+        }else{
+            alert('You must login before RSVP.');
+            window.location.href="/user/login";
+        }
+    }
 </script>

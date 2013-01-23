@@ -62,9 +62,15 @@
     background-position:top right;
 }
 
-.shop-left label, .shop-right label{
+.shop-left label{
     display: block;
     margin: 10px;
+    position: relative;
+    text-align: center;
+}
+.shop-right label{
+    display: block;
+/*    margin: 10px;*/
     position: relative;
     text-align: center;
 }
@@ -74,8 +80,8 @@ input, textarea{
     padding: 4px 6px;
 }
 .ch_normal img, .artist-border{
-border: 1px solid #999;
-    border-radius: 8px 8px 8px 8px;
+/*    border: 1px solid #999;*/
+    border-radius: 10px 10px 10px 10px;
 }
 .shop-left{
     float: left;
@@ -86,7 +92,7 @@ border: 1px solid #999;
  	width: 84%;
 }
 .shop-right input, .shop-right label{
- 	width: 70%;
+ 	width: 100%;
 }
 .shop-right{
     float: right;

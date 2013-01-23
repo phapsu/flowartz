@@ -45,7 +45,7 @@
 
 
                     <input type="hidden" name="fac_workshop[type_id]" id="type_id" value="<?php echo $type_id; ?>">
-                    <input type="text" name="fac_workshop[keyword]" value="<?php echo $keyword; ?>" placeholder="Search" autocomplete="true">                
+                    <input class="workshop-search" style="width:180px;" type="text" name="fac_workshop[keyword]" value="<?php echo $keyword; ?>" placeholder="Search" autocomplete="true">                
                 </form>
             </ul>
         </div>
@@ -59,121 +59,132 @@
                         <?php
                         foreach ($tags as $id => $tag) {
                             $class = '';
-                            if($workshop_tag){
+                            if ($workshop_tag) {
                                 if (in_array($tag->tag, $workshop_tag))
-                                $class = 'style="color: red;"';
+                                    $class = 'style="color: red;"';
                             }
 
                             if ($id == 0) {
                                 ?>
                                 <span <?php echo $class; ?>><?php echo $tag->tag; ?></a>
-                            <?php } else { ?>
-                                , <span <?php echo $class; ?>><?php echo $tag->tag; ?></a>
-                            <?php }
-                        } ?>   
-                    </p>
-                </div>
-                <!-- end box list tag  -->
+                                <?php } else { ?>
+                                    , <span <?php echo $class; ?>><?php echo $tag->tag; ?></a>
+                                    <?php }
+                                } ?>   
+                                </p>
+                                </div>
+                                <!-- end box list tag  -->
 
-                <div class="shop-right">                    
+                                <div class="shop-right">                    
 
-                    <?php if ($workshop) { ?>
+                                    <?php if ($workshop) { ?>
 
-                        <ul class="artist-group fea-group note-group" style="border:0 none;padding:0; margin-left:36px;">
-                            <?php foreach ($workshop as $id => $w) {
-                                if ($id % 3 == 0 && $id != 0) { ?>
+                                        <ul class="artist-group fea-group note-group" style="border:0 none;padding:0; margin-left:36px;">
+                                            <?php foreach ($workshop as $id => $w) {
+                                                if ($id % 3 == 0 && $id != 0) { ?>
 
-                                </ul><ul class="artist-group fea-group note-group" style="border:0 none;padding:0; margin-left:36px;">
-                                <?php } ?>
+                                                </ul><ul class="artist-group fea-group note-group" style="border:0 none;padding:0; margin-left:36px;">
+                                                <?php } ?>
 
-                                <li class="artist-profile artist-border" style="padding:5px;margin: 0 8px 20px;">
-                                    <div class="ch_normal">
-                                        <div style="width:67%;float:left;text-align:center">
-                                            <input type="text" value="<?php echo $skills[$w->skill_level]; ?>" style="margin: 3px 0px;width:100%"/>
-                                            <label>Skill level</label>
-                                            <input type="text" value="<?php echo $w->fee; ?>" style="margin: 3px 0px;width:100%"/>
-                                            <label>Cost</label>
-                                            <input type="text" value="<?php echo $w->enrolled_counter; ?>" style="margin: 3px 0px;width:100%"/>
-                                            <label>Spots Filled</label>
-                                        </div>
-                                        <div style="width:20%;float:right">
-                                            <a href="javascript:;;" onclick="add_favorite(this, '<?php echo $w->wid; ?>', '<?php echo $w->name; ?>')" class="button" style="background-color: #4B216A;float: left;padding:4px; margin-bottom: 10px;">
-                                                <img src="<?php echo base_url(); ?>template/images/star.png" />
-                                            </a>
-                                            <a href="<?php echo base_url(); ?>workshop/popup_send_mail/<?php echo $w->wid; ?>" data-fancybox-type="iframe" class="sendmail button" style="background-color: #4B216A;float: left;padding:8px; margin-bottom: 10px;">
-                                                <img src="<?php echo base_url(); ?>template/images/24_comment_square.png" />
-                                            </a>
-                                            <a href="<?php echo base_url(); ?>workshop/popup/<?php echo $w->wid; ?>" data-fancybox-type="iframe" class="various button" style="background-color: #4B216A;float: left;padding:4px">
-                                                <img src="<?php echo base_url(); ?>template/images/down_right2.png" />
-                                            </a>
-                                        </div>
-                                    </div>                                                 
-                                </li>
-                            <?php }
-                        } ?>                        
+                                                <li class="artist-profile artist-border" style="padding:5px;margin: 0 8px 20px;">
+                                                    <div class="ch_normal">
+                                                        <?php if (empty($w->i_name)) { ?>
+                                                            <img src="<?php echo base_url(); ?>template/images/artist-image.png" alt="Profile Picture" class="showContenthover"/>
+                                                        <?php } else { ?>
+                                                            <img src="<?php echo base_url(); ?>application/files/<?php echo $w->i_name; ?>" alt="Profile Picture" class="showContenthover"/>
+                                                        <?php } ?> 
+                                                        <div class="contenthover">
+                                                            <div style="width:67%;float:left;text-align:center">
+                                                                <input type="text" value="<?php echo $skills[$w->skill_level]; ?>" style="margin: 3px 0px;width:100%"/>
+                                                                <label>Skill level</label>
+                                                                <input type="text" value="<?php echo $w->fee; ?>" style="margin: 3px 0px;width:100%"/>
+                                                                <label>Cost</label>
+                                                                <input type="text" value="<?php echo $w->enrolled_counter; ?>" style="margin: 3px 0px;width:100%"/>
+                                                                <label>Spots Filled</label>
+                                                            </div>
+                                                            <div style="width:20%;float:right">
+                                                                <?php if (in_array($w->wid, $workshop_favorite)) { ?>
+                                                                    <a href="javascript:;;" class="button" style="background-color: #4B216A;float: left;padding:4px; margin-bottom: 10px;">
+                                                                        <img src="<?php echo base_url(); ?>template/images/star.png" />
+                                                                    </a>    
+                                                                <?php } else { ?>
+                                                                    <a href="javascript:;;" onclick="add_favorite(this, '<?php echo $w->wid; ?>', '<?php echo $w->name; ?>')" class="button" style="background-color: #4B216A;float: left;padding:4px; margin-bottom: 10px;">
+                                                                        <img src="<?php echo base_url(); ?>template/images/star-favorite.png" />
+                                                                    </a>
+                                                                <?php } ?>
+                                                                <a href="<?php echo base_url(); ?>workshop/popup_send_mail/<?php echo $w->wid; ?>" data-fancybox-type="iframe" class="sendmail button" style="background-color: #4B216A;float: left;padding:8px; margin-bottom: 10px;">
+                                                                    <img src="<?php echo base_url(); ?>template/images/24_comment_square.png" />
+                                                                </a>
+                                                                <a href="<?php echo base_url(); ?>workshop/view/<?php echo $w->wid; ?>" style="background-color: #4B216A;float: left;padding:4px">
+                                                                    <img src="<?php echo base_url(); ?>template/images/down_right2.png" />
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>                                                
+                                                </li>
+                                            <?php }
+                                        } ?>                        
 
-                    </ul>
+                                    </ul>
 
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- end of content wrapper div -->
-</div>
+                                </div>
+                                </div>
+                                </div>
+                                </div>
+                                <!-- end of content wrapper div -->
+                                </div>
 
-<link rel="stylesheet" href="<?php echo base_url(); ?>template/css/jquery.fancybox.css" type="text/css" media="screen" />
-<script type="text/javascript" src="<?php echo base_url(); ?>template/js/jquery.fancybox.js"></script>
-
-<script>
-    $(document).ready(function() {
-        $(".various").fancybox({
-            maxWidth	: 220,
-            maxHeight	: 300,
-            fitToView	: false,
-            width	: '40%',
-            height	: '30%',
-            autoSize	: false,
-            closeClick	: false,
-            openEffect	: 'none',
-            closeEffect	: 'none'
-        });
+                                <link rel="stylesheet" href="<?php echo base_url(); ?>template/css/jquery.fancybox.css" type="text/css" media="screen" />
+                                <script type="text/javascript" src="<?php echo base_url(); ?>template/js/jquery.fancybox.js"></script>
+                                <script type="text/javascript" src="<?php echo base_url(); ?>template/js/jquery.contenthover.min.js"></script>
+                                <script>
+                                    $(document).ready(function() {
+                                        $('.showContenthover').contenthover({
+                                            overlay_background:'#000',
+                                            overlay_opacity:0.8,
+                                            width: 195,
+                                            height: 195
+                                            //        effect:'slide',
+                                            //        slide_direction:'bottom'
+                                        }); 
         
-        $(".sendmail").fancybox({
-            maxWidth	: 620,
-            maxHeight	: 620,
-            fitToView	: false,
-            width	: '70%',
-            height	: '65%',
-            autoSize	: false,
-            closeClick	: false,
-            openEffect	: 'none',
-            closeEffect	: 'none'
-        });
+                                        $(".sendmail").fancybox({
+                                            maxWidth	: 620,
+                                            maxHeight	: 620,
+                                            fitToView	: false,
+                                            width	: '70%',
+                                            height	: '65%',
+                                            autoSize	: false,
+                                            closeClick	: false,
+                                            openEffect	: 'none',
+                                            closeEffect	: 'none'
+                                        });
         
-        var option = <?php echo $type_id; ?>;
+                                        var option = <?php echo $type_id; ?>;
 
-        $('.option'+option).attr('style', 'color:red;');
+                                        $('.option'+option).attr('style', 'color:red;');
         
-    });    
+                                    });    
     
-    function add_favorite(contaner, $id, $name){
-        $(contaner).html('Saving...');
-        $.post("/workshop/add_favorite",{
-            id: $id, 
-            name: $name
-        } ,function(data) {
-            $(contaner).html('<img src="<?php echo base_url(); ?>template/images/star.png" />'); 
+                                    function add_favorite(contaner, $id, $name){
+                                        $(contaner).html('Saving');
+                                        $.post("/workshop/add_favorite",{
+                                            id: $id, 
+                                            name: $name
+                                        } ,function(data) {
+                                            $(contaner).removeAttr('onclick');   
+                                            $(contaner).html('<img src="<?php echo base_url(); ?>template/images/star.png" />'); 
             
-            if(!$('li').hasClass('item-'+$id)){
-                $('#u-favorite').append("<li class='item-"+$id+"'><a href='/workshop/view/"+$id+"'>"+$name+"</a></li>");
-            }            
-        });
-    }
+                                            if(!$('li').hasClass('item-'+$id)){
+                                                $('#u-favorite').append("<li class='item-"+$id+"'><a href='/workshop/view/"+$id+"'>"+$name+"</a></li>");
+                                            }            
+                                        });
+                                    }
     
-    function select_search(object){
-        $('.option_search').removeAttr('style', 'color');
-        $('#type_id').val($(object).attr('value'));
-        $(object).attr('style', 'color:red;')
-    }
+                                    function select_search(object){
+                                        $('.option_search').removeAttr('style', 'color');
+                                        $('#type_id').val($(object).attr('value'));
+                                        $(object).attr('style', 'color:red;')
+                                    }
     
-</script>
+                                </script>

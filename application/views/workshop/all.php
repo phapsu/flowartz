@@ -17,30 +17,40 @@
                 
                 <?php if ($workshop) {
                     foreach ($workshop as $id => $w) {
-                        if($id % 4 ==0) {?>
-                            <li class="artist-profile rotate" style="width:0px;font-weight: bold;margin-top: 109px;"></li> 
-                        <?php }
                         ?>                
                         <li class="artist-profile artist-border" style="padding:5px;margin: 0 8px 20px;">
                             <div class="ch_normal">
-                                <div style="width:67%;float:left;text-align:center">
-                                    <input type="text" value="<?php echo $skills[$w->skill_level]; ?>" style="margin: 3px 0px;width:100%"/>
-                                    <label>Skill level</label>
-                                    <input type="text" value="<?php echo $w->fee; ?>" style="margin: 3px 0px;width:100%"/>
-                                    <label>Cost</label>
-                                    <input type="text" value="<?php echo $w->enrolled_counter; ?>" style="margin: 3px 0px;width:100%"/>
-                                    <label>Spots Filled</label>
-                                </div>
-                                <div style="width:20%;float:right">
-                                    <a href="javascript:;;" onclick="add_favorite(this, '<?php echo $w->wid; ?>', '<?php echo $w->name; ?>')" class="button" style="background-color: #4B216A;float: left;padding:4px; margin-bottom: 10px;">
-                                        <img src="<?php echo base_url(); ?>template/images/star.png" />
-                                    </a>
-                                    <a href="<?php echo base_url(); ?>workshop/popup_send_mail/<?php echo $w->wid; ?>" data-fancybox-type="iframe" class="sendmail button" style="background-color: #4B216A;float: left;padding:8px; margin-bottom: 10px;">
-                                        <img src="<?php echo base_url(); ?>template/images/24_comment_square.png" />
-                                    </a>
-                                    <a href="<?php echo base_url(); ?>workshop/popup/<?php echo $w->wid; ?>" data-fancybox-type="iframe" class="various button" style="background-color: #4B216A;float: left;padding:4px">
-                                        <img src="<?php echo base_url(); ?>template/images/down_right2.png" />
-                                    </a>
+                                <?php if (empty($w->i_name)) { ?>
+                                    <img src="<?php echo base_url(); ?>template/images/artist-image.png" alt="Profile Picture" class="showContenthover"/>
+                                <?php } else { ?>
+                                    <img src="<?php echo base_url(); ?>application/files/<?php echo $w->i_name; ?>" alt="Profile Picture" class="showContenthover"/>
+                                <?php } ?> 
+                                <div class="contenthover">
+                                    <div style="width:67%;float:left;text-align:center">
+                                        <input type="text" value="<?php echo $skills[$w->skill_level]; ?>" style="margin: 3px 0px;width:100%"/>
+                                        <label>Skill level</label>
+                                        <input type="text" value="<?php echo $w->fee; ?>" style="margin: 3px 0px;width:100%"/>
+                                        <label>Cost</label>
+                                        <input type="text" value="<?php echo $w->enrolled_counter; ?>" style="margin: 3px 0px;width:100%"/>
+                                        <label>Spots Filled</label>
+                                    </div>
+                                    <div style="width:20%;float:right">
+                                        <?php if (in_array($w->wid, $workshop_favorite)) { ?>
+                                            <a href="javascript:;;" class="button" style="background-color: #4B216A;float: left;padding:4px; margin-bottom: 10px;">
+                                                <img src="<?php echo base_url(); ?>template/images/star.png" />
+                                            </a>    
+                                        <?php } else { ?>
+                                            <a href="javascript:;;" onclick="add_favorite(this, '<?php echo $w->wid; ?>', '<?php echo $w->name; ?>')" class="button" style="background-color: #4B216A;float: left;padding:4px; margin-bottom: 10px;">
+                                                <img src="<?php echo base_url(); ?>template/images/star-favorite.png" />
+                                            </a>
+                                        <?php } ?>
+                                        <a href="<?php echo base_url(); ?>workshop/popup_send_mail/<?php echo $w->wid; ?>" data-fancybox-type="iframe" class="sendmail button" style="background-color: #4B216A;float: left;padding:8px; margin-bottom: 10px;">
+                                            <img src="<?php echo base_url(); ?>template/images/24_comment_square.png" />
+                                        </a>
+                                        <a href="<?php echo base_url(); ?>workshop/view/<?php echo $w->wid; ?>" style="background-color: #4B216A;float: left;padding:4px">
+                                            <img src="<?php echo base_url(); ?>template/images/down_right2.png" />
+                                        </a>
+                                    </div>
                                 </div>
                             </div>                                                 
                         </li>
@@ -59,21 +69,18 @@
 
 <link rel="stylesheet" href="<?php echo base_url(); ?>template/css/jquery.fancybox.css" type="text/css" media="screen" />
 <script type="text/javascript" src="<?php echo base_url(); ?>template/js/jquery.fancybox.js"></script>
-
+<script type="text/javascript" src="<?php echo base_url(); ?>template/js/jquery.contenthover.min.js"></script>
 <script>
     $(document).ready(function() {
-        $(".various").fancybox({
-            maxWidth	: 220,
-            maxHeight	: 300,
-            fitToView	: false,
-            width	: '40%',
-            height	: '30%',
-            autoSize	: false,
-            closeClick	: false,
-            openEffect	: 'none',
-            closeEffect	: 'none'
-        });
-        
+        $('.showContenthover').contenthover({
+            overlay_background:'#000',
+            overlay_opacity:0.8,
+            width: 195,
+            height: 195
+            //        effect:'slide',
+            //        slide_direction:'bottom'
+        }); 
+         
         $(".sendmail").fancybox({
             maxWidth	: 620,
             maxHeight	: 620,
@@ -88,11 +95,12 @@
     });    
     
     function add_favorite(contaner, $id, $name){
-        $(contaner).html('Saving...');
+        $(contaner).html('Saving');
         $.post("/workshop/add_favorite",{
             id: $id, 
             name: $name
         } ,function(data) {
+            $(contaner).removeAttr('onclick');   
             $(contaner).html('<img src="<?php echo base_url(); ?>template/images/star.png" />'); 
             
             if(!$('li').hasClass('item-'+$id)){
