@@ -101,9 +101,11 @@ $user->blurb = (strlen($user->blurb) > 0 ? $user->blurb : 'Artist Description');
                                 </li>
                             <?php }
                         } ?>
-                                
                         <li style="float:none">
-                            <a href="<?php echo base_url(); ?>workshop/add">Add woskshop</a>
+                            <hr>
+                        </li>
+                        <li style="float:none">
+                            <a href="<?php echo base_url(); ?>workshop/add">Add Workshop</a>
                         </li>
                     </ul>
                 </div>       

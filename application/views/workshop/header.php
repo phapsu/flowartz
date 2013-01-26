@@ -17,11 +17,11 @@
 
 <div class="workshop-header">
     <div class="workshop-header-l">
-        <div>THIS TOOL IS DESIGNED TO CONNECT TEACHERS AND STUDENT AND EMPOWER THEM WITH A NUMBERS OF TOOLS TO SHARE EDUCATION OF THEIR ARTISTS PASSION</div>
+        <div>THIS TOOL IS DESIGNED TO CONNECT TEACHERS AND STUDENT AND EMPOWER THEM WITH A NUMBERS OF TOOLS TO SHARE EDUCATION OF THEIR ARTISTIC PASSION</div>
     </div>
     <div class="totalEn workshop-header-r">
         <div>
-            <div class="workshop-header-r-c"> Select a category arove or search for workshop</div>
+            <div class="workshop-header-r-c"> Select a category above or search for workshop</div>
         </div>
         <div>
             <form method="post" action="<?php echo base_url(); ?>workshop/search" id="frmSearch">

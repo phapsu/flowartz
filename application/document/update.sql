@@ -38,3 +38,5 @@ CREATE TABLE IF NOT EXISTS `fa_workshops_files` (
 ALTER TABLE `fa_workshops` ADD `enrolled_counter` TINYINT( 3 ) NOT NULL DEFAULT '0' AFTER `status` ;
 
 ALTER TABLE `fa_workshops` ADD `to_date` DATE NOT NULL AFTER `date` ;
+
+ALTER TABLE `fa_workshops` ADD `image` VARCHAR( 255 ) NOT NULL AFTER `enrolled_counter` ;
