@@ -19,12 +19,10 @@
         <div class="shop-left">
             <!-- begin of profile-picture div -->
             <div class="profile-picture" style="margin-bottom: 20px;">
-                <a href="<?php echo base_url(); ?>user/profile/edit/profile_picture">Edit</a>
-
-                <?php if ($workshop[0]->i_name) : ?>
-                    <img src="<?php echo base_url(); ?>application/files/<?php echo $workshop[0]->i_name; ?>" alt="Profile Picture" />
+                <?php if ($workshop[0]->image) : ?>
+                    <img src="<?php echo base_url(); ?>application/files/<?php echo $workshop[0]->image; ?>" alt="Workshop Picture" />
                 <?php else : ?>
-                    <img src="<?php echo base_url(); ?>template/images/artist-image.png" alt="Profile Picture" />
+                    <img src="<?php echo base_url(); ?>template/images/artist-image.png" alt="No Picture" />
                 <?php endif; ?>
             </div>
             <div style="width:90%;text-align:center; margin-bottom: 20px;">

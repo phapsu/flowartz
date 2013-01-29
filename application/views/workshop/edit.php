@@ -21,11 +21,11 @@
             <div class="shop-left">
                 <!-- begin of profile-picture div -->
                 <div class="profile-picture" style="margin-bottom: 20px;">
-                    <a href="<?php echo base_url(); ?>user/profile/edit/profile_picture">Edit</a>
-                    <?php if ($workshop[0]->i_name) : ?>
-                        <img src="<?php echo base_url(); ?>application/files/<?php echo $workshop[0]->i_name; ?>" alt="Profile Picture" />
+                    <a id="box3" href="#div_edit_image">Edit</a>
+                    <?php if ($workshop[0]->image) : ?>
+                        <img src="<?php echo base_url(); ?>application/files/<?php echo $workshop[0]->image; ?>" alt="Workshop Picture" />
                     <?php else : ?>
-                        <img src="<?php echo base_url(); ?>template/images/artist-image.png" alt="Profile Picture" />
+                        <img src="<?php echo base_url(); ?>template/images/artist-image.png" alt="No Picture" />
                     <?php endif; ?>
                 </div>
                 <div style="width:90%;text-align:center; margin-bottom: 20px;">
@@ -49,8 +49,17 @@
                     </div>
                     <div class="shop-right-right">
                         <input type="text" name="fac_workshop[time]" value="<?php echo $workshop[0]->time; ?>" id="time" placeholder=""/></br>
-                        <label>Time</label>
-                        <input type="text" name="fac_workshop[frequency]" value="<?php echo $workshop[0]->frequency; ?>" id="frequency" placeholder=""/></br>
+                        <label>Time</label>                        
+                        <select name="fac_workshop[frequency]" style="text-align: center; width: 90%;">
+                            <?php foreach ($frequency as $id => $name) {
+                                if ($id == $workshop[0]->frequency) { ?>
+                                    <option selected value="<?php echo $id; ?>"><?php echo $name; ?></option>
+
+                                <?php } else { ?>
+                                    <option value="<?php echo $id; ?>"><?php echo $name; ?></option>
+                                <?php }
+                            } ?>
+                        </select> 
                         <label>Frequency</label>
                     </div>
                     <input type="text" name="fac_workshop[location]" value="<?php echo $workshop[0]->location; ?>" id="location" placeholder="address, city, province/state, postal code" style="width:56%;"/>
@@ -120,14 +129,14 @@
                             ?>
                             <li class="artist-profile">
                                 <div class="ch_normal">
-                                    <?php if($row->profile_picture) { ?>
+                                    <?php if ($row->profile_picture) { ?>
                                         <img src="<?php echo base_url(); ?>application/files/<?php echo $row->profile_picture; ?>" alt="Profile Picture" />
-                                    <?php }else{ ?>
+                                    <?php } else { ?>
                                         <img src="<?php echo base_url(); ?>template/images/artist-image.png" alt="Profile Picture" />
                                     <?php } ?>
                                 </div>                                              
                             </li>
-                        <?php
+                            <?php
                         }
                     }
                     ?>   
@@ -140,11 +149,11 @@
                 <div style="width:60%;text-align:center;float:left">
                     <div><a style="margin: 0;" href="javascript:;;" onclick="document.complete_eventForm.submit();" class="button">Complete Event</a></div>
                     <div style="margin-top:20px">PLEASE NOTE THAT WHEN YOU CAN'T COMPLETE AN EVENT UNTIL AFTER THE DATE WAS BEING HOSTED. </div>
-                    
+
                     <div style="margin-top:20px">PLEASE ENSURE THAT YOU HAVE CONFIRMED THE ATTENDACE OF YOUR STUDENTS BEFORE COMPLETING SO THAT THIS WORKSHOP WILL BE ADDED  TO THEIR EXPERIENCE. </div>
                 </div>
                 <div class="totalEn" style="width:40%;float:right">
-                    
+
                     <div><label>Total Enrolled :</label><input type="text" readonly value="<?php echo $total_enrolled; ?>"/></div>
                     <div><label>Cost :</label><input class="currency" type="text" readonly value="<?php echo $workshop[0]->fee; ?>"/></div>
                     <div><label>Total :</label><input class="currency" type="text" readonly value="<?php echo $total; ?>"/></div>
@@ -249,6 +258,54 @@
             <!-- end form upload -->
         </div>
 
+        <!-- edit workshop image-->
+        <div class="thumbnail" id="div_edit_image" style="display: none; height: 500px; overflow: hidden; width: 700px;">
+            <!-- begin form upload -->
+            <div class="profile-right">
+                <h1>Upload File(gif|jpg|png)</h1>
+                <div class="edit-form" style="width:230px;">
+
+                    <form method="post" action="<?php echo base_url(); ?>workshop/add_image" class="fa-edit-form"  enctype="multipart/form-data" accept-charset="utf-8">
+
+                        <input type="hidden" name="fac_workshop[wid]" value="<?php echo $workshop[0]->wid; ?>">
+                        <label for="name">Image</label>
+                        <input type="file" name="image_1" id="pimg1" value="" class="galleryUpload" />
+
+                        <input type="submit" value="Save" />
+                    </form>
+                </div>
+
+                <!-- end of edit-form div -->
+                <div class="edit-list" style="width:360px; border-left: solid 1px #f0f0f0; padding-left: 10px">
+                    <h5>Uploaded Files</h5>
+                    <?php
+                    if ($workshop[0]->image):
+                        ?> 
+                        <form id="deleteImageForm" class="fa-edit-form" action="<?php echo base_url(); ?>workshop/delete_image" method="post">
+                            <input type="hidden" name="fac_workshop[wid]" value="<?php echo $workshop[0]->wid; ?>">
+                            <input type="hidden" name="fac_workshop[image_name]" value="<?php echo $workshop[0]->image; ?>">
+                            <div style="clear:both;">
+                                <ul id="fa_gallery" class="fa_gallery">
+                                    <li>
+                                        <?php if (is_file('./application/files/' . $workshop[0]->image)) : ?>
+                                            <a class="fancybox" href="<?php echo base_url(); ?>application/files/<?php echo $workshop[0]->image; ?>"><img src="<?php echo base_url(); ?>application/files/<?php echo $workshop[0]->image; ?>" alt="Workshop Picture" /></a>
+                                        <?php else : ?>
+                                            No file
+                                        <?php endif; ?> 
+                                    </li>                                   
+                                </ul>                    
+                            </div>
+                            <div style="clear:both"><input type="submit" id="delete-image-btn" value="Delete" name="delete" onclick="if(confirm('Are you sure?')) document.getElementById('deleteImageForm').submit(); else return false;"></div>
+                        </form>
+                        <?php
+                    endif;
+                    ?>                
+                </div>                    
+            </div>
+            <!-- end form upload -->
+        </div>
+
+
         <!--send message form -->
         <div class="thumbnail" id="div_sendmessage" style="display: none; height: 500px; overflow: hidden; width: 700px;">
             <form id="sendmessageForm" class="fa-edit-form" action="<?php echo base_url(); ?>workshop/send_message" method="post">
@@ -258,7 +315,7 @@
                 <input type="submit" value="Send" />
             </form>
         </div>
-        
+
         <!--form complete_eventForm  -->
         <form id="complete_eventForm" name="complete_eventForm" class="fa-edit-form" action="<?php echo base_url(); ?>workshop/complete_event" method="post">
             <input type="hidden" name="fac_workshop[wid]" value="<?php echo $workshop[0]->wid; ?>">
@@ -288,7 +345,7 @@
         });
         
         
-        $('#box1, #box2').fancybox({
+        $('#box1, #box2, #box3').fancybox({
             openEffect : 'elastic',
             openSpeed : 100,
             closeEffect : 'elastic',

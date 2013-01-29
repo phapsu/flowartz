@@ -308,19 +308,15 @@ class Workshop extends CI_Controller {
             if (!empty($postdata)) {
 
                 $this->load->model('workshop_model');
-                $workshop_id = $this->workshop_model->save($postdata);
+                $workshop_id = $this->workshop_model->save($postdata, $_FILES);
 
                 $this->error->set_message('Add Workshop Sucessfully!', 'success');
                 $this->app->redirect('/workshop/edit/' . $workshop_id);
             }
 
-            $this->load->model('user/user_model');
-            $this->load->model('user/profile_model');
-
-            $data['userinfo'] = $this->profile_model->userinfo();
-
             $data['categories'] = $this->config->item('artist_category');
             $data['skills'] = $this->config->item('artist_level');
+            $data['frequency'] = $this->config->item('artist_frequency');
 
             $this->load->view('global/header');
             $this->load->view('workshop/add', $data);
@@ -368,6 +364,7 @@ class Workshop extends CI_Controller {
 
                 $data['categories'] = $this->config->item('artist_category');
                 $data['skills'] = $this->config->item('artist_level');
+                $data['frequency'] = $this->config->item('artist_frequency');
 
                 //total fee
                 $data['total_enrolled'] = count($data['enrolled']);
@@ -411,6 +408,24 @@ class Workshop extends CI_Controller {
             $this->app->redirect('workshop/edit/' . $postdata['wid']);
         }
     }
+    
+    public function add_image() {
+
+        $session_uid = $this->session->userdata('user_id');
+        $this->app->set_title('Add Image');
+
+        if (false === $session_uid) {
+            $this->app->redirect('user/login/');
+        } else {
+
+            $postdata = $this->input->post('fac_workshop');
+            $this->load->model('workshop_model');
+
+            $this->workshop_model->add_image($postdata['wid'], $_FILES);
+
+            $this->app->redirect('workshop/edit/' . $postdata['wid']);
+        }
+    }
 
     public function delete_file() {
 
@@ -434,6 +449,28 @@ class Workshop extends CI_Controller {
         }
     }
 
+    public function delete_image() {
+
+        $session_uid = $this->session->userdata('user_id');
+        $this->app->set_title('Delete Image');
+
+        if (false === $session_uid) {
+            $this->app->redirect('user/login/');
+        } else {
+
+            $postdata = $this->input->post('fac_workshop');
+
+            if (!empty($postdata)) {
+                $this->load->model('workshop_model');
+
+                $this->workshop_model->delete_image($postdata);
+
+                $this->error->set_message('Delete Sucessfully!', 'success');
+            }
+            $this->app->redirect('workshop/edit/' . $postdata['wid']);
+        }
+    }
+    
     public function send_message() {
 
         $session_uid = $this->session->userdata('user_id');

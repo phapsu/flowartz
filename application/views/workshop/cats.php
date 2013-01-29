@@ -22,10 +22,13 @@
                         ?>              
                         <li class="artist-profile artist-border" style="padding:5px;margin: 0 8px 20px;">
                             <div class="ch_normal">
-                                <?php if (empty($w->i_name)) { ?>
-                                    <img src="<?php echo base_url(); ?>template/images/artist-image.png" alt="Profile Picture" class="showContenthover"/>
+                                <p style="padding-bottom:10px;">
+                                    <a class="thumb-link" href="<?php echo base_url(); ?>workshop/view/<?php echo $w->wid; ?>"><?php echo $w->name; ?></a>
+                                </p>
+                                <?php if (empty($w->image)) { ?>
+                                    <img src="<?php echo base_url(); ?>template/images/artist-image.png" alt="No Picture" class="showContenthover"/>
                                 <?php } else { ?>
-                                    <img src="<?php echo base_url(); ?>application/files/<?php echo $w->i_name; ?>" alt="Profile Picture" class="showContenthover"/>
+                                    <img src="<?php echo base_url(); ?>application/files/<?php echo $w->image; ?>" alt="Workshop Picture" class="showContenthover"/>
                                 <?php } ?> 
                                 <div class="contenthover">
                                     <div style="width:67%;float:left;text-align:center">

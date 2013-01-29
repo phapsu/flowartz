@@ -229,3 +229,8 @@ border: 0 none;
 .workshop-center-box-c-t{
     width:20px;font-weight: bold;margin-top: 109px;
 }
+a.thumb-link {
+    color: #F1592A;
+    font-size: 0.875em;
+    font-weight: normal;
+}

@@ -50,4 +50,13 @@
         $config['workshop_max_files'] = 5;
         
         $config['workshop_surcharge'] = 7; //%
+        
+        //Art frequency
+        $config['artist_frequency'] = array(
+                'Daily'=>'Daily',
+                'M-F'=>'M-F',
+                'Weekly'=>'Weekly',
+                'Monthly'=>'Monthly',
+                'Custom'=>'Custom'
+            ); 
 ?>
