@@ -25,52 +25,54 @@
                 </div>
                 <!-- end of profile-picture div -->
 
+                <label>Art Catergory</label>
                 <select name="fac_workshop[cat_id]">
                     <?php foreach ($categories as $id => $name) { ?>
                         <option value="<?php echo $id; ?>"><?php echo $name; ?></option>
                     <?php } ?>
                 </select> 
-                <label>Art Catergory</label>
-                <input type="text" name="fac_workshop[tag]" id="tag" placeholder=""/>
                 <label>Art Tags</label>
+                <input type="text" name="fac_workshop[tag]" id="tag" placeholder=""/>
+                <label>Skill Level</label>
                 <select name="fac_workshop[skill_level]">
                     <?php foreach ($skills as $id => $name) { ?>
                         <option value="<?php echo $id; ?>"><?php echo $name; ?></option>
                     <?php } ?>
                 </select>   
-                <label>Skill Level</label>
+                <label>Spot Available</label>
                 <input type="text" name="fac_workshop[spot_available]" id="spot_available" placeholder=""/>
-                <label>Spot Available</label>            
-                <input type="text" name="fac_workshop[tools_required]" id="tools_required" placeholder=""/>
                 <label>Tools Required</label> 
-                <input type="text" name="fac_workshop[fee]" class="currency" id="fee" />
+                <input type="text" name="fac_workshop[tools_required]" id="tools_required" placeholder=""/>
                 <label>Cost</label>
+                <input type="text" name="fac_workshop[fee]" class="currency" id="fee" />
             </div>
             <div class="shop-right">
-                <input type="text" name="fac_workshop[name]" id="name" placeholder="" /></br>
                 <label>Workshop Name</label>
-                <input type="text" name="fac_workshop[teacher_name]" id="teacher_name" placeholder="" /></br>
+                <input type="text" name="fac_workshop[name]" id="name" placeholder="" /></br>
                 <label>Teacher Name</label>
+                <input type="text" name="fac_workshop[teacher_name]" id="teacher_name" placeholder="" /></br>
+                
                 <div>
                     <div class="shop-right-left">
-                        <input type="text" name="fac_workshop[date]" id="date" placeholder=""/></br>
                         <label>Date</label>
-                        <input type="text" name="fac_workshop[length]" id="length" placeholder=""/></br>
+                        <input type="text" name="fac_workshop[date]" id="date" placeholder=""/></br>
                         <label>Length</label>
+                        <input type="text" name="fac_workshop[length]" id="length" placeholder=""/></br>
                     </div>
                     <div class="shop-right-right">
-                        <input type="text" name="fac_workshop[time]" id="time" placeholder=""/></br>
                         <label>Time</label>
-                        <select name="fac_workshop[frequency]" style="text-align: center; width: 90%;">
+                        <input type="text" name="fac_workshop[time]" id="time" placeholder=""/></br>
+                        <label>Frequency</label>
+                        <select name="fac_workshop[frequency_custom]" style="text-align: center; width: 90%;" id="frequency_custom">
                             <?php foreach ($frequency as $id => $name) { ?>
                                 <option value="<?php echo $id; ?>"><?php echo $name; ?></option>
                             <?php } ?>
-                        </select>                         
-                        <label>Frequency</label>
+                        </select>         
+                        <input type="text" name="fac_workshop[frequency]" id="frequency" placeholder="input your frequency" style="display: none;"/>
                     </div>
+                    <label>Location</label>
                     <input type="text" name="fac_workshop[location]" id="location" placeholder="address, city, province/state, postal code" style="width:56%;"/>
                     <input type="text" id="btn_googlemap" placeholder="Google Map" style="width: 11%; cursor: pointer" /></br>
-                    <label>Location</label>
                 </div>
                 </br>
                 <div style="text-align: center;">
@@ -132,6 +134,21 @@
             closeSpeed : 100,
             padding : 0
         }); 
+        
+        $('#frequency').val($('#frequency_custom').val());
+        
+        $('#frequency_custom').change(function() {
+            val = $(this).val();
+            
+            if(val=='Custom'){
+                $('#frequency').val('');
+                $('#frequency').show();
+            } 
+            else{
+                $('#frequency').val(val);
+                $('#frequency').hide();
+            } 
+        });
         
     });
 </script>

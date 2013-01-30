@@ -36,38 +36,36 @@
                 <!-- end of profile-picture div -->                
             </div>
             <div class="shop-right">
-                <input type="text" name="fac_workshop[name]" value="<?php echo $workshop[0]->name; ?>" id="name" placeholder="" /></br>
                 <label>Workshop Name</label>
-                <input type="text" name="fac_workshop[teacher_name]" value="<?php echo $workshop[0]->teacher_name; ?>" id="teacher_name" placeholder="" /></br>
+                <input type="text" name="fac_workshop[name]" value="<?php echo $workshop[0]->name; ?>" id="name" placeholder="" /></br>
                 <label>Teacher Name</label>
+                <input type="text" name="fac_workshop[teacher_name]" value="<?php echo $workshop[0]->teacher_name; ?>" id="teacher_name" placeholder="" /></br>
+
                 <div>
                     <div class="shop-right-left">
-                        <input type="text" name="fac_workshop[date]" value="<?php echo date("m/d/Y", strtotime($workshop[0]->date)); ?>" id="date" placeholder=""/></br>
                         <label>Date</label>
-                        <input type="text" name="fac_workshop[length]" value="<?php echo $workshop[0]->length; ?>" id="length" placeholder=""/></br>
+                        <input type="text" name="fac_workshop[date]" value="<?php echo date("m/d/Y", strtotime($workshop[0]->date)); ?>" id="date" placeholder=""/></br>
                         <label>Length</label>
+                        <input type="text" name="fac_workshop[length]" value="<?php echo $workshop[0]->length; ?>" id="length" placeholder=""/></br>
                     </div>
                     <div class="shop-right-right">
+                        <label>Time</label>
                         <input type="text" name="fac_workshop[time]" value="<?php echo $workshop[0]->time; ?>" id="time" placeholder=""/></br>
-                        <label>Time</label>                        
-                        <select name="fac_workshop[frequency]" style="text-align: center; width: 90%;">
-                            <?php foreach ($frequency as $id => $name) {
-                                if ($id == $workshop[0]->frequency) { ?>
-                                    <option selected value="<?php echo $id; ?>"><?php echo $name; ?></option>
-
-                                <?php } else { ?>
-                                    <option value="<?php echo $id; ?>"><?php echo $name; ?></option>
-                                <?php }
-                            } ?>
-                        </select> 
-                        <label>Frequency</label>
+                        <label>Frequency</label>                   
+                        <select name="fac_workshop[frequency_custom]" id="frequency_custom" style="text-align: center; width: 90%;">
+                            <option selected value="<?php echo $workshop[0]->frequency; ?>"><?php echo $workshop[0]->frequency; ?></option>    
+                            <?php foreach ($frequency as $id => $name) { ?>
+                                <option value="<?php echo $id; ?>"><?php echo $name; ?></option>
+                            <?php } ?>
+                        </select>
+                        <input type="text" name="fac_workshop[frequency]" value="<?php echo $workshop[0]->frequency; ?>" id="frequency" placeholder="input your frequency" style="display: none;"/>
                     </div>
+                    <label>Location</label>
                     <input type="text" name="fac_workshop[location]" value="<?php echo $workshop[0]->location; ?>" id="location" placeholder="address, city, province/state, postal code" style="width:56%;"/>
                     <input type="text" id="btn_googlemap" placeholder="Google Map" style="width: 11%; cursor: pointer" /></br>
-                    <label>Location</label>
                 </div>
                 </br>
-                <div style="position: absolute;right: 0;top: 0;width: 35%;">
+                <div style="position: absolute;right: -15px;top: 0;width: 30%;">
                     <a class="button turquoise gradient" href="javascript:;;" onclick="document.getElementById('frmEdit').submit();" style="float: right;margin: 0;text-align: center;width: 50%;margin-bottom:25px">Edit</a>
                     <a class="button turquoise gradient" href="javascript:;;" onclick="document.getElementById('frmEdit').reset();" style="float: right;margin: 0;text-align: center;width: 50%;margin-bottom:25px">Cancel Event</a>
                     <a class="button" id="box1" href="#div_addfile" style="float: right;margin: 0;text-align: center;width: 50%;margin-bottom:25px">Add File</a>
@@ -76,6 +74,7 @@
             </div>
             <div style="border-top: 1px solid #bbb;display: inline-block;padding: 20px 0;">
                 <div class="shop-left">
+                    <label>Art Catergory</label>
                     <select name="fac_workshop[cat_id]">
                         <?php
                         foreach ($categories as $id => $name) {
@@ -89,9 +88,9 @@
                             <?php }
                         } ?>
                     </select> 
-                    <label>Art Catergory</label>
-                    <input type="text" name="fac_workshop[tag]" value="<?php echo $workshop[0]->tag; ?>" id="tag" placeholder=""/>
                     <label>Art Tags</label>
+                    <input type="text" name="fac_workshop[tag]" value="<?php echo $workshop[0]->tag; ?>" id="tag" placeholder=""/>
+                    <label>Skill Level</label>
                     <select name="fac_workshop[skill_level]">
                         <?php foreach ($skills as $id => $name) {
                             if ($id == $workshop[0]->skill_level) { ?>
@@ -102,13 +101,12 @@
                             <?php }
                         } ?>
                     </select> 
-                    <label>Skill Level</label>
+                    <label>Spot Available</label>
                     <input type="text" name="fac_workshop[spot_available]" value="<?php echo $workshop[0]->spot_available; ?>" id="spot_available" placeholder=""/>
-                    <label>Spot Available</label>            
+                    <label>Tools Required</label>            
                     <input type="text" name="fac_workshop[tools_required]" value="<?php echo $workshop[0]->tools_required; ?>" id="tools_required" placeholder=""/>
-                    <label>Tools Required</label> 
+                    <label>Cost</label> 
                     <input type="text" name="fac_workshop[fee]" value="<?php echo $workshop[0]->fee; ?>" class="currency" id="fee" />
-                    <label>Cost</label>
                 </div>
                 <div class="shop-right" style="margin-left: 20px;">
                     <div style="text-align: center;">
@@ -352,6 +350,21 @@
             closeSpeed : 100,
             padding : 0
         }); 
+        
+        $('#frequency').val($('#frequency_custom').val());
+        
+        $('#frequency_custom').change(function() {
+            val = $(this).val();
+            
+            if(val=='Custom'){
+                $('#frequency').val('');
+                $('#frequency').show();
+            } 
+            else{
+                $('#frequency').val(val);
+                $('#frequency').hide();
+            } 
+        });
         
     });
     

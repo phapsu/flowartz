@@ -1,7 +1,7 @@
 .shop-left label, .shop-right label{
     display: block;
     margin: 10px;
-    position: relative;
+/*    position: relative;*/
     text-align: center;
 }
 input, textarea, select{

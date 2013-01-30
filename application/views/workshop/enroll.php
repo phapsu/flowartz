@@ -34,26 +34,27 @@
             <!-- end of profile-picture div -->                
         </div>
         <div class="shop-right">
-            <input type="text" readonly name="fac_workshop[name]" value="<?php echo $workshop[0]->name; ?>" id="name" placeholder="" /></br>
             <label>Workshop Name</label>
-            <input type="text" readonly name="fac_workshop[teacher_name]" value="<?php echo $workshop[0]->teacher_name; ?>" id="teacher_name" placeholder="" /></br>
+            <input type="text" readonly name="fac_workshop[name]" value="<?php echo $workshop[0]->name; ?>" id="name" placeholder="" /></br>
             <label>Teacher Name</label>
+            <input type="text" readonly name="fac_workshop[teacher_name]" value="<?php echo $workshop[0]->teacher_name; ?>" id="teacher_name" placeholder="" /></br>
+            
             <div>
                 <div class="shop-right-left">
-                    <input readonly type="text" name="fac_workshop[date]" value="<?php echo date("m/d/Y", strtotime($workshop[0]->date)); ?>" id="date" placeholder=""/></br>
                     <label>Date</label>
-                    <input readonly type="text" name="fac_workshop[length]" value="<?php echo $workshop[0]->length; ?>" id="length" placeholder=""/></br>
+                    <input readonly type="text" name="fac_workshop[date]" value="<?php echo date("m/d/Y", strtotime($workshop[0]->date)); ?>" id="date" placeholder=""/></br>
                     <label>Length</label>
+                    <input readonly type="text" name="fac_workshop[length]" value="<?php echo $workshop[0]->length; ?>" id="length" placeholder=""/></br>
                 </div>
                 <div class="shop-right-right">
-                    <input readonly type="text" name="fac_workshop[time]" value="<?php echo $workshop[0]->time; ?>" id="time" placeholder=""/></br>
                     <label>Time</label>
-                    <input readonly type="text" name="fac_workshop[frequency]" value="<?php echo $workshop[0]->frequency; ?>" id="frequency" placeholder=""/></br>
+                    <input readonly type="text" name="fac_workshop[time]" value="<?php echo $workshop[0]->time; ?>" id="time" placeholder=""/></br>
                     <label>Frequency</label>
+                    <input readonly type="text" name="fac_workshop[frequency]" value="<?php echo $workshop[0]->frequency; ?>" id="frequency" placeholder=""/></br>
                 </div>
+                <label>Location</label>
                 <input readonly type="text" name="fac_workshop[location]" value="<?php echo $workshop[0]->location; ?>" id="location" placeholder="address, city, province/state, postal code" style="width:56%;"/>
                 <input type="text" id="btn_googlemap" placeholder="Google Map" style="width: 11%; cursor: pointer" /></br>
-                <label>Location</label>
             </div>
             </br>
             <div style="position: absolute;right: 0;top: 0;width: 35%;">
@@ -64,18 +65,18 @@
         </div>
         <div style="border-top: 1px solid #bbb;display: inline-block;padding: 20px 0;">
             <div class="shop-left">                    
-                <input readonly type="text" name="fac_workshop[cat_id]" value="<?php echo $categories[$workshop[0]->cat_id]; ?>" id="cat_id" placeholder=""/>
                 <label>Art Catergory</label>
-                <input readonly type="text" name="fac_workshop[tag]" value="<?php echo $workshop[0]->tag; ?>" id="tag" placeholder=""/>
+                <input readonly type="text" name="fac_workshop[cat_id]" value="<?php echo $categories[$workshop[0]->cat_id]; ?>" id="cat_id" placeholder=""/>
                 <label>Art Tags</label>
-                <input readonly type="text" name="fac_workshop[skill_level]" value="<?php echo $skills[$workshop[0]->skill_level]; ?>" id="skill_level" placeholder=""/>
+                <input readonly type="text" name="fac_workshop[tag]" value="<?php echo $workshop[0]->tag; ?>" id="tag" placeholder=""/>
                 <label>Skill Level</label>
+                <input readonly type="text" name="fac_workshop[skill_level]" value="<?php echo $skills[$workshop[0]->skill_level]; ?>" id="skill_level" placeholder=""/>
+                <label>Spot Available</label>
                 <input readonly type="text" name="fac_workshop[spot_available]" value="<?php echo $workshop[0]->spot_available; ?>" id="spot_available" placeholder=""/>
-                <label>Spot Available</label>            
+                <label>Tools Required</label>
                 <input readonly type="text" name="fac_workshop[tools_required]" value="<?php echo $workshop[0]->tools_required; ?>" id="tools_required" placeholder=""/>
-                <label>Tools Required</label> 
-                <input readonly type="text" name="fac_workshop[fee]" value="<?php echo $workshop[0]->fee; ?>" class="currency" id="fee" />
                 <label>Cost</label>
+                <input readonly type="text" name="fac_workshop[fee]" value="<?php echo $workshop[0]->fee; ?>" class="currency" id="fee" />
             </div>
             <div class="shop-right" style="margin-left: 20px;">
                 <div style="text-align: center;">
