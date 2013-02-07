@@ -1,5 +1,7 @@
-<?php if (!defined('BASEPATH'))
-    exit('No direct script access allowed'); ?>
+<?php
+if (!defined('BASEPATH'))
+    exit('No direct script access allowed');
+?>
 
 <!--Jquery format currency-->
 <script type="text/javascript" src="<?php echo base_url(); ?>template/js/formatCurrency/jquery.formatCurrency-1.4.0.pack.js"></script>
@@ -24,67 +26,108 @@
                     <img src="<?php echo base_url(); ?>template/images/artist-image.png" alt="No Picture" />
                 </div>
                 <!-- end of profile-picture div -->
-
-                <label>Art Catergory</label>
-                <select name="fac_workshop[cat_id]">
-                    <?php foreach ($categories as $id => $name) { ?>
-                        <option value="<?php echo $id; ?>"><?php echo $name; ?></option>
-                    <?php } ?>
-                </select> 
-                <label>Art Tags</label>
-                <input type="text" name="fac_workshop[tag]" id="tag" placeholder=""/>
-                <label>Skill Level</label>
-                <select name="fac_workshop[skill_level]">
-                    <?php foreach ($skills as $id => $name) { ?>
-                        <option value="<?php echo $id; ?>"><?php echo $name; ?></option>
-                    <?php } ?>
-                </select>   
-                <label>Spot Available</label>
-                <input type="text" name="fac_workshop[spot_available]" id="spot_available" placeholder=""/>
-                <label>Tools Required</label> 
-                <input type="text" name="fac_workshop[tools_required]" id="tools_required" placeholder=""/>
-                <label>Cost</label>
-                <input type="text" name="fac_workshop[fee]" class="currency" id="fee" />
+                <div class="row-fluid">                
+                    <select name="fac_workshop[cat_id]">
+                        <option value="">Select Art Catergory</option>
+                        <?php foreach ($categories as $id => $name) { ?>
+                            <option value="<?php echo $id; ?>"><?php echo $name; ?></option>
+                        <?php } ?>
+                    </select> 
+                </div>
+                <div class="row-fluid">
+                    <input type="text" name="fac_workshop[tag]" id="tag" placeholder="Art Tags"/>
+                </div>
+                <div class="row-fluid">                
+                    <select name="fac_workshop[skill_level]">
+                        <option value="">Select Skill Level</option>
+                        <?php foreach ($skills as $id => $name) { ?>
+                            <option value="<?php echo $id; ?>"><?php echo $name; ?></option>
+                        <?php } ?>
+                    </select>   
+                </div>
+                <div class="row-fluid">   
+                    <input type="text" name="fac_workshop[spot_available]" id="spot_available" placeholder="Spot Available"/>
+                </div>
+                <div class="row-fluid">   
+                    <input type="text" name="fac_workshop[tools_required]" id="tools_required" placeholder="Tools Required"/>
+                </div>
+                <div class="row-fluid">   
+                    <input type="text" name="fac_workshop[fee]" class="currency" id="fee" placeholder="Cost"/>
+                </div>
             </div>
             <div class="shop-right">
-                <label>Workshop Name</label>
-                <input type="text" name="fac_workshop[name]" id="name" placeholder="" /></br>
-                <label>Teacher Name</label>
-                <input type="text" name="fac_workshop[teacher_name]" id="teacher_name" placeholder="" /></br>
-                
+                <div class="row-fluid">
+                    <input type="text" name="fac_workshop[name]" id="name" placeholder="Workshop Name" />
+                </div>
+                <div class="row-fluid">
+                    <input type="text" name="fac_workshop[teacher_name]" id="teacher_name" placeholder="Teacher Name" />
+                </div>
                 <div>
                     <div class="shop-right-left">
-                        <label>Date</label>
-                        <input type="text" name="fac_workshop[date]" id="date" placeholder=""/></br>
-                        <label>Length</label>
-                        <input type="text" name="fac_workshop[length]" id="length" placeholder=""/></br>
+                        <div class="row-fluid">
+                            <input type="text" name="fac_workshop[date]" id="date" placeholder="Date"/>
+                        </div>
+                        <div class="row-fluid">                            
+                            <select name="fac_workshop[length]" style="width: 90%;" id="length">
+                                <option value="">Select Your Length</option>
+                                <?php foreach ($length as $id => $name) { ?>
+                                    <option value="<?php echo $id; ?>"><?php echo $name; ?></option>
+                                <?php } ?>
+                            </select> 
+                        </div>
                     </div>
                     <div class="shop-right-right">
-                        <label>Time</label>
-                        <input type="text" name="fac_workshop[time]" id="time" placeholder=""/></br>
-                        <label>Frequency</label>
-                        <select name="fac_workshop[frequency_custom]" style="text-align: center; width: 90%;" id="frequency_custom">
-                            <?php foreach ($frequency as $id => $name) { ?>
-                                <option value="<?php echo $id; ?>"><?php echo $name; ?></option>
-                            <?php } ?>
-                        </select>         
-                        <input type="text" name="fac_workshop[frequency]" id="frequency" placeholder="input your frequency" style="display: none;"/>
+                        <div class="row-fluid">
+                            <input type="text" name="fac_workshop[time]" id="time" placeholder="Start Time"/>
+                        </div>
+                        <div class="row-fluid">
+                            <select name="fac_workshop[frequency]" style="width: 90%;" id="frequency">
+                                <option value="">Select Your Frequency</option>
+                                <?php foreach ($frequency as $id => $name) { ?>
+                                    <option value="<?php echo $id; ?>"><?php echo $name; ?></option>
+                                <?php } ?>
+                            </select>         
+                            <div class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" id="div-ui-datepicker-frequency" style="z-index: 1; display: none; position: absolute;">
+                                <div class="ui-datepicker-header ui-widget-header ui-helper-clearfix ui-corner-all">
+                                    <div class="ui-datepicker-title"><span class="ui-datepicker-month">Choose Custom Frequency</span>                                    </div>
+                                </div>
+                                <table class="ui-datepicker-calendar">
+                                    <thead>
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>                                        
+                                        <tr>
+                                            <td><a href="javascript:;;" onclick="onchoose(this)" class="ui-state-default">Su</a>                                            </td>
+                                            <td><a href="javascript:;;" onclick="onchoose(this)" class="ui-state-default">Mo</a>                                            </td>
+                                            <td><a href="javascript:;;" onclick="onchoose(this)" class="ui-state-default">Tu</a></td>
+                                            <td><a href="javascript:;;" onclick="onchoose(this)" class="ui-state-default">We</a></td>
+                                            <td><a href="javascript:;;" onclick="onchoose(this)" class="ui-state-default">Th</a></td>
+                                            <td><a href="javascript:;;" onclick="onchoose(this)" class="ui-state-default">Fr</a></td>
+                                            <td><a href="javascript:;;" onclick="onchoose(this)" class="ui-state-default">Sa</a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>                            
+                        </div>
                     </div>
-                    <label>Location</label>
-                    <input type="text" name="fac_workshop[location]" id="location" placeholder="address, city, province/state, postal code" style="width:56%;"/>
-                    <input type="text" id="btn_googlemap" placeholder="Google Map" style="width: 11%; cursor: pointer" /></br>
-                </div>
-                </br>
-                <div style="text-align: center;">
-                    <label style="width: 100%;float:left">Workshop Description</label></br>
-                    <textarea name="fac_workshop[description]" id="description" style="width: 100%;" rows="12" placeholder=""></textarea>
+                    <div class="row-fluid">
+                        <input type="text" name="fac_workshop[location]" id="location" placeholder="Location(address, city, province/state, postal code)" style="width:57%;"/>
+                        <input type="text" id="btn_googlemap" placeholder="Google Map" style="width: 11%; cursor: pointer" />
+                    </div>
+                </div>                
+                <div>    
+                    <div class="row-fluid">
+                        <textarea name="fac_workshop[description]" id="description" style="width: 100%; height: 257px;" rows="12" placeholder="Workshop Description"></textarea>
+                    </div>
                 </div>
                 <div style="position: absolute;right: 0;top: 0;width: 35%;">
                     <a class="button turquoise gradient" onclick="document.getElementById('frmAdd').submit();" href="#" style="float: right;margin: 0;text-align: center;width: 40%;margin-bottom:25px">Confirm</a>
                     <a class="button" href="#" onclick="document.getElementById('frmAdd').reset();" style="float: right;margin: 0;text-align: center;width: 40%;">Cancel</a>                
                 </div>
             </div>
-            
+
             <!-- add file form -->
             <div class="thumbnail" id="div_addfile" style="display: none; height: 500px; overflow: hidden; width: 700px;">
                 <!-- begin form upload -->
@@ -99,56 +142,122 @@
             </div>
         </form>    
     </div>   
-    
+
     <!-- end of content wrapper div -->
 </div>
 
 <script type="text/javascript" src="<?php echo base_url(); ?>template/js/jquery.fancybox.js?v=2.1.0"></script>
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>template/css/jquery.fancybox.css?v=2.1.0" media="screen" />
 <script>
-    $(function() {
-        $( "#date" ).datepicker();
-        $( "#time" ).timepicker();
-        
-        $('.currency').blur(function()
-        {
-            $('.currency').formatCurrency();
-        });
-        
-        $('#btn_googlemap').click(function(){
-            var address = $('#location').val();
-            var content =  $.base64.encode(address);
-           
-            var a = document.createElement('a');
-            a.href='<?php echo base_url(); ?>template/google_map.php?address='+content;
-            a.target = '_blank';
-            document.body.appendChild(a);
-            a.click();           
-        });
-        
-        
-        $('#box1, #box2').fancybox({
-            openEffect : 'elastic',
-            openSpeed : 100,
-            closeEffect : 'elastic',
-            closeSpeed : 100,
-            padding : 0
-        }); 
-        
-        $('#frequency').val($('#frequency_custom').val());
-        
-        $('#frequency_custom').change(function() {
-            val = $(this).val();
-            
-            if(val=='Custom'){
-                $('#frequency').val('');
-                $('#frequency').show();
-            } 
-            else{
-                $('#frequency').val(val);
-                $('#frequency').hide();
-            } 
-        });
-        
+$(function() {
+    $("#date").datepicker();
+    $("#time").timepicker();
+
+    $('.currency').blur(function()
+    {
+        $('.currency').formatCurrency();
     });
+
+    $('#btn_googlemap').click(function() {
+        var address = $('#location').val();
+        var content = $.base64.encode(address);
+
+        var a = document.createElement('a');
+        a.href = '<?php echo base_url(); ?>template/google_map.php?address=' + content;
+        a.target = '_blank';
+        document.body.appendChild(a);
+        a.click();
+    });
+
+
+    $('#box1, #box2').fancybox({
+        openEffect: 'elastic',
+        openSpeed: 100,
+        closeEffect: 'elastic',
+        closeSpeed: 100,
+        padding: 0
+    });
+
+    $('#frequency').change(function() {
+        val = $(this).val();
+
+        if (val == 'Custom') {
+            $('#div-ui-datepicker-frequency').show();
+
+            $("#div-ui-datepicker-frequency").mouseout(function() {
+                $(document).bind("click", function() {
+                    $(document).unbind("click");
+                    $("#div-ui-datepicker-frequency").fadeOut();
+                });
+            }).mouseover(function() {
+                $(document).unbind("click");
+
+
+            });
+
+
+        }
+        else {
+            $(document).unbind("click");
+            $('#div-ui-datepicker-frequency').hide();
+        }
+    });
+
+
+
+    $("#fee").keydown(function(event) {
+        // Allow: backspace, delete, tab, escape, and enter
+        if (event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 27 || event.keyCode == 13 ||
+                // Allow: Ctrl+A
+                        (event.keyCode == 65 && event.ctrlKey === true) ||
+                        // Allow: home, end, left, right
+                                (event.keyCode >= 35 && event.keyCode <= 39)) {
+                    // let it happen, don't do anything
+                    return;
+                }
+                else {
+                    // Ensure that it is a number and stop the keypress
+                    if (event.shiftKey || (event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105)) {
+                        event.preventDefault();
+                    }
+                }
+            });
+
+});
+
+function onchoose($this) {
+    var class_value = $($this).attr('class');
+    var old_value;
+    var new_value;
+    if (class_value == 'ui-state-default') {
+        $($this).removeAttr('class');
+        $($this).attr('class', 'ui-state-default ui-state-highlight');
+
+        old_value = $("#frequency").val();
+        new_value;
+        if (old_value == "Custom") {
+
+            $("#frequency option[value='Custom']").html($($this).html() + "; ");
+            $("#frequency option[value='Custom']").val($($this).html() + "; ");
+        }
+        else {
+            new_value = old_value + $($this).html() + "; ";
+
+            $("#frequency option[value='" + old_value + "']").html(new_value);
+            $("#frequency option[value='" + old_value + "']").val(new_value);
+        }
+    }
+    else {
+        $($this).removeAttr('class');
+        $($this).attr('class', 'ui-state-default');
+
+        old_value = $("#frequency").val();
+        new_value = old_value.replace($($this).html() + "; ", "");
+        if (new_value == "")
+            new_value = "Custom";
+
+        $("#frequency option[value='" + old_value + "']").html(new_value);
+        $("#frequency option[value='" + old_value + "']").val(new_value);
+    }
+}
 </script>

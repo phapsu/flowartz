@@ -532,9 +532,10 @@ class Workshop_model extends CI_Model {
         return true;
     }
 
-    public function add_image($workshop_id, $gallery) {
+    public function update_image($postdata, $gallery) {
 
-        $config['upload_path'] = './application/files/';
+        $path = './application/files/';
+        $config['upload_path'] = $path;
         $config['allowed_types'] = 'gif|jpg|png';
         //$config['max_size'] = '800';default 2MB
         $config['max_width'] = '1024';
@@ -572,8 +573,13 @@ class Workshop_model extends CI_Model {
                 'image' => $image_name
             );
 
-            $this->db->where('wid', $workshop_id);
+            $this->db->where('wid', $postdata['wid']);
             $this->db->update('fa_workshops', $data_update);
+            
+            //delete file
+            if(!empty($postdata['image'])){
+                @unlink($path . $postdata['image']);
+            }
         }
 
         if (!empty($error)) {

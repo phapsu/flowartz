@@ -40,5 +40,6 @@ ALTER TABLE `fa_workshops` ADD `enrolled_counter` TINYINT( 3 ) NOT NULL DEFAULT 
 ALTER TABLE `fa_workshops` ADD `to_date` DATE NOT NULL AFTER `date` ;
 
 ALTER TABLE `fa_workshops` ADD `image` VARCHAR( 255 ) NOT NULL AFTER `enrolled_counter` ;
-ALTER TABLE `fa_workshops` CHANGE `frequency` `frequency` VARCHAR( 10 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ;
-ALTER TABLE `fa_workshops` CHANGE `length` `length` VARCHAR( 10 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ;
+ALTER TABLE `fa_workshops` CHANGE `frequency` `frequency` VARCHAR( 50 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL 
+
+ALTER TABLE `fa_workshops` CHANGE `length` `length` VARCHAR( 50 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL 

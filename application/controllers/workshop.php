@@ -317,6 +317,7 @@ class Workshop extends CI_Controller {
             $data['categories'] = $this->config->item('artist_category');
             $data['skills'] = $this->config->item('artist_level');
             $data['frequency'] = $this->config->item('artist_frequency');
+            $data['length'] = $this->config->item('artist_length');
 
             $this->load->view('global/header');
             $this->load->view('workshop/add', $data);
@@ -342,9 +343,9 @@ class Workshop extends CI_Controller {
                 if (!empty($postdata)) {
                     $this->workshop_model->update($postdata);
 
-                    $this->error->set_message('Update Workshop Sucessfully!', 'success');
+                    $this->error->set_message('Workshop updated successfully', 'success');
 
-                    $this->app->redirect('user/profile');
+                    $this->app->redirect('workshop/edit/'.$id);
                 }
 
                 $data['workshop'] = $this->workshop_model->get_workshop($id);
@@ -365,7 +366,8 @@ class Workshop extends CI_Controller {
                 $data['categories'] = $this->config->item('artist_category');
                 $data['skills'] = $this->config->item('artist_level');
                 $data['frequency'] = $this->config->item('artist_frequency');
-
+                $data['length'] = $this->config->item('artist_length');
+                
                 //total fee
                 $data['total_enrolled'] = count($data['enrolled']);
                 $fee = explode("$", $data['workshop'][0]->fee);
@@ -409,10 +411,10 @@ class Workshop extends CI_Controller {
         }
     }
     
-    public function add_image() {
+    public function update_image() {
 
         $session_uid = $this->session->userdata('user_id');
-        $this->app->set_title('Add Image');
+        //$this->app->set_title('Update_image Image');
 
         if (false === $session_uid) {
             $this->app->redirect('user/login/');
@@ -421,7 +423,7 @@ class Workshop extends CI_Controller {
             $postdata = $this->input->post('fac_workshop');
             $this->load->model('workshop_model');
 
-            $this->workshop_model->add_image($postdata['wid'], $_FILES);
+            $this->workshop_model->update_image($postdata, $_FILES);
 
             $this->app->redirect('workshop/edit/' . $postdata['wid']);
         }
@@ -659,11 +661,15 @@ class Workshop extends CI_Controller {
             $this->app->set_title('View Workshop');
 
             $this->load->model('workshop_model');
+            $id = intval($id);
             $data['workshop'] = $this->workshop_model->get_workshop($id);
 
             $data['categories'] = $this->config->item('artist_category');
             $data['skills'] = $this->config->item('artist_level');
-
+            $data['enrolled'] = $this->workshop_model->get_student_enrolled($id);
+            //add file               
+            $data['files'] = $this->workshop_model->get_files($id);
+            
             $data['user_id'] = $this->session->userdata('user_id');
 
             $this->load->view('global/header');

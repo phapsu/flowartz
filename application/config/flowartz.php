@@ -59,4 +59,21 @@
                 'Monthly'=>'Monthly',
                 'Custom'=>'Custom'
             ); 
+        
+        //Art length
+        $config['artist_length'] = array(
+                '30 mins'=>'30 mins',
+                '60 mins'=>'60 mins',
+                '1 hrs'=>'1 hrs',
+                '1 hrs 30 mins'=>'1 hrs 30 mins',
+                '2 hrs'=>'2 hrs',
+                '2 hrs 30 mins'=>'2 hrs 30 mins',
+                '3 hrs'=>'3 hrs',
+                '3 hrs 30 mins'=>'3 hrs 30 mins',
+                '4 hrs'=>'4 hrs',
+                '4 hrs 30 mins'=>'4 hrs 30 mins',
+                '5 hrs'=>'5 hrs',
+                '5 hrs 30 mins'=>'5 hrs 30 mins',
+                '6 hrs'=>'6 hrs',
+            ); 
 ?>

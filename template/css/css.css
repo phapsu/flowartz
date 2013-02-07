@@ -22,8 +22,7 @@ input, textarea, select{
     width: 84%;
 }
 .shop-left select{
-    width: 90%;
-    text-align: center;
+    width: 90%;    
 }
 .shop-right input, .shop-right label{
     width: 70%;
@@ -136,4 +135,7 @@ ul.artist-group.fea-group.note-group li.artist-profile {
 }
 .artist-border img{
     border: 0 none;
+}
+.row-fluid{
+    padding-bottom: 15px;
 }

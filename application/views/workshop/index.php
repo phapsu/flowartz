@@ -13,8 +13,8 @@
             <span class="workshop-center-a-all" ><a href="<?php echo base_url(); ?>workshop/all" style="color: #7F7F7F;">or check out some of these workshop</a></span>
 
             <!-- begin box featured -->
-            <ul class="artist-group fea-group workshop-center-box-container" style="border-top: 1px solid #CCCCCC;">
-                <li class="artist-profile rotate" style="width:20px;font-weight: bold;margin-top: 109px;">FEATURED</li> 
+            <ul class="artist-group fea-group workshop-center-box-container" style="border-top: 1px solid #CCCCCC; height: 250px;">
+                <li class="artist-profile rotate" style="width:20px;font-weight: bold;margin-top: 135px;">FEATURED</li> 
                 <?php if ($workshop_featured) {
                     foreach ($workshop_featured as $id => $w) { ?>                
                         <li class="artist-profile artist-border" style="padding:5px;margin: 0 8px 20px;">
@@ -62,8 +62,8 @@
             <!-- end box featured -->
 
             <!-- begin box nearby -->
-            <ul class="workshop-center-box-container artist-group fea-group" style="border-top: 1px solid #CCCCCC;">
-                <li class="artist-profile rotate" style="width:20px;font-weight: bold;margin-top: 94px;">NEARBY</li> 
+            <ul class="workshop-center-box-container artist-group fea-group" style="border-top: 1px solid #CCCCCC; height: 250px;">
+                <li class="artist-profile rotate" style="width:20px;font-weight: bold;margin-top: 135px;">NEARBY</li> 
                 <?php if ($workshop_nearby) {
                     foreach ($workshop_nearby as $id => $w) { ?>                
                         <li class="artist-profile artist-border" style="padding:5px;margin: 0 8px 20px;">
@@ -111,8 +111,8 @@
             <!-- end box nearby -->
 
             <!-- begin box soon -->
-            <ul class="artist-group fea-group workshop-center-box-container" style="border-top: 1px solid #CCCCCC;">
-                <li class="artist-profile rotate" style="width:20px;font-weight: bold;margin-top: 81px;">SOON</li> 
+            <ul class="artist-group fea-group workshop-center-box-container" style="border-top: 1px solid #CCCCCC; height: 250px;">
+                <li class="artist-profile rotate" style="width:20px;font-weight: bold;margin-top: 135px;">SOON</li> 
                 <?php if ($workshop_soon) {
                     foreach ($workshop_soon as $id => $w) { ?>                
                         <li class="artist-profile artist-border" style="padding:5px;margin: 0 8px 20px;">
