@@ -36,7 +36,7 @@ class Profile_model extends User_model {
 
     public function userinfo() {
 
-        $query = $this->db->query('SELECT u.uid, u.name, u.email, u.last_visit_date, u.website, u.title, u.location, u.blurb,
+        $query = $this->db->query('SELECT u.uid, u.name, u.email, u.last_visit_date, u.website, u.title, u.location, u.blurb, u.payment,
             u.country, u.state, u.city, (SELECT name FROM fa_profile_images WHERE uid = u.uid) as profile_picture
             FROM fa_users u WHERE activated IS NULL AND u.uid = ' . $this->id);
 
@@ -144,6 +144,10 @@ class Profile_model extends User_model {
 
                 case 'experience':
                     $this->_save_history($postdata);
+                    break;
+                
+                case 'payment':
+                    $this->_save_payment($postdata);
                     break;
 
                 case 'profile':
@@ -339,6 +343,12 @@ class Profile_model extends User_model {
         return false;;
     }
 
+    private function _save_payment($postdata) {
+        $sql = 'UPDATE fa_users SET payment = ' . $this->db->escape($postdata['payment']) . ' WHERE uid = ' . $this->id;
+        $save_data = $this->db->query($sql);
+        $this->app->redirect('/user/profile/edit/payment');
+    }
+    
     private function _save_skills($postdata, $update = false) {
         if (isset($postdata['save'])) {
             $artist_level = $postdata['artist_level'];

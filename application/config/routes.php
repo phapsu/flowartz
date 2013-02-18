@@ -48,6 +48,7 @@ $route['user/profile/edit'] = "user/edit";
 $route['user/profile/edit/profile_picture'] = "user/edit_profile_picture";
 $route['user/profile/edit/settings'] = "user/edit_settings";
 $route['user/profile/edit/images'] = "user/edit_images";
+$route['user/profile/edit/payment'] = "user/edit_payment";
 $route['user/profile/edit/videos'] = $route['user/profile/edit/videos/(:num)'] = "user/edit_videos/$1";
 $route['user/profile/edit/experience'] = $route['user/profile/edit/experience/(:num)'] = "user/edit_experience/$1";
 $route['user/profile/edit/skills'] = $route['user/profile/edit/skills/(:num)'] = "user/edit_skills/$1";

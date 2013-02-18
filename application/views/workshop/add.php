@@ -3,6 +3,8 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 ?>
 
+<?php $user = $userinfo[0]; ?>
+
 <!--Jquery format currency-->
 <script type="text/javascript" src="<?php echo base_url(); ?>template/js/formatCurrency/jquery.formatCurrency-1.4.0.pack.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>template/js/formatCurrency/i18n/jquery.formatCurrency.en-US.js"></script>
@@ -124,7 +126,8 @@ if (!defined('BASEPATH'))
                 </div>
                 <div style="position: absolute;right: 0;top: 0;width: 35%;">
                     <a class="button turquoise gradient" onclick="document.getElementById('frmAdd').submit();" href="#" style="float: right;margin: 0;text-align: center;width: 40%;margin-bottom:25px">Confirm</a>
-                    <a class="button" href="#" onclick="document.getElementById('frmAdd').reset();" style="float: right;margin: 0;text-align: center;width: 40%;">Cancel</a>                
+                    <a class="button" href="#" onclick="document.getElementById('frmAdd').reset();" style="float: right;margin: 0;text-align: center;width: 40%;margin-bottom:25px;">Cancel</a>                
+                    <a id="box2" class="button turquoise gradient" href="#div_payment" style="float: right;margin: 0;text-align: center;width: 40%;margin-bottom:25px">Paypal</a>
                 </div>
             </div>
 
@@ -139,8 +142,19 @@ if (!defined('BASEPATH'))
                     </div>        
                 </div>
                 <!-- end form upload -->
+            </div>           
+        </form>   
+        
+        <!-- begin payment information -->
+        <div class="thumbnail" id="div_payment" style="display: none; height: 400px; overflow: hidden; width: 700px;">
+            <div class="profile-right">
+                <h1>Payment</h1>
+                <div class="edit-form" style="padding-top: 10px;">
+                    <textarea style="width: 625px; height: 300px;" name="fac_profile[payment]" id="payment"><?php echo $user->payment; ?></textarea>
+                </div>        
             </div>
-        </form>    
+        </div>    
+       <!-- end payment information -->
     </div>   
 
     <!-- end of content wrapper div -->
@@ -149,115 +163,118 @@ if (!defined('BASEPATH'))
 <script type="text/javascript" src="<?php echo base_url(); ?>template/js/jquery.fancybox.js?v=2.1.0"></script>
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>template/css/jquery.fancybox.css?v=2.1.0" media="screen" />
 <script>
-$(function() {
-    $("#date").datepicker();
-    $("#time").timepicker();
+                                                $(function() {
+                                                    $("#date").datepicker();
+                                                    $("#time").timepicker();
 
-    $('.currency').blur(function()
-    {
-        $('.currency').formatCurrency();
-    });
+                                                    $('.currency').blur(function()
+                                                    {
+                                                        $('.currency').formatCurrency();
+                                                    });
 
-    $('#btn_googlemap').click(function() {
-        var address = $('#location').val();
-        var content = $.base64.encode(address);
+                                                    $('#btn_googlemap').click(function() {
+                                                        var address = $('#location').val();
+                                                        var content = $.base64.encode(address);
 
-        var a = document.createElement('a');
-        a.href = '<?php echo base_url(); ?>template/google_map.php?address=' + content;
-        a.target = '_blank';
-        document.body.appendChild(a);
-        a.click();
-    });
-
-
-    $('#box1, #box2').fancybox({
-        openEffect: 'elastic',
-        openSpeed: 100,
-        closeEffect: 'elastic',
-        closeSpeed: 100,
-        padding: 0
-    });
-
-    $('#frequency').change(function() {
-        val = $(this).val();
-
-        if (val == 'Custom') {
-            $('#div-ui-datepicker-frequency').show();
-
-            $("#div-ui-datepicker-frequency").mouseout(function() {
-                $(document).bind("click", function() {
-                    $(document).unbind("click");
-                    $("#div-ui-datepicker-frequency").fadeOut();
-                });
-            }).mouseover(function() {
-                $(document).unbind("click");
+                                                        var a = document.createElement('a');
+                                                        a.href = '<?php echo base_url(); ?>template/google_map.php?address=' + content;
+                                                        a.target = '_blank';
+                                                        document.body.appendChild(a);
+                                                        a.click();
+                                                    });
 
 
-            });
+                                                    $('#box1, #box2').fancybox({
+                                                        openEffect: 'elastic',
+                                                        openSpeed: 100,
+                                                        closeEffect: 'elastic',
+                                                        closeSpeed: 100,
+                                                        padding: 0
+                                                    });
 
+                                                    $('#frequency').change(function() {
+                                                        val = $(this).val();
 
-        }
-        else {
-            $(document).unbind("click");
-            $('#div-ui-datepicker-frequency').hide();
-        }
-    });
+                                                        if (val == 'Custom') {
+                                                            $('#div-ui-datepicker-frequency').show();
 
+                                                            $("#div-ui-datepicker-frequency").mouseout(function() {
+                                                                $(document).bind("click", function() {
+                                                                    $(document).unbind("click");
+                                                                    $("#div-ui-datepicker-frequency").fadeOut();
+                                                                });
+                                                            }).mouseover(function() {
+                                                                $(document).unbind("click");
+                                                            });
+                                                        }
+                                                        else {
+                                                            $(document).unbind("click");
+                                                            $('#div-ui-datepicker-frequency').hide();
+                                                        }
+                                                    });
 
+                                                    //event fee just only number
+                                                    $("#fee").keydown(function(event) {
+                                                        // Allow: backspace, delete, tab, escape, and enter
+                                                        if (event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 27 || event.keyCode == 13 ||
+                                                                // Allow: Ctrl+A
+                                                                        (event.keyCode == 65 && event.ctrlKey === true) ||
+                                                                        // Allow: home, end, left, right
+                                                                                (event.keyCode >= 35 && event.keyCode <= 39)) {
+                                                                    // let it happen, don't do anything
+                                                                    return;
+                                                                }
+                                                                else {
+                                                                    // Ensure that it is a number and stop the keypress
+                                                                    if (event.shiftKey || (event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105)) {
+                                                                        event.preventDefault();
+                                                                    }
+                                                                }
+                                                            });
 
-    $("#fee").keydown(function(event) {
-        // Allow: backspace, delete, tab, escape, and enter
-        if (event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 27 || event.keyCode == 13 ||
-                // Allow: Ctrl+A
-                        (event.keyCode == 65 && event.ctrlKey === true) ||
-                        // Allow: home, end, left, right
-                                (event.keyCode >= 35 && event.keyCode <= 39)) {
-                    // let it happen, don't do anything
-                    return;
-                }
-                else {
-                    // Ensure that it is a number and stop the keypress
-                    if (event.shiftKey || (event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105)) {
-                        event.preventDefault();
-                    }
-                }
-            });
+                                                    //event auto complete tag
+                                                    var availableTags = [
+<?php echo $tags; ?>
+                                                    ];
+                                                    $("#tag").autocomplete({
+                                                        source: availableTags
+                                                    });
 
-});
+                                                });
 
-function onchoose($this) {
-    var class_value = $($this).attr('class');
-    var old_value;
-    var new_value;
-    if (class_value == 'ui-state-default') {
-        $($this).removeAttr('class');
-        $($this).attr('class', 'ui-state-default ui-state-highlight');
+                                                function onchoose($this) {
+                                                    var class_value = $($this).attr('class');
+                                                    var old_value;
+                                                    var new_value;
+                                                    if (class_value == 'ui-state-default') {
+                                                        $($this).removeAttr('class');
+                                                        $($this).attr('class', 'ui-state-default ui-state-highlight');
 
-        old_value = $("#frequency").val();
-        new_value;
-        if (old_value == "Custom") {
+                                                        old_value = $("#frequency").val();
+                                                        new_value;
+                                                        if (old_value == "Custom") {
 
-            $("#frequency option[value='Custom']").html($($this).html() + "; ");
-            $("#frequency option[value='Custom']").val($($this).html() + "; ");
-        }
-        else {
-            new_value = old_value + $($this).html() + "; ";
+                                                            $("#frequency option[value='Custom']").html($($this).html() + "; ");
+                                                            $("#frequency option[value='Custom']").val($($this).html() + "; ");
+                                                        }
+                                                        else {
+                                                            new_value = old_value + $($this).html() + "; ";
 
-            $("#frequency option[value='" + old_value + "']").html(new_value);
-            $("#frequency option[value='" + old_value + "']").val(new_value);
-        }
-    }
-    else {
-        $($this).removeAttr('class');
-        $($this).attr('class', 'ui-state-default');
+                                                            $("#frequency option[value='" + old_value + "']").html(new_value);
+                                                            $("#frequency option[value='" + old_value + "']").val(new_value);
+                                                        }
+                                                    }
+                                                    else {
+                                                        $($this).removeAttr('class');
+                                                        $($this).attr('class', 'ui-state-default');
 
-        old_value = $("#frequency").val();
-        new_value = old_value.replace($($this).html() + "; ", "");
-        if (new_value == "")
-            new_value = "Custom";
+                                                        old_value = $("#frequency").val();
+                                                        new_value = old_value.replace($($this).html() + "; ", "");
+                                                        if (new_value == "")
+                                                            new_value = "Custom";
 
-        $("#frequency option[value='" + old_value + "']").html(new_value);
-        $("#frequency option[value='" + old_value + "']").val(new_value);
-    }
-}
+                                                        $("#frequency option[value='" + old_value + "']").html(new_value);
+                                                        $("#frequency option[value='" + old_value + "']").val(new_value);
+                                                    }
+                                                }
 </script>

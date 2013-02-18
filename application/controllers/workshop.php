@@ -305,9 +305,12 @@ class Workshop extends CI_Controller {
         } else {
             $postdata = $this->input->post('fac_workshop');
 
+            $this->load->model('workshop_model');
+            $this->load->model('user/user_model');
+            $this->load->model('user/profile_model');
+            
             if (!empty($postdata)) {
-
-                $this->load->model('workshop_model');
+                
                 $workshop_id = $this->workshop_model->save($postdata, $_FILES);
 
                 $this->error->set_message('Add Workshop Sucessfully!', 'success');
@@ -318,7 +321,19 @@ class Workshop extends CI_Controller {
             $data['skills'] = $this->config->item('artist_level');
             $data['frequency'] = $this->config->item('artist_frequency');
             $data['length'] = $this->config->item('artist_length');
-
+            
+            //get string tags for auto complete research tag
+            $tags = $this->workshop_model->get_workshop_all_tags();
+            $tag_resurce = array();
+            foreach($tags as $id => $tag){
+                $tag_resurce[] = '"'.$tag->tag.'"';
+            }            
+            $tag_resurce = implode(",", $tag_resurce);            
+                        
+            $data['tags'] = $tag_resurce;
+            
+            $data['userinfo'] = $this->profile_model->userinfo();
+            
             $this->load->view('global/header');
             $this->load->view('workshop/add', $data);
             $this->load->view('global/footer');

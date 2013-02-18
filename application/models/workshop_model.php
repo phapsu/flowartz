@@ -230,7 +230,7 @@ class Workshop_model extends CI_Model {
     public function get_workshop_all_tags() {
 
         $sql = "SELECT distinct tag FROM fa_workshops as w WHERE w.status = 0";
-        $sql .=' order by w.date desc';
+        $sql .=' order by w.tag asc';
 
         $query = $this->db->query($sql);
         return $query->result();
