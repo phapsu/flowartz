@@ -15,7 +15,7 @@
 |
 */
 //$config['base_url']	= 'http://sidestory.ca/labs/flowartz/';
-$config['base_url']	= 'http://flowartz.dev:8080';
+$config['base_url']	= 'http://flowartz.dev';
 
 /*
 |--------------------------------------------------------------------------

@@ -1,5 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-
+<?php
 class Welcome extends CI_Controller {
 
 	/**
@@ -29,6 +28,11 @@ class Welcome extends CI_Controller {
                     $this->load->view('home');
                 }
 		$this->load->view('global/footer');
+	}
+        
+        public function message($to = 'World')
+	{
+		echo "Hello {$to}!".PHP_EOL;
 	}
 }
 
