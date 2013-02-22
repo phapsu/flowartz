@@ -1,3 +1,10 @@
+<style>
+span.error p {
+    color: #DA3E0E;
+	font-size: 80%;
+}
+</style>
+
 <?php if (!defined('BASEPATH'))
     exit('No direct script access allowed'); ?>
 
@@ -38,14 +45,17 @@
             <div class="shop-right">
                 <div class="row-fluid">
                     <input type="text" name="fac_workshop[name]" value="<?php echo $workshop[0]->name; ?>" id="name" placeholder="Workshop Name" />
+                    <?php echo '<span class="error">'.form_error('fac_workshop[name]').'</span>'; ?>
                 </div>
                 <div class="row-fluid">
                     <input type="text" name="fac_workshop[teacher_name]" value="<?php echo $workshop[0]->teacher_name; ?>" id="teacher_name" placeholder="Teacher Name" />
+                    <?php echo '<span class="error">'.form_error('fac_workshop[teacher_name]').'</span>'; ?>
                 </div>
                 <div>
                     <div class="shop-right-left">
                         <div class="row-fluid">
                             <input type="text" name="fac_workshop[date]" value="<?php echo date("m/d/Y", strtotime($workshop[0]->date)); ?>" id="date" placeholder="Date"/>
+                            <?php echo '<span class="error">'.form_error('fac_workshop[date]').'</span>'; ?>
                         </div>
                         
                         <div class="row-fluid">                                 
@@ -59,12 +69,14 @@
                                         <option value="<?php echo $id; ?>"><?php echo $name; ?></option>
                                     <?php }
                                 } ?>
-                            </select> 
+                            </select>
+                            <?php echo '<span class="error">'.form_error('fac_workshop[length]').'</span>'; ?>
                         </div>
                     </div>
                     <div class="shop-right-right">
                         <div class="row-fluid">
                             <input type="text" name="fac_workshop[time]" value="<?php echo $workshop[0]->time; ?>" id="time" placeholder="Start Time"/>
+                            <?php echo '<span class="error">'.form_error('fac_workshop[time]').'</span>'; ?>
                         </div>
                         <div class="row-fluid">
                             <select name="fac_workshop[frequency]" id="frequency" style="width: 90%;">
@@ -75,6 +87,7 @@
                                     <option value="<?php echo $id; ?>"><?php echo $name; ?></option>
                                 <?php } ?>
                             </select>
+                            <?php echo '<span class="error">'.form_error('fac_workshop[frequency]').'</span>'; ?>
                             <div class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" id="div-ui-datepicker-frequency" style="z-index: 1; display: none; position: absolute;">
                                 <div class="ui-datepicker-header ui-widget-header ui-helper-clearfix ui-corner-all">
                                     <div class="ui-datepicker-title"><span class="ui-datepicker-month">Choose Custom Frequency</span>                                    </div>
@@ -106,11 +119,11 @@
                     </div>
                 </div>
                 </br>
-                <div style="position: absolute;right: -15px;top: 0;width: 30%;">
-                    <a class="button turquoise gradient" href="javascript:;;" onclick="document.getElementById('frmEdit').submit();" style="float: right;margin: 0;text-align: center;width: 50%;margin-bottom:25px">Edit</a>
-                    <a class="button turquoise gradient" href="javascript:;;" onclick="document.getElementById('frmEdit').reset();" style="float: right;margin: 0;text-align: center;width: 50%;margin-bottom:25px">Cancel Event</a>
-                    <a class="button" id="box1" href="#div_addfile" style="float: right;margin: 0;text-align: center;width: 50%;margin-bottom:25px">Add File</a>
-                    <a class="button" id="box2" href="#div_sendmessage" style="float: right;margin: 0;text-align: center;width: 50%;">Send Message</a>
+                <div style="position: absolute;right:0;top: 0;width: 20%;">
+                    <a class="button turquoise gradient" href="javascript:;;" onclick="document.getElementById('frmEdit').submit();" style="float: right;margin: 0;text-align: center;width: 80%;margin-bottom:25px">Edit</a>
+                    <a class="button turquoise gradient" href="javascript:;;" onclick="document.getElementById('frmEdit').reset();" style="float: right;margin: 0;text-align: center;width: 80%;margin-bottom:25px">Cancel Event</a>
+                    <a class="button" id="box1" href="#div_addfile" style="float: right;margin: 0;text-align: center;width: 80%;margin-bottom:25px">Add File</a>
+                    <a class="button" id="box2" href="#div_sendmessage" style="float: right;margin: 0;text-align: center;width: 80%;">Send Message</a>
                 </div>                
             </div>
             <div style="border-top: 1px solid #bbb;display: inline-block;padding: 20px 0;">
@@ -129,10 +142,12 @@
 
                                 <?php }
                             } ?>
-                        </select> 
+                        </select>
+                        <?php echo '<span class="error">'.form_error('fac_workshop[cat_id]').'</span>'; ?>
                     </div>
                     <div class="row-fluid">
                         <input type="text" name="fac_workshop[tag]" value="<?php echo $workshop[0]->tag; ?>" id="tag" placeholder="Art Tags"/>
+                        <?php echo '<span class="error">'.form_error('fac_workshop[tag]').'</span>'; ?>
                     </div>
                     <div class="row-fluid">
                         <select name="fac_workshop[skill_level]">
@@ -145,7 +160,8 @@
                                     <option value="<?php echo $id; ?>"><?php echo $name; ?></option>
                                 <?php }
                             } ?>
-                        </select> 
+                        </select>
+                        <?php echo '<span class="error">'.form_error('fac_workshop[skill_level]').'</span>'; ?>
                     </div>
                     <div class="row-fluid">
                         <input type="text" name="fac_workshop[spot_available]" value="<?php echo $workshop[0]->spot_available; ?>" id="spot_available" placeholder="Spot Available"/>
@@ -155,6 +171,7 @@
                     </div>
                     <div class="row-fluid">
                         <input type="text" name="fac_workshop[fee]" value="<?php echo $workshop[0]->fee; ?>" class="currency" id="fee" placeholder="Cost"/>
+                        <?php echo '<span class="error">'.form_error('fac_workshop[fee]').'</span>'; ?>
                     </div>
                 </div>
                 <div class="shop-right" style="margin-left: 20px;">
@@ -378,7 +395,10 @@
         $( "#date" ).datepicker();
         $( "#time" ).timepicker();
         
-        $('.currency').formatCurrency();
+        $('.currency').blur(function()
+        {
+            $('.currency').formatCurrency();
+        });
         
         $('#btn_googlemap').click(function(){
             var address = $('#location').val();
@@ -413,11 +433,7 @@
                 });
             }).mouseover(function() {
                 $(document).unbind("click");
-
-
             });
-
-
         }
         else {
             $(document).unbind("click");

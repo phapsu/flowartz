@@ -73,7 +73,7 @@ class Workshop extends CI_Controller {
             }
         }
         $data['workshop_favorite'] = $array;
-        
+
         $this->load->view('global/header');
         $this->load->view('workshop/cats', $data);
         $this->load->view('global/footer');
@@ -158,7 +158,7 @@ class Workshop extends CI_Controller {
             }
         }
         $data['workshop_favorite'] = $array;
-        
+
         $this->load->view('global/header');
         $this->load->view('workshop/all', $data);
         $this->load->view('global/footer');
@@ -214,7 +214,7 @@ class Workshop extends CI_Controller {
             }
         }
         $data['workshop_favorite'] = $array;
-        
+
         $this->load->view('global/header');
         $this->load->view('workshop/search', $data);
         $this->load->view('global/footer');
@@ -308,32 +308,46 @@ class Workshop extends CI_Controller {
             $this->load->model('workshop_model');
             $this->load->model('user/user_model');
             $this->load->model('user/profile_model');
-            
-            if (!empty($postdata)) {
-                
-                $workshop_id = $this->workshop_model->save($postdata, $_FILES);
 
-                $this->error->set_message('Add Workshop Sucessfully!', 'success');
-                $this->app->redirect('/workshop/edit/' . $workshop_id);
+            if (!empty($postdata)) {
+
+                $this->load->library('form_validation');
+
+                $this->form_validation->set_rules('fac_workshop[name]', 'Workshop Name', 'required');
+                $this->form_validation->set_rules('fac_workshop[teacher_name]', 'Teacher Name', 'required');
+                $this->form_validation->set_rules('fac_workshop[date]', 'Date', 'required');
+                $this->form_validation->set_rules('fac_workshop[length]', 'Length', 'required');
+                $this->form_validation->set_rules('fac_workshop[time]', 'Start Time', 'required');
+                $this->form_validation->set_rules('fac_workshop[frequency]', 'Frequency', 'required');
+                $this->form_validation->set_rules('fac_workshop[cat_id]', 'Art Catergory', 'required');
+                $this->form_validation->set_rules('fac_workshop[tag]', 'Tag', 'required');
+                $this->form_validation->set_rules('fac_workshop[skill_level]', 'Skill Level', 'required');
+                $this->form_validation->set_rules('fac_workshop[fee]', 'Cost', 'required');
+
+                if ($this->form_validation->run()) {
+                    $workshop_id = $this->workshop_model->save($postdata, $_FILES);
+                    $this->error->set_message('Add Workshop Sucessfully!', 'success');
+                    $this->app->redirect('/workshop/edit/' . $workshop_id);
+                } 
             }
 
             $data['categories'] = $this->config->item('artist_category');
             $data['skills'] = $this->config->item('artist_level');
             $data['frequency'] = $this->config->item('artist_frequency');
             $data['length'] = $this->config->item('artist_length');
-            
+
             //get string tags for auto complete research tag
             $tags = $this->workshop_model->get_workshop_all_tags();
             $tag_resurce = array();
-            foreach($tags as $id => $tag){
-                $tag_resurce[] = '"'.$tag->tag.'"';
-            }            
-            $tag_resurce = implode(",", $tag_resurce);            
-                        
+            foreach ($tags as $id => $tag) {
+                $tag_resurce[] = '"' . $tag->tag . '"';
+            }
+            $tag_resurce = implode(",", $tag_resurce);
+
             $data['tags'] = $tag_resurce;
-            
+
             $data['userinfo'] = $this->profile_model->userinfo();
-            
+
             $this->load->view('global/header');
             $this->load->view('workshop/add', $data);
             $this->load->view('global/footer');
@@ -356,11 +370,25 @@ class Workshop extends CI_Controller {
                 $this->load->model('workshop_model');
 
                 if (!empty($postdata)) {
-                    $this->workshop_model->update($postdata);
+                    
+                    $this->load->library('form_validation');
 
-                    $this->error->set_message('Workshop updated successfully', 'success');
+                    $this->form_validation->set_rules('fac_workshop[name]', 'Workshop Name', 'required');
+                    $this->form_validation->set_rules('fac_workshop[teacher_name]', 'Teacher Name', 'required');
+                    $this->form_validation->set_rules('fac_workshop[date]', 'Date', 'required');
+                    $this->form_validation->set_rules('fac_workshop[length]', 'Length', 'required');
+                    $this->form_validation->set_rules('fac_workshop[time]', 'Start Time', 'required');
+                    $this->form_validation->set_rules('fac_workshop[frequency]', 'Frequency', 'required');
+                    $this->form_validation->set_rules('fac_workshop[cat_id]', 'Art Catergory', 'required');
+                    $this->form_validation->set_rules('fac_workshop[tag]', 'Tag', 'required');
+                    $this->form_validation->set_rules('fac_workshop[skill_level]', 'Skill Level', 'required');
+                    $this->form_validation->set_rules('fac_workshop[fee]', 'Cost', 'required');
 
-                    $this->app->redirect('workshop/edit/'.$id);
+                    if ($this->form_validation->run()) {
+                        $this->workshop_model->update($postdata);
+                        $this->error->set_message('Workshop updated successfully', 'success');
+                        $this->app->redirect('workshop/edit/' . $id);
+                    }                     
                 }
 
                 $data['workshop'] = $this->workshop_model->get_workshop($id);
@@ -382,7 +410,7 @@ class Workshop extends CI_Controller {
                 $data['skills'] = $this->config->item('artist_level');
                 $data['frequency'] = $this->config->item('artist_frequency');
                 $data['length'] = $this->config->item('artist_length');
-                
+
                 //total fee
                 $data['total_enrolled'] = count($data['enrolled']);
                 $fee = explode("$", $data['workshop'][0]->fee);
@@ -425,7 +453,7 @@ class Workshop extends CI_Controller {
             $this->app->redirect('workshop/edit/' . $postdata['wid']);
         }
     }
-    
+
     public function update_image() {
 
         $session_uid = $this->session->userdata('user_id');
@@ -487,7 +515,7 @@ class Workshop extends CI_Controller {
             $this->app->redirect('workshop/edit/' . $postdata['wid']);
         }
     }
-    
+
     public function send_message() {
 
         $session_uid = $this->session->userdata('user_id');
@@ -684,7 +712,7 @@ class Workshop extends CI_Controller {
             $data['enrolled'] = $this->workshop_model->get_student_enrolled($id);
             //add file               
             $data['files'] = $this->workshop_model->get_files($id);
-            
+
             $data['user_id'] = $this->session->userdata('user_id');
 
             $this->load->view('global/header');

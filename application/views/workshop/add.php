@@ -1,3 +1,10 @@
+<style>
+span.error p {
+    color: #DA3E0E;
+	font-size: 80%;
+}
+</style>
+
 <?php
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
@@ -34,10 +41,12 @@ if (!defined('BASEPATH'))
                         <?php foreach ($categories as $id => $name) { ?>
                             <option value="<?php echo $id; ?>"><?php echo $name; ?></option>
                         <?php } ?>
-                    </select> 
-                </div>
+                    </select>
+					<?php echo '<span class="error">'.form_error('fac_workshop[cat_id]').'</span>'; ?>
+				</div>
                 <div class="row-fluid">
                     <input type="text" name="fac_workshop[tag]" id="tag" placeholder="Art Tags"/>
+					<?php echo '<span class="error">'.form_error('fac_workshop[tag]').'</span>'; ?>
                 </div>
                 <div class="row-fluid">                
                     <select name="fac_workshop[skill_level]">
@@ -45,7 +54,8 @@ if (!defined('BASEPATH'))
                         <?php foreach ($skills as $id => $name) { ?>
                             <option value="<?php echo $id; ?>"><?php echo $name; ?></option>
                         <?php } ?>
-                    </select>   
+                    </select>
+					<?php echo '<span class="error">'.form_error('fac_workshop[skill_level]').'</span>'; ?>
                 </div>
                 <div class="row-fluid">   
                     <input type="text" name="fac_workshop[spot_available]" id="spot_available" placeholder="Spot Available"/>
@@ -55,19 +65,23 @@ if (!defined('BASEPATH'))
                 </div>
                 <div class="row-fluid">   
                     <input type="text" name="fac_workshop[fee]" class="currency" id="fee" placeholder="Cost"/>
+					<?php echo '<span class="error">'.form_error('fac_workshop[fee]').'</span>'; ?>
                 </div>
             </div>
             <div class="shop-right">
                 <div class="row-fluid">
                     <input type="text" name="fac_workshop[name]" id="name" placeholder="Workshop Name" />
+					<?php echo '<span class="error">'.form_error('fac_workshop[name]').'</span>'; ?>
                 </div>
                 <div class="row-fluid">
                     <input type="text" name="fac_workshop[teacher_name]" id="teacher_name" placeholder="Teacher Name" />
+					<?php echo '<span class="error">'.form_error('fac_workshop[teacher_name]').'</span>'; ?>
                 </div>
                 <div>
                     <div class="shop-right-left">
                         <div class="row-fluid">
                             <input type="text" name="fac_workshop[date]" id="date" placeholder="Date"/>
+							<?php echo '<span class="error">'.form_error('fac_workshop[date]').'</span>'; ?>
                         </div>
                         <div class="row-fluid">                            
                             <select name="fac_workshop[length]" style="width: 90%;" id="length">
@@ -76,11 +90,13 @@ if (!defined('BASEPATH'))
                                     <option value="<?php echo $id; ?>"><?php echo $name; ?></option>
                                 <?php } ?>
                             </select> 
+							<?php echo '<span class="error">'.form_error('fac_workshop[length]').'</span>'; ?>
                         </div>
                     </div>
                     <div class="shop-right-right">
                         <div class="row-fluid">
                             <input type="text" name="fac_workshop[time]" id="time" placeholder="Start Time"/>
+							<?php echo '<span class="error">'.form_error('fac_workshop[time]').'</span>'; ?>
                         </div>
                         <div class="row-fluid">
                             <select name="fac_workshop[frequency]" style="width: 90%;" id="frequency">
@@ -89,6 +105,7 @@ if (!defined('BASEPATH'))
                                     <option value="<?php echo $id; ?>"><?php echo $name; ?></option>
                                 <?php } ?>
                             </select>         
+							<?php echo '<span class="error">'.form_error('fac_workshop[frequency]').'</span>'; ?>
                             <div class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" id="div-ui-datepicker-frequency" style="z-index: 1; display: none; position: absolute;">
                                 <div class="ui-datepicker-header ui-widget-header ui-helper-clearfix ui-corner-all">
                                     <div class="ui-datepicker-title"><span class="ui-datepicker-month">Choose Custom Frequency</span>                                    </div>
@@ -101,8 +118,8 @@ if (!defined('BASEPATH'))
                                     </thead>
                                     <tbody>                                        
                                         <tr>
-                                            <td><a href="javascript:;;" onclick="onchoose(this)" class="ui-state-default">Su</a>                                            </td>
-                                            <td><a href="javascript:;;" onclick="onchoose(this)" class="ui-state-default">Mo</a>                                            </td>
+                                            <td><a href="javascript:;;" onclick="onchoose(this)" class="ui-state-default">Su</a></td>
+                                            <td><a href="javascript:;;" onclick="onchoose(this)" class="ui-state-default">Mo</a></td>
                                             <td><a href="javascript:;;" onclick="onchoose(this)" class="ui-state-default">Tu</a></td>
                                             <td><a href="javascript:;;" onclick="onchoose(this)" class="ui-state-default">We</a></td>
                                             <td><a href="javascript:;;" onclick="onchoose(this)" class="ui-state-default">Th</a></td>
@@ -124,7 +141,7 @@ if (!defined('BASEPATH'))
                         <textarea name="fac_workshop[description]" id="description" style="width: 100%; height: 257px;" rows="12" placeholder="Workshop Description"></textarea>
                     </div>
                 </div>
-                <div style="position: absolute;right: 0;top: 0;width: 35%;">
+                <div style="position: absolute;right: 0;top: 0;width: 25%;">
                     <a class="button turquoise gradient" onclick="document.getElementById('frmAdd').submit();" href="#" style="float: right;margin: 0;text-align: center;width: 40%;margin-bottom:25px">Confirm</a>
                     <a class="button" href="#" onclick="document.getElementById('frmAdd').reset();" style="float: right;margin: 0;text-align: center;width: 40%;margin-bottom:25px;">Cancel</a>                
                     <a id="box2" class="button turquoise gradient" href="#div_payment" style="float: right;margin: 0;text-align: center;width: 40%;margin-bottom:25px">Paypal</a>

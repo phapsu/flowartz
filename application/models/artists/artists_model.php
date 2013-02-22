@@ -46,7 +46,7 @@ class Artists_model extends CI_model {
         $this->db->from('fa_users');
         $this->db->join('fa_profile_images', ' fa_profile_images.uid = fa_users.uid');
         $this->db->limit($limit, $start);
-        $this->db->where('activated IS NULL and type_id=2');
+        $this->db->where('activated IS NULL');
         $this->db->order_by("fa_users.uid", "DESC");        
         $query = $this->db->get();
 

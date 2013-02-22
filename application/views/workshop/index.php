@@ -112,7 +112,7 @@
 
             <!-- begin box soon -->
             <ul class="artist-group fea-group workshop-center-box-container" style="border-top: 1px solid #CCCCCC; height: 250px;">
-                <li class="artist-profile rotate" style="width:20px;font-weight: bold;margin-top: 135px;">SOON</li> 
+                <li class="artist-profile rotate" style="width:20px;font-weight: bold;margin-top: 123px;">SOON</li> 
                 <?php if ($workshop_soon) {
                     foreach ($workshop_soon as $id => $w) { ?>                
                         <li class="artist-profile artist-border" style="padding:5px;margin: 0 8px 20px;">

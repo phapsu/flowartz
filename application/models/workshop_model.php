@@ -28,67 +28,67 @@ class Workshop_model extends CI_Model {
 
         if ($postdata) {
 
-            $date = !empty($postdata['date']) ? date("Y-m-d", strtotime($postdata['date'])) : null;
-            $length = intval($postdata['length']);
-            $to_date = (!empty($date)) ? date("Y-m-d", strtotime($date + $length + ' days')) : null;
+                $date = !empty($postdata['date']) ? date("Y-m-d", strtotime($postdata['date'])) : null;
+                //$length = intval($postdata['length']);
+                //$to_date = (!empty($date)) ? date("Y-m-d", strtotime($date + $length + ' days')) : null;
 
-            $config['upload_path'] = './application/files/';
-            $config['allowed_types'] = 'gif|jpg|png';
-            //$config['max_size'] = '800';default 2MB
-            $config['max_width'] = '1024';
-            $config['max_height'] = '768';
-            $config['encrypt_name'] = true;
+                $config['upload_path'] = './application/files/';
+                $config['allowed_types'] = 'gif|jpg|png';
+                //$config['max_size'] = '800';default 2MB
+                $config['max_width'] = '1024';
+                $config['max_height'] = '768';
+                $config['encrypt_name'] = true;
 
-            $this->load->library('upload', $config);
+                $this->load->library('upload', $config);
 
-            $error = array();
-            $i = 0;
-            $image_name = '';
-            foreach ($gallery as $field => $image):
-                if ($image['error'] > 0) {
-                    continue;
-                }
+                $error = array();
+                $i = 0;
+                $image_name = '';
+                foreach ($gallery as $field => $image):
+                    if ($image['error'] > 0) {
+                        continue;
+                    }
 
-                if (!$this->upload->do_upload($field)) {
-                    $error[] = sprintf('Image %s: %s', $i + 1, $this->upload->display_errors());
-                } else {
-                    $data = $this->upload->data();
-                    //resize profile image
-                    $this->load->library('resize');
+                    if (!$this->upload->do_upload($field)) {
+                        $error[] = sprintf('Image %s: %s', $i + 1, $this->upload->display_errors());
+                    } else {
+                        $data = $this->upload->data();
+                        //resize profile image
+                        $this->load->library('resize');
 
-                    $resizeObj = new resize($data['full_path']);
-                    $resizeObj->resizeImage(220, 220, 'crop');
-                    $resizeObj->saveImage($data['full_path'], 100);
+                        $resizeObj = new resize($data['full_path']);
+                        $resizeObj->resizeImage(220, 220, 'crop');
+                        $resizeObj->saveImage($data['full_path'], 100);
 
-                    $image_name = $data['file_name'];
-                }
-                $i++;
-            endforeach;
+                        $image_name = $data['file_name'];
+                    }
+                    $i++;
+                endforeach;
 
-            $data_post = array(
-                'uid' => $this->uid,
-                'name' => $postdata['name'],
-                'teacher_name' => $postdata['teacher_name'],
-                'date' => $date,
-                'to_date' => $to_date,
-                'time' => $postdata['time'],
-                'length' => $postdata['length'],
-                'time' => $postdata['time'],
-                'frequency' => $postdata['frequency'],
-                'location' => $postdata['location'],
-                'cat_id' => $postdata['cat_id'],
-                'tag' => $postdata['tag'],
-                'skill_level' => $postdata['skill_level'],
-                'spot_available' => $postdata['spot_available'],
-                'tools_required' => $postdata['tools_required'],
-                'fee' => $postdata['fee'],
-                'description' => $postdata['description'],
-                'image' => $image_name
-            );
+                $data_post = array(
+                    'uid' => $this->uid,
+                    'name' => $postdata['name'],
+                    'teacher_name' => $postdata['teacher_name'],
+                    'date' => $date,
+                    //'to_date' => $to_date,
+                    'time' => $postdata['time'],
+                    'length' => $postdata['length'],
+                    'time' => $postdata['time'],
+                    'frequency' => $postdata['frequency'],
+                    'location' => $postdata['location'],
+                    'cat_id' => $postdata['cat_id'],
+                    'tag' => $postdata['tag'],
+                    'skill_level' => $postdata['skill_level'],
+                    'spot_available' => $postdata['spot_available'],
+                    'tools_required' => $postdata['tools_required'],
+                    'fee' => $postdata['fee'],
+                    'description' => $postdata['description'],
+                    'image' => $image_name
+                );
 
-            $this->db->insert('fa_workshops', $data_post);
+                $this->db->insert('fa_workshops', $data_post);
 
-            return $this->db->insert_id();
+                return $this->db->insert_id();            
         } else {
             return false;
         }
@@ -97,15 +97,15 @@ class Workshop_model extends CI_Model {
     public function update($postdata) {
         if ($postdata) {
             $date = !empty($postdata['date']) ? date("Y-m-d", strtotime($postdata['date'])) : null;
-            $length = intval($postdata['length']);
-            $to_date = (!empty($date)) ? date("Y-m-d", strtotime($date + $length + ' days')) : null;
+            //$length = intval($postdata['length']);
+            //$to_date = (!empty($date)) ? date("Y-m-d", strtotime($date + $length + ' days')) : null;
 
             $data = array(
                 'uid' => $this->uid,
                 'name' => $postdata['name'],
                 'teacher_name' => $postdata['teacher_name'],
                 'date' => $date,
-                'to_date' => $to_date,
+                //'to_date' => $to_date,
                 'time' => $postdata['time'],
                 'length' => $postdata['length'],
                 'time' => $postdata['time'],
@@ -192,11 +192,10 @@ class Workshop_model extends CI_Model {
     //get workshop feature: (workshop in a week)
     public function get_workshop_featured() {
 
-        $sunday = date("Y-m-d H:i:s", strtotime('Sunday'));
-        $monday = date("Y-m-d H:i:s", strtotime('Sunday -6 days'));
+        //$sunday = date("Y-m-d H:i:s", strtotime('Sunday'));
+        //$monday = date("Y-m-d H:i:s", strtotime('Sunday -6 days'));
 
-        //$sql = 'SELECT w.* FROM fa_workshops as w left join fa_profile_images as i on w.uid = i.uid WHERE DATEDIFF( "' . $sunday . '" , w.date) >= 0 and DATEDIFF( "' . $monday . '" , w.date) <= 0 and w.status = 0';
-        $sql = 'SELECT * FROM fa_workshops as w WHERE DATEDIFF( "' . $sunday . '" , w.date) >= 0 and DATEDIFF( "' . $monday . '" , w.date) <= 0 and w.status = 0';
+        $sql = 'SELECT * FROM fa_workshops as w WHERE DATEDIFF(NOW() , w.date) >= 0 and w.status = 0';
         $sql .=' order by w.date desc limit 4';
 
         $query = $this->db->query($sql);
@@ -206,10 +205,7 @@ class Workshop_model extends CI_Model {
     //get workshop soon: (workshop in a next week)
     public function get_workshop_soon() {
 
-        $sunday = date("Y-m-d H:i:s", strtotime('Sunday'));
-
-        //$sql = 'SELECT w.* , i.name as i_name FROM fa_workshops as w left join fa_profile_images as i on w.uid = i.uid WHERE DATEDIFF( "' . $sunday . '" , w.date) <= 0 and w.status = 0';
-        $sql = 'SELECT * FROM fa_workshops as w WHERE DATEDIFF( "' . $sunday . '" , w.date) <= 0 and w.status = 0';
+        $sql = 'SELECT * FROM fa_workshops as w WHERE DATEDIFF(NOW() , w.date) < 0 and w.status = 0';
         $sql .=' order by w.date desc limit 4';
 
         $query = $this->db->query($sql);
@@ -241,7 +237,7 @@ class Workshop_model extends CI_Model {
 
         $this->db->select('w.*');
         $this->db->from('fa_workshops as w');
-        
+
         if (!empty($limit)) {
             $this->db->limit($limit, $start);
         }
@@ -265,8 +261,7 @@ class Workshop_model extends CI_Model {
 
         $this->db->select('*');
         $this->db->from('fa_workshops as w');
-        //$this->db->join('fa_profile_images as i', ' w.uid = i.uid');
-
+        
         if (!empty($limit)) {
             $this->db->limit($limit, $start);
         }
@@ -290,8 +285,7 @@ class Workshop_model extends CI_Model {
 
         $this->db->select('*');
         $this->db->from('fa_workshops as w');
-        //$this->db->join('fa_profile_images as i', ' w.uid = i.uid');
-
+        
         if (!empty($limit)) {
             $this->db->limit($limit, $start);
         }
@@ -315,8 +309,7 @@ class Workshop_model extends CI_Model {
 
         $this->db->select('*');
         $this->db->from('fa_workshops as w');
-        //$this->db->join('fa_profile_images as i', ' w.uid = i.uid');
-
+        
         if (!empty($limit)) {
             $this->db->limit($limit, $start);
         }
@@ -339,8 +332,7 @@ class Workshop_model extends CI_Model {
                 }
             case 3: {
                     //availyblity                
-                    $this->db->where("DATEDIFF(NOW() , w.date) >= 0 and DATEDIFF(NOW() , w.to_date) <= 0 and w.status = 0 and w.name like '%" . $keyword . "%'");
-
+                    $this->db->where("DATEDIFF(NOW() , w.date) >= 0 and w.status = 0 and w.name like '%" . $keyword . "%'");
                     break;
                 }
             case 4: {
@@ -352,9 +344,8 @@ class Workshop_model extends CI_Model {
                     break;
                 }
             default: {
-                    //soonely
-                    $sunday = date("Y-m-d H:i:s", strtotime('Sunday'));
-                    $this->db->where("DATEDIFF( '" . $sunday . "' , w.date) <= 0 and w.status = 0 and w.name like '%" . $keyword . "%'");
+                    //soonely                    
+                    $this->db->where("DATEDIFF(NOW() , w.date) < 0 and w.status = 0 and w.name like '%" . $keyword . "%'");
                     break;
                 }
         endswitch;
@@ -370,8 +361,7 @@ class Workshop_model extends CI_Model {
         $this->db->distinct();
         $this->db->select('tag');
         $this->db->from('fa_workshops as w');
-        //$this->db->join('fa_profile_images as i', ' w.uid = i.uid');
-
+        
         switch ($type_id):
             case 0: {
                     //a-z
@@ -390,8 +380,7 @@ class Workshop_model extends CI_Model {
                 }
             case 3: {
                     //availyblity                
-                    $this->db->where("DATEDIFF(NOW() , w.date) >= 0 and DATEDIFF(NOW() , w.to_date) <= 0 and w.status = 0 and w.name like '%" . $keyword . "%'");
-
+                    $this->db->where("DATEDIFF(NOW() , w.date) >= 0 and w.status = 0 and w.name like '%" . $keyword . "%'");
                     break;
                 }
             case 4: {
@@ -403,9 +392,8 @@ class Workshop_model extends CI_Model {
                     break;
                 }
             default: {
-                    //soonely
-                    $sunday = date("Y-m-d H:i:s", strtotime('Sunday'));
-                    $this->db->where("DATEDIFF( '" . $sunday . "' , w.date) <= 0 and w.status = 0 and w.name like '%" . $keyword . "%'");
+                    //soonely                    
+                    $this->db->where("DATEDIFF(NOW() , w.date) < 0 and w.status = 0 and w.name like '%" . $keyword . "%'");
                     break;
                 }
         endswitch;
@@ -443,8 +431,7 @@ class Workshop_model extends CI_Model {
                 }
             case 3: {
                     //availyblity                
-                    $this->db->where("DATEDIFF(NOW() , w.date) >= 0 and DATEDIFF(NOW() , w.to_date) <= 0 and w.status = 0 and w.name like '%" . $keyword . "%'");
-
+                    $this->db->where("DATEDIFF(NOW() , w.date) >= 0 and w.status = 0 and w.name like '%" . $keyword . "%'");
                     break;
                 }
             case 4: {
@@ -456,9 +443,8 @@ class Workshop_model extends CI_Model {
                     break;
                 }
             default: {
-                    //soonely
-                    $sunday = date("Y-m-d H:i:s", strtotime('Sunday'));
-                    $this->db->where("DATEDIFF( '" . $sunday . "' , w.date) <= 0 and w.status = 0 and w.name like '%" . $keyword . "%'");
+                    //soonely                    
+                    $this->db->where("DATEDIFF(NOW() , w.date) < 0 and w.status = 0 and w.name like '%" . $keyword . "%'");
                     break;
                 }
         endswitch;
@@ -575,9 +561,9 @@ class Workshop_model extends CI_Model {
 
             $this->db->where('wid', $postdata['wid']);
             $this->db->update('fa_workshops', $data_update);
-            
+
             //delete file
-            if(!empty($postdata['image'])){
+            if (!empty($postdata['image'])) {
                 @unlink($path . $postdata['image']);
             }
         }
@@ -625,10 +611,6 @@ class Workshop_model extends CI_Model {
     }
 
     public function get_student_enrolled($workshop_id, $limit=null, $start=null) {
-//        $sql = 'SELECT ip FROM fa_users WHERE uid = ' . $this->user_page_id;
-//        $query = $this->db->query($visited_users_ip_sql);
-//        return $query->result();
-
 
         $this->db->select('fa_users.uid, 
                    fa_users.name, 
@@ -644,7 +626,6 @@ class Workshop_model extends CI_Model {
         $this->db->join('ipn_orders', ' ipn_order_items.order_id = ipn_orders.id');
         $this->db->join('fa_users', ' fa_users.uid = ipn_orders.custom');
         $this->db->join('fa_profile_images', ' fa_profile_images.uid = fa_users.uid');
-
 
         if (!empty($limit)) {
             $this->db->limit($limit, $start);
