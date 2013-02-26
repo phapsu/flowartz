@@ -44,3 +44,4 @@ ALTER TABLE `fa_workshops` CHANGE `frequency` `frequency` VARCHAR( 50 ) CHARACTE
 
 ALTER TABLE `fa_workshops` CHANGE `length` `length` VARCHAR( 50 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ;
 ALTER TABLE `fa_users` ADD `payment` TEXT NULL AFTER `city` ;
+ALTER TABLE `fa_users` ADD `reset_activated` TINYINT( 1 ) NOT NULL DEFAULT '0' AFTER `payment` ;
